@@ -1,0 +1,24 @@
+{
+  "name": "adventofcode2019",
+  "version": "0.0.1",
+  "description": "Runner for AoC 2019 puzzles",
+  "main": "index.js",
+  "scripts": {
+    "start": "npm run lint:nofail && node index.js",
+    "test": "npm run lint:nofail && node test.js",
+    "generate": "node generate.js",
+    "lint": "eslint .",
+    "lint:nofail": "eslint . || true"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "angles": "^0.2.4",
+    "distance-to-line-segment": "^0.2.0",
+    "line-intersect": "^2.2.3",
+    "lodash": "^4.17.15"
+  },
+  "devDependencies": {
+    "eslint": "^6.7.2"
+  }
+}
