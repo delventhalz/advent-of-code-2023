@@ -19,6 +19,7 @@ reference or utilize them.
     * [Intcode](#intcode)
         + [API](#api)
         + [Examples](#examples)
+- [Leaderboard](#leaderboard)
 - [License](#license)
 
 ## Setup
@@ -152,6 +153,14 @@ let output = run(0, 1);
 while (output !== null) {
   output = run(output);
 }
+```
+
+## Leaderboard
+
+Join me on [caderek's](https://github.com/caderek) leaderboard with this code:
+
+```
+107172-b51ab08f
 ```
 
 ## License
