@@ -208,72 +208,48 @@
 // What is the total energy in the system after simulating the moons given in
 // your scan for 1000 steps?
 
-
 const { sum } = require('../math.js');
 
 
-const positionsToObject = (positions) => Object.fromEntries(
-  positions
-    .map(position => position.replace('<', ''))
-    .map(position => position.replace('>', ''))
-    .map(position => position.trim())
-    .map(position => position.split('='))
-    .map(([key, val]) => [key, Number(val)])
+const parsePositionString = (positions) => positions
+  .match(/<x=(-?\d+), y=(-?\d+), z=(-?\d+)>/)
+  .slice(1)
+  .map(Number);
+
+const pluckAt = (matrix, i) => matrix.map(arr => arr[i]);
+const pluckPos = (moons, i) => pluckAt(pluckAt(moons, i), 0);
+
+const countGreater = (nums, target) => nums.filter(num => num > target).length;
+const countLess = (nums, target) => nums.filter(num => num < target).length;
+const velDelta = (positions, pos) => (
+  countGreater(positions, pos) - countLess(positions, pos)
 );
 
-const sort = (nums) => nums.slice().sort((a, b) => a - b);
-const withUniqueItem = (arr, uniqItem) => {
-  const first = arr.indexOf(uniqItem);
-  return arr.filter((item, i) => item !== uniqItem || i === first);
-};
+const accelerate = (moons) => moons.map(moon => (
+  moon.map(([pos, vel], i) => [pos, vel + velDelta(pluckPos(moons, i), pos)])
+));
+const move = (moons) => moons.map(moon => (
+  moon.map(([pos, vel]) => [pos + vel, vel])
+));
 
-const updateVelocity = (moons, key) => {
-  const positions = sort(moons.map(({ pos }) => pos[key]));
+const sumAbs = (nums) => sum(nums.map(Math.abs));
+const getTotalEnergy = (moon) => (
+  sumAbs(pluckAt(moon, 0)) * sumAbs(pluckAt(moon, 1))
+);
 
-  for (const moon of moons) {
-    const pos = moon.pos[key];
-    const withoutMatching = withUniqueItem(positions, pos);
-
-    const preceding = withoutMatching.indexOf(pos);
-    const following = withoutMatching.length - preceding - 1;
-    moon.vel[key] += following - preceding;
-  }
-
-  return moons;
-};
-
-const updateVelocities = (moons) => {
-  updateVelocity(moons, 'x');
-  updateVelocity(moons, 'y');
-  updateVelocity(moons, 'z');
-
-  return moons;
-};
-
-const updatePositions = (moons) => {
-  for (const moon of moons) {
-    const { vel: { x, y, z } } = moon;
-    moon.pos.x += x;
-    moon.pos.y += y;
-    moon.pos.z += z;
-  }
-
-  return moons;
-};
-
-const sumAbsValues = (obj) => sum(Object.values(obj).map(Math.abs));
-const getEnergy = ({ pos, vel }) => sumAbsValues(pos) * sumAbsValues(vel);
 
 module.exports = (inputs) => {
-  const moons = inputs
-    .map(positionsToObject)
-    .map(pos => ({ pos, vel: { x: 0, y: 0, z: 0 } }));
+  // Moon array of vector tuples: [[xPos, xVel], [yPos, yVel], [zPos, zVel]]
+  let moons = inputs
+    .map(stringPieces => stringPieces.join(','))
+    .map(parsePositionString)
+    .map(([x, y, z]) => [[x, 0], [y, 0], [z, 0]]);
 
   for (let i = 0; i < 1000; i++) {
-    updatePositions(updateVelocities(moons));
+    moons = move(accelerate(moons));
   }
 
-  return sum(moons.map(getEnergy));
+  return sum(moons.map(getTotalEnergy));
 };
 
 
