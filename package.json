@@ -14,6 +14,7 @@
   "license": "MIT",
   "dependencies": {
     "angles": "^0.2.4",
+    "compute-lcm": "^1.1.0",
     "distance-to-line-segment": "^0.2.0",
     "line-intersect": "^2.2.3",
     "lodash": "^4.17.15"
