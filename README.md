@@ -125,7 +125,7 @@ const { getRunner } = require('../intcode.js');
     * `program`: An array of numbers, the Intcode program
     * `options`: Options object to toggle certain modes, all default to false
         + _pauseOnOutput_ - each `run` call outputs a single value and pauses
-        + _quietIO_ - turns of logging for input and output events
+        + _quietIO_ - turns off logging for input and output events
         + _debugMode_ - turns on logging for every single opcode
     * _**returns** a run function_
 - **`run(...inputs)`** _(default mode)_
