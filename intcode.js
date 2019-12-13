@@ -106,6 +106,7 @@ const getExecutor = (currentRef, debugMode) => (op, ...params) => {
 const getRunner = (initialState, options = {}) => {
   const {
     debugMode = false,
+    pauseOnInput = false,
     pauseOnOutput = false,
     quietIO = false
   } = options;
@@ -146,6 +147,7 @@ const getRunner = (initialState, options = {}) => {
           ref = exec(multiply, x, y, zOut);
           break;
         case 3:
+          if (pauseOnInput && ioInputs.length === 0) return outputs;
           ref = exec(ioIn, xOut);
           break;
         case 4:
@@ -169,7 +171,9 @@ const getRunner = (initialState, options = {}) => {
           break;
         case 99:
           if (debugMode) console.log('terminate');
-          return pauseOnOutput ? null : outputs;
+          if (pauseOnInput) return outputs.concat(null);
+          if (pauseOnOutput) return null;
+          return outputs;
         default:
           throw new Error(`Bad opcode ${opCode} generated from: ${state[ref]}`);
       }
