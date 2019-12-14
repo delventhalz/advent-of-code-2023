@@ -65,8 +65,26 @@ module.exports = (programInputs) => {
       .map(([inputs, { name, needed }]) => [name, { yields: needed, inputs }])
   );
 
-  let fuel = 7863304;
+  let fuel = 1;
   let { ORE } = gatherIngredients(recipes, 'FUEL', fuel);
+
+  while (ORE < 1000000000000) {
+    fuel *= 2;
+    ({ ORE } = gatherIngredients(recipes, 'FUEL', fuel));
+  }
+
+  fuel /= 2;
+  ({ ORE } = gatherIngredients(recipes, 'FUEL', fuel));
+
+
+  while (ORE < 1000000000000) {
+    fuel += 1000;
+    ({ ORE } = gatherIngredients(recipes, 'FUEL', fuel));
+  }
+
+  fuel -= 1000;
+  ({ ORE } = gatherIngredients(recipes, 'FUEL', fuel));
+
   while (ORE < 1000000000000) {
     fuel += 1;
     ({ ORE } = gatherIngredients(recipes, 'FUEL', fuel));
