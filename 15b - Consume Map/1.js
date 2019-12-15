@@ -1,4 +1,10 @@
+// --- Part One ---
+
+// What is the fewest number of movement commands required to move the repair
+// droid from its starting position to the location of the oxygen system?
+
 const { Grid, AStarFinder } = require('pathfinding');
+
 
 const coordsOf = (matrix, item) => {
   for (let y = 0; y < matrix.length; y++) {
@@ -36,3 +42,6 @@ module.exports = (inputs) => {
 
   return path.length - 1;
 };
+
+
+// Your puzzle answer was 272.
