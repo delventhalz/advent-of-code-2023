@@ -41,10 +41,9 @@
 // what is the number of 1 digits multiplied by the number of 2 digits?
 
 const { chunk } = require('lodash');
+const { count } = require('../lib/arrays.js');
 const { least } = require('../lib/math.js');
 
-
-const count = (arr, item) => arr.filter(i => i === item).length;
 
 module.exports = (inputs) => {
   const digits = inputs.split('').map(Number);

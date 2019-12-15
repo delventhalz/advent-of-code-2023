@@ -14,6 +14,7 @@
 // registration identifier does it paint on your hull?
 
 const { getRunner } = require('../lib/intcode.js');
+const { fillMatrix } = require('../lib/arrays.js');
 
 
 const normalize = (angle) => angle < 0 ? 1 - Math.abs(angle % 1) : angle % 1;
@@ -39,22 +40,6 @@ const move = ([x, y], angle) => {
 
 
 const parseLocationKey = (locationKey) => locationKey.split(',').map(Number);
-
-const fillMatrix = (sparseMatrix) => {
-  const filled = [];
-
-  for (let y = 0; y < sparseMatrix.length; y++) {
-    filled[y] = [];
-    const currentRow = sparseMatrix[y];
-    if (!currentRow) continue;
-
-    for (let x = 0; x < currentRow.length; x++) {
-      filled[y][x] = currentRow[x];
-    }
-  }
-
-  return filled;
-}
 
 const locationMapToMatrix = (locationMap) => {
   const matrix = [];

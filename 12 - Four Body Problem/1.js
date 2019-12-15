@@ -208,6 +208,7 @@
 // What is the total energy in the system after simulating the moons given in
 // your scan for 1000 steps?
 
+const { count } = require('../lib/arrays.js')
 const { sum } = require('../lib/math.js');
 
 
@@ -219,8 +220,8 @@ const parsePositionString = (positions) => positions
 const pluckAt = (matrix, i) => matrix.map(arr => arr[i]);
 const pluckPos = (moons, i) => pluckAt(pluckAt(moons, i), 0);
 
-const countGreater = (nums, target) => nums.filter(num => num > target).length;
-const countLess = (nums, target) => nums.filter(num => num < target).length;
+const countGreater = (nums, target) => count(nums, num => num > target);
+const countLess = (nums, target) => count(nums, num => num < target);
 const velDelta = (positions, pos) => (
   countGreater(positions, pos) - countLess(positions, pos)
 );
