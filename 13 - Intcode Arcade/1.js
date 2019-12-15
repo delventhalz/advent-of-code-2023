@@ -29,7 +29,7 @@
 // Start the game. How many block tiles are on the screen when the game exits?
 
 const { chunk } = require('lodash');
-const { getRunner } = require('../intcode.js');
+const { getRunner } = require('../lib/intcode.js');
 
 
 module.exports = (inputs) => {

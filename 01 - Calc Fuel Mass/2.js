@@ -32,7 +32,7 @@
 // (Calculate the fuel requirements for each module separately, then add them
 // all up at the end.)
 
-const { sum } = require('../math.js');
+const { sum } = require('../lib/math.js');
 
 const calcFuel = mass => {
   const fuelMass = Math.floor(mass / 3) - 2;

@@ -16,6 +16,7 @@ reference or utilize them.
     * [Test Your Solution](#4-optional-test-your-solution)
     * [Linting](#linting)
 - [Solutions](#solutions)
+- [Helper Utils](#helper-utils)
     * [Intcode](#intcode)
         + [API](#api)
         + [Examples](#examples)
@@ -106,17 +107,31 @@ npm run lint
 ## Solutions
 
 All of my solutions are in numbered directories, and should run correctly with
-the tools above.
+the tools above. Reference or run them as you will.
+
+## Helper Utils
+
+For the most part I just copied and pasted the code I reused. But if a
+particular function was repeatedly useful across multiple nights, I pulled it
+out into a module, and put that module in the [lib/ directory](./lib/). These
+can be imported like any other CommonJS module:
+
+```javascript
+const { sum } = require('../lib/math.js');
+
+const nums = [1, 2, 3];
+console.log(sum(nums));  // 6
+```
 
 ### Intcode
 
 A repeated feature of this year's Advent of Code is an assembly-style
-instruction interpreter called "Intcode". After the first few nights, I
-abstracted mine into a top-level module located at `intcode.js`. If you wish to
-use it, first import the `getRunner` function into your solution file:
+instruction interpreter called "Intcode". After the first few nights, I pulled
+mine into [lib/intcode.js](./lib/intcode.js). If you wish to use it, first
+import the `getRunner` function into your solution file:
 
 ```javascript
-const { getRunner } = require('../intcode.js');
+const { getRunner } = require('../lib/intcode.js');
 ```
 
 #### API

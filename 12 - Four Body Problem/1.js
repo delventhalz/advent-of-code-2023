@@ -208,7 +208,7 @@
 // What is the total energy in the system after simulating the moons given in
 // your scan for 1000 steps?
 
-const { sum } = require('../math.js');
+const { sum } = require('../lib/math.js');
 
 
 const parsePositionString = (positions) => positions

@@ -98,7 +98,7 @@
 // Build a new emergency hull painting robot and run the Intcode program on it.
 // How many panels does it paint at least once?
 
-const { getRunner } = require('../intcode.js');
+const { getRunner } = require('../lib/intcode.js');
 
 
 const normalize = (angle) => angle < 0 ? 1 - Math.abs(angle % 1) : angle % 1;

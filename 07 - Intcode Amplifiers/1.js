@@ -72,8 +72,8 @@
 // highest signal that can be sent to the thrusters?
 
 
-const { getRunner } = require('../intcode.js');
-const { greatest } = require('../math.js');
+const { getRunner } = require('../lib/intcode.js');
+const { greatest } = require('../lib/math.js');
 
 
 module.exports = (inputs) => {

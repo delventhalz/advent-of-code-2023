@@ -22,7 +22,7 @@
 // block is broken?
 
 const { chunk } = require('lodash');
-const { getRunner } = require('../intcode.js');
+const { getRunner } = require('../lib/intcode.js');
 
 
 const updateScreen = (current, changes) => {

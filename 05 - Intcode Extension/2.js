@@ -69,7 +69,7 @@
 // What is the diagnostic code for system ID 5?
 
 
-const { getRunner } = require('../intcode.js');
+const { getRunner } = require('../lib/intcode.js');
 
 module.exports = (inputs) => {
   const run = getRunner(inputs);

@@ -13,7 +13,7 @@
 // letters. After starting the robot on a single white panel instead, what
 // registration identifier does it paint on your hull?
 
-const { getRunner } = require('../intcode.js');
+const { getRunner } = require('../lib/intcode.js');
 
 
 const normalize = (angle) => angle < 0 ? 1 - Math.abs(angle % 1) : angle % 1;

@@ -34,7 +34,7 @@
 // What is the sum of the fuel requirements for all of the modules on your
 // spacecraft?
 
-const { sum } = require('../math.js');
+const { sum } = require('../lib/math.js');
 
 const calcFuel = mass => Math.floor(mass / 3) - 2;
 

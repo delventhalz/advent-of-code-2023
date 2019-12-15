@@ -124,7 +124,7 @@
 
 
 const distanceToLineSegment = require('distance-to-line-segment').squared;
-const { greatest } = require('../math.js');
+const { greatest } = require('../lib/math.js');
 
 
 const mapRowToCoords = (mapRow, y) => mapRow

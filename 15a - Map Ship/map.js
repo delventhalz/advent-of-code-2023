@@ -90,8 +90,8 @@
 // this example, it was only 2 moves away from the repair droid's starting
 // position.
 
-const { getRunner } = require('../intcode.js');
-const { least } = require('../math.js');
+const { getRunner } = require('../lib/intcode.js');
+const { least } = require('../lib/math.js');
 
 
 const getLeastIndex = (arr) => least(Object.keys(arr).map(Number));

@@ -68,7 +68,7 @@
 
 // What is the total number of direct and indirect orbits in your map data?
 
-const { sum } = require('../math.js');
+const { sum } = require('../lib/math.js');
 
 
 const toOrbitMap = (orbits) => orbits
