@@ -91,18 +91,14 @@
 // position.
 
 const { getRunner } = require('../lib/intcode.js');
-const { shiftMatrix, fillMatrix } = require('../lib/arrays.js');
+const { loop, print } = require('../lib/animation.js');
+const {
+  fillMatrix,
+  mapMatrix,
+  matrixToString,
+  shiftMatrix
+} = require('../lib/arrays.js');
 
-
-const animate = (frameFn, frameLength) => {
-  setTimeout(() => {
-    const shouldContinue = frameFn();
-
-    if (shouldContinue) {
-      animate(frameFn, frameLength);
-    }
-  }, frameLength);
-};
 
 const indexToDirection = (moveIndex, lastDirection) => {
   switch(moveIndex % 4) {
@@ -204,41 +200,33 @@ const getMapPrinter = (map) => ([x, y], direction) => {
     map[y][x] = getRobot(direction);
   }
 
-  const screen = fillMatrix(shiftMatrix(map))
-    .map(row => row.map(char => char || ' '))
-    .map(row => ' ' + row.join(''))
-    .join('\n');
+  const fullMatrix = fillMatrix(shiftMatrix(map));
+  const screen = matrixToString(mapMatrix(fullMatrix, char => char || ' '));
 
   if (map[y][x] === getRobot(direction)) {
     map[y][x] = '.';
   }
 
-
-  console.clear();
-  console.log();
-  console.log(' LOCATION:', x, y)
-  console.log();
-  console.log(screen);
-  console.log();
+  print(screen, ['LOCATION:', x, y]);
 };
 
 module.exports = (inputs) => {
   const run = getRunner(inputs, { pauseOnOutput: true, quietIO: true });
 
   const map = [['O']];
-  const update = getMapUpdater(map);
-  const print = getMapPrinter(map);
+  const updateMap = getMapUpdater(map);
+  const printMap = getMapPrinter(map);
 
   let location = [0, 0];
   let moveIndex = 0;
   let lastDirection = 1;
 
-  animate(() => {
+  loop(() => {
     const direction = indexToDirection(moveIndex, lastDirection);
     const output = run(direction);
 
-    location = update(location, direction, output);
-    print(location, lastDirection);
+    location = updateMap(location, direction, output);
+    printMap(location, lastDirection);
 
     switch (output) {
       case 0:  // wall

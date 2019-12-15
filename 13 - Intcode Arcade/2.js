@@ -22,6 +22,8 @@
 // block is broken?
 
 const { chunk } = require('lodash');
+const { loop, print } = require('../lib/animation.js');
+const { mapMatrix, matrixToString } = require('../lib/arrays.js');
 const { getRunner } = require('../lib/intcode.js');
 
 
@@ -68,27 +70,8 @@ const idToChar = (id) => {
 };
 
 const printScreen = (data) => {
-  const screen = data
-    .map(row => row.map(idToChar))
-    .map(row => ' ' + row.join(''))
-    .join('\n');
-
-  console.clear();
-  console.log();
-  console.log(' SCORE:', data[0][-1]);
-  console.log();
-  console.log(screen);
-  console.log();
-};
-
-const animate = (frameFn, frameLength) => {
-  setTimeout(() => {
-    const shouldContinue = frameFn();
-
-    if (shouldContinue) {
-      animate(frameFn, frameLength);
-    }
-  }, frameLength);
+  const screen = matrixToString(mapMatrix(data, idToChar));
+  print(screen, ['SCORE:', data[0][-1]]);
 };
 
 
@@ -98,7 +81,7 @@ module.exports = (inputs) => {
 
   let screenData = [];
 
-  animate(() => {
+  loop(() => {
     const input = getInput(screenData);
     let outputs = run(input);
     let isRunning = true;
