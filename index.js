@@ -81,7 +81,7 @@ const main = async () => {
 
   const relPath = process.argv[2]
   console.log(relPath, '\n'.padEnd(relPath.length + 1, '-'), '\n');
-  console.log(solution(inputs), '\n');
+  console.log(await solution(inputs), '\n');
 };
 
 
