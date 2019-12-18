@@ -5,6 +5,21 @@ const { dirname, resolve } = require('path');
 
 const INPUT_FILENAME = 'input.txt';
 
+const roundToPlaces = (num, maxPlaces) => {
+  const factor = 10 ** maxPlaces;
+  return Math.floor(num * factor) / factor;
+};
+
+const toTimeString = (ms) => {
+  if (ms > 3600000) {
+    return `${roundToPlaces(ms / 3600000, 3)} hours`;
+  }
+  if (ms > 60000) {
+    return `${roundToPlaces(ms / 60000, 3)} minutes`;
+  }
+  return `${roundToPlaces(ms / 1000, 3)} seconds`;
+};
+
 const flattenSingleElementArrays = (input) => {
   if (!Array.isArray(input)) {
     return input;
@@ -79,7 +94,12 @@ const main = async () => {
 
   const relPath = process.argv[2]
   console.log(relPath, '\n'.padEnd(relPath.length + 1, '-'), '\n');
+
+  const start = Date.now()
   console.log(await solution(inputs), '\n');
+  const duration = `in ${toTimeString(Date.now() - start)}`;
+  console.log(''.padEnd(duration.length + 1, '-'));
+  console.log(duration, '\n');
 };
 
 
