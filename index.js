@@ -2,10 +2,8 @@
 const { readFile } = require('fs').promises;
 const { dirname, resolve } = require('path');
 
-global.foo = 'baz';
 
 const INPUT_FILENAME = 'input.txt';
-
 
 const flattenSingleElementArrays = (input) => {
   if (!Array.isArray(input)) {
