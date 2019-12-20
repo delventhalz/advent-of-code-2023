@@ -1,7 +1,10 @@
 extern crate chrono;
+extern crate rayon;
 use std::cmp::min;
 use chrono::Local;
+use rayon::prelude::*;
 
+const THREAD_COUNT: usize = 16;
 const REPETITIONS: usize = 10000;
 const OFFSET: usize = 5972877;
 const INPUTS: [i32; 650] = [5, 9, 7, 2, 8, 7, 7, 6, 1, 3, 7, 8, 3, 1, 9, 6, 4, 4, 0, 7, 9, 7, 3, 9,
@@ -74,6 +77,25 @@ fn  get_timestamp() -> String {
     Local::now().format("%Y-%m-%d %H:%M:%S").to_string()
 }
 
+fn collect_new_phased_digits(digits: &Vec<i32>) -> Vec<i32> {
+    let section_length = digits.len() as f64 / THREAD_COUNT as f64;
+
+    (0..THREAD_COUNT)
+        .into_par_iter()
+        .flat_map(|i| {
+            let start = (i as f64 * section_length + 1.0) as usize;
+            let stop = ((i as f64 + 1.0) * section_length + 1.0) as usize;
+            let mut section = Vec::with_capacity(stop - start);
+
+            for reps in start..stop {
+                section.push(ones(quick_phased_sum(&digits, reps)));
+            }
+
+            section
+        })
+        .collect::<Vec<i32>>()
+}
+
 fn main() {
     let mut digits: Vec<i32> = (0..REPETITIONS)
         .flat_map(|_| { INPUTS.iter().cloned() })
@@ -83,13 +105,7 @@ fn main() {
     println!("[{}] Running 100 phase sums on {} digits...", get_timestamp(), digits_length);
 
     for sums_completed in 1..101 {
-        let mut new_digits = Vec::with_capacity(digits_length);
-
-        for reps in 1..digits_length + 1 {
-            new_digits.push(ones(quick_phased_sum(&digits, reps)));
-        }
-
-        digits = new_digits;
+        digits = collect_new_phased_digits(&digits);
 
         println!("[{}] Phase sums completed: {}", get_timestamp(), sums_completed);
     }
