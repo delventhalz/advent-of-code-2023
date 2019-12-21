@@ -127,20 +127,21 @@
 const { getRunner } = require('../lib/intcode.js');
 
 
-const SPRINGSCRIPT = `
-NOT A J
-NOT B T
-OR T J
-NOT C T
-OR T J
-AND D J
-WALK
-`.slice(1);
+const SPRINGSCRIPT = [
+  'NOT A J',  // jump if A is missing
+  'NOT B T',
+  'OR T J',   // or B is missing
+  'NOT C T',
+  'OR T J',   // or C is missing
+  'AND D J',  // and D exists
+  'WALK'
+];
 
 
 const asciiToCodes = (ascii) => ascii.split('').map(char => char.charCodeAt(0));
 const codesToAscii = (codes) => codes.map(code => String.fromCharCode(code)).join('');
 
+const formatInputs = (commands) => asciiToCodes(commands.join('\n') + '\n');
 const parseOutputs = (outputs) => {
   const last = outputs[outputs.length - 1];
   if (last > 255) {
@@ -151,9 +152,11 @@ const parseOutputs = (outputs) => {
 };
 
 
+
+
 module.exports = (inputs) => {
   const run = getRunner(inputs, { quietIO: true });
-  const outputs = run(...asciiToCodes(SPRINGSCRIPT));
+  const outputs = run(...formatInputs(SPRINGSCRIPT));
   return parseOutputs(outputs);
 };
 
