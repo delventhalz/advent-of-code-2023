@@ -112,3 +112,6 @@ fn main() {
 
     println!("[{}] Message: {}", get_timestamp(), get_message(&digits, OFFSET));
 }
+
+
+// Your puzzle answer was 84024125.
