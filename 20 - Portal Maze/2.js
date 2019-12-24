@@ -143,7 +143,139 @@
 // get from the open tile marked AA to the open tile marked ZZ, both at the
 // outermost layer?
 
-module.exports = (inputs) => {
+const { Grid, AStarFinder } = require('pathfinding');
+const { eachMatrix, mapMatrix } = require('../lib/arrays.js');
 
-  return inputs;
+
+const START = 'AA';
+const END = 'ZZ';
+const MAX_DEPTH = 25;
+
+
+const toWalkable = (square) => square === '.' ? 0 : 1;
+
+const getGrid = (map) => {
+  const walkable = mapMatrix(map, toWalkable);
+  return new Grid(walkable);
 };
+
+const isLetter = (char) => Boolean(typeof char === 'string' && char.match(/[A-Z]/));
+
+const setCoords = (map, coordsObject, partialLabel, x, y) => {
+  const isOuter = x < 4
+    || y < 4
+    || x > map[0].length - 5
+    || y > map.length - 5;
+  const isEntrance = partialLabel === START || partialLabel === END;
+  const label = isEntrance ? partialLabel : isOuter ? partialLabel + 'o' : partialLabel + 'i';
+
+  coordsObject[label] = { paths: {} };
+  coordsObject[label].coords = [x, y];
+};
+
+const getPortalCoords = (map) => {
+  const coords = {};
+
+  eachMatrix(map, (square, [x, y]) => {
+    if (isLetter(square)) {
+      const above = map[y - 1] && map[y - 1][x];
+      const below = map[y + 1] && map[y + 1][x];
+      const left = map[y][x - 1];
+      const right = map[y][x + 1];
+
+      if (isLetter(right) && map[y][x + 2] === '.') {
+        setCoords(map, coords, square + right, x + 2, y);
+      } else if (isLetter(below) && map[y + 2] && map[y + 2][x] === '.') {
+        setCoords(map, coords, square + below, x, y + 2);
+      } else if (isLetter(right) && left === '.') {
+        setCoords(map, coords, square + right, x - 1, y);
+      } else if (isLetter(below) && above === '.') {
+        setCoords(map, coords, square + below, x, y - 1);
+      }
+    }
+  })
+
+  return coords;
+};
+
+const getPortalPaths = (map, portals) => {
+  const portalEntries = Object.entries(portals);
+  const finder = new AStarFinder();
+  const grid = getGrid(map);
+
+  for (const [start, { coords, paths }] of portalEntries) {
+    for (const [end, { coords: endCoords }] of portalEntries) {
+      if (start.slice(0, 2) !== end.slice(0, 2)) {
+        const pathLength = finder
+          .findPath(...coords, ...endCoords, grid.clone())
+          .length - 1;
+
+        if (pathLength > 0) {
+          paths[end] = pathLength;
+        }
+      }
+    }
+  }
+
+  return portals;
+};
+
+
+const toVisited = (portal, level) => `${portal}-${level}`;
+
+const getTeleporter = (portals, visited, level) => ([walkTo, walkDistance]) => {
+  // No-teleport cases
+  if (level > MAX_DEPTH) {
+    return [Infinity, visited];
+  }
+  if (walkTo[2] === 'o' && level === 0) {
+    return [Infinity, visited];
+  }
+  if (walkTo === START) {
+    return [Infinity, visited];
+  }
+  if (walkTo === END && level !== 0) {
+    return [Infinity, visited];
+  }
+  if (walkTo === END && level === 0) {
+    // Got to the end!
+    return [walkDistance, [...visited, toVisited(walkTo, level)]];
+  }
+  if (visited.includes(toVisited(walkTo, level))) {
+    return [Infinity, visited];
+  }
+
+  const teleportSuffix = walkTo[2] === 'o' ? 'i' : 'o';
+  const teleportTo = walkTo.slice(0, 2) + teleportSuffix;
+  const levelChange = teleportSuffix === 'o' ? 1 : -1;
+
+  const [pathDistance, path] = getShortestPath(
+    portals,
+    teleportTo,
+    [...visited, toVisited(walkTo, level)],
+    level + levelChange
+  );
+
+  return [1 + pathDistance + walkDistance, path];
+}
+
+const getShortestPath = (portals, current = START, visited = [], level = 0) => {
+  visited = [...visited, toVisited(current, level)];
+
+  const pathLengths = Object
+    .entries(portals[current].paths)
+    .map(getTeleporter(portals, visited, level));
+
+  return pathLengths.sort((a, b) => a[0] - b[0])[0];
+};
+
+
+module.exports = (inputs) => {
+  const map = inputs.map(row => row.split(''));
+  const portals = getPortalPaths(map, getPortalCoords(map));
+
+  return getShortestPath(portals);
+};
+
+
+// Your puzzle answer was 6452.
