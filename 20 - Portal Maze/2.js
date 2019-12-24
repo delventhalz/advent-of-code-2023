@@ -226,37 +226,36 @@ const toVisited = (portal, level) => `${portal}-${level}`;
 const getTeleporter = (portals, visited, level) => ([walkTo, walkDistance]) => {
   // No-teleport cases
   if (level > MAX_DEPTH) {
-    return [Infinity, visited];
+    return Infinity;
   }
   if (walkTo[2] === 'o' && level === 0) {
-    return [Infinity, visited];
+    return Infinity;
   }
   if (walkTo === START) {
-    return [Infinity, visited];
+    return Infinity;
   }
   if (walkTo === END && level !== 0) {
-    return [Infinity, visited];
+    return Infinity;
   }
   if (walkTo === END && level === 0) {
     // Got to the end!
-    return [walkDistance, [...visited, toVisited(walkTo, level)]];
+    return walkDistance;
   }
   if (visited.includes(toVisited(walkTo, level))) {
-    return [Infinity, visited];
+    return Infinity;
   }
 
   const teleportSuffix = walkTo[2] === 'o' ? 'i' : 'o';
   const teleportTo = walkTo.slice(0, 2) + teleportSuffix;
   const levelChange = teleportSuffix === 'o' ? 1 : -1;
 
-  const [pathDistance, path] = getShortestPath(
+  // Add one for teleport distance
+  return 1 + walkDistance + getShortestPath(
     portals,
     teleportTo,
-    [...visited, toVisited(walkTo, level)],
+    [...visited, walkTo],
     level + levelChange
   );
-
-  return [1 + pathDistance + walkDistance, path];
 }
 
 const getShortestPath = (portals, current = START, visited = [], level = 0) => {
@@ -266,7 +265,7 @@ const getShortestPath = (portals, current = START, visited = [], level = 0) => {
     .entries(portals[current].paths)
     .map(getTeleporter(portals, visited, level));
 
-  return pathLengths.sort((a, b) => a[0] - b[0])[0];
+  return Math.min(...pathLengths);
 };
 
 
