@@ -1,10 +1,13 @@
-# Advent of Code 2019 Solutions and Runner
+# Advent of Code 2020 Solutions and Runner
 
-Been having a lot of fun with [Advent of Code](https://adventofcode.com/2019)
-this year. In addition to solutions, I have written some Node.js CLI tools to
-help run and debug my work. Both the solution code and CLI tools are
-included in this repo. Mostly for myself, but also for anyone who wishes to
-reference or utilize them.
+Advent of Code time! Had an absolute blast last year, and I am at again for
+[AoC 2020](https://adventofcode.com/2020)!
+
+Currently, this is basically just a fork of my
+[2019 AoC Runner](https://github.com/delventhalz/AdventOfCode2019), without the
+solutions or code that seems particular to 2019, like my
+[Intcode Runner](https://github.com/delventhalz/AdventOfCode2019/blob/master/lib/intcode.js).
+I expect it to evolve and change over the month.
 
 ## Contents
 
@@ -17,9 +20,6 @@ reference or utilize them.
     * [Linting](#linting)
 - [Solutions](#solutions)
 - [Helper Utils](#helper-utils)
-    * [Intcode](#intcode)
-        + [API](#api)
-        + [Examples](#examples)
 - [Leaderboard](#leaderboard)
 - [License](#license)
 
@@ -29,8 +29,8 @@ Ensure you have a recent version of [Node.js](https://nodejs.org/en/)
 installed, then run in your terminal:
 
 ```bash
-git clone https://github.com/delventhalz/AdventOfCode2019.git
-cd AdventOfCode2019/
+git clone https://github.com/delventhalz/advent-of-code-2020.git
+cd advent-of-code-2020/
 npm install
 ```
 
@@ -59,8 +59,8 @@ Puzzle inputs should be copied and pasted into `input.txt`. The runner will
 read these inputs, parse them, and pass them to the exported solution
 functions.
 
-Lodash, an Intcode runner, and a few other utilities are available as CommonJS
-modules. Import with `require`:
+Lodash and a few custom utilities are available as CommonJS modules. Import
+with `require`:
 
 ```javascript
 const { chunk } = require('lodash');
@@ -106,8 +106,8 @@ npm run lint
 
 ## Solutions
 
-All of my solutions are in numbered directories, and should run correctly with
-the tools above. Reference or run them as you will.
+Any solutions of mine will be in numbered directories, and should run correctly
+with the tools above. Reference or run them as you will.
 
 ## Helper Utils
 
@@ -123,71 +123,27 @@ const nums = [1, 2, 3];
 console.log(sum(nums));  // 6
 ```
 
-### Intcode
-
-A repeated feature of this year's Advent of Code is an assembly-style
-instruction interpreter called "Intcode". After the first few nights, I pulled
-mine into [lib/intcode.js](./lib/intcode.js). If you wish to use it, first
-import the `getRunner` function into your solution file:
-
-```javascript
-const { getRunner } = require('../lib/intcode.js');
-```
-
-#### API
-
-- **`getRunner(program, [options])`**
-    * `program`: An array of numbers, the Intcode program
-    * `options`: Options object to toggle certain modes, all default to false
-        + _pauseOnOutput_ - each `run` call outputs a single value and pauses
-        + _pauseOnInput_ - pauses whenever it runs out of inputs
-        + _quietIO_ - turns off logging for input and output events
-        + _debugMode_ - turns on logging for every single opcode
-    * _**returns** a run function_
-- **`run(...inputs)`** _(default mode)_
-    * `inputs`: one or more numbers can be provided as inputs
-    * _**returns** an array of output values upon reaching a terminate opcode_
-- **`run(...inputs)`** _(pauseOnOutput mode)_
-    * `inputs`: one or more numbers can be provided as inputs
-    * _**returns** a single output value upon reaching an output opcode_
-    * _**returns** `null` upon reaching a terminate opcode_
-    * Can be run repeatedly with new inputs
-- **`run(...inputs)`** _(pauseOnInput mode)_
-    * `inputs`: one or more numbers can be provided as inputs
-    * _**returns** an array of output values, with `null` in the final position
-      if a terminate opcode has been reached_
-    * Can be run repeatedly with new inputs
-
-#### Examples
-
-```javascript
-const run = getRunner(program);
-
-const outputs = run(0, 1);
-```
-
-```javascript
-const run = getRunner(program, { pauseOnOutput: true, quietIO: true });
-
-let output = run(0, 1);
-
-while (output !== null) {
-  output = run(output);
-}
-```
-
 ## Leaderboard
 
-Join me on [caderek's](https://github.com/caderek) leaderboard with this code:
+Last year I competed on [caderek's](https://github.com/caderek) leaderboard.
+Assuming it is still active, I will stay on it this year as well, and you can
+join yourself with this code:
 
 ```
 107172-b51ab08f
 ```
 
+I am also using my own leaderboard with a few friends, which you can join with
+this code:
+
+```
+472347-2b04474b
+```
+
 ## License
 
-[Advent of Code](https://adventofcode.com/2019/about) and all Advent of Code
-2019 puzzle text and content were created by and belong to
+[Advent of Code](https://adventofcode.com/2020/about) and all Advent of Code
+2020 puzzle text and content were created by and belong to
 [Eric Wastl](http://was.tl/), and are reproduced here for reference purposes
 only.
 

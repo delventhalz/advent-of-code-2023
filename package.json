@@ -1,7 +1,7 @@
 {
-  "name": "adventofcode2019",
-  "version": "0.0.1",
-  "description": "Runner for AoC 2019 puzzles",
+  "name": "adventofcode2020",
+  "version": "0.1.0",
+  "description": "Runner for Advent of Code 2020 puzzles",
   "main": "index.js",
   "scripts": {
     "start": "npm run lint:nofail && node index.js",
@@ -10,18 +10,12 @@
     "lint": "eslint .",
     "lint:nofail": "eslint . || true"
   },
-  "author": "",
+  "author": "Zac Delventhal <delventhalz@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "angles": "^0.2.4",
-    "compute-lcm": "^1.1.0",
-    "distance-to-line-segment": "^0.2.0",
-    "js-combinatorics": "^0.5.4",
-    "line-intersect": "^2.2.3",
-    "lodash": "^4.17.19",
-    "pathfinding": "^0.4.18"
+    "lodash": "^4.17.20"
   },
   "devDependencies": {
-    "eslint": "^6.7.2"
+    "eslint": "^6.8.0"
   }
 }
