@@ -98,9 +98,12 @@ const main = async () => {
   const relPath = process.argv[2]
   console.log(relPath, '\n'.padEnd(relPath.length + 1, '-'), '\n');
 
-  const start = Date.now()
-  console.log(await solution(inputs), '\n');
-  const duration = `in ${toTimeString(Date.now() - start)}`;
+  const start = Date.now();
+  const outputs = await solution(inputs);
+  const stop = Date.now();
+
+  const duration = `in ${toTimeString(stop - start)}`;
+  console.log(outputs, '\n');
   console.log(''.padEnd(duration.length + 1, '-'));
   console.log(duration, '\n');
 };
