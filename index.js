@@ -17,6 +17,9 @@ const toTimeString = (ms) => {
   if (ms > 60000) {
     return `${roundToPlaces(ms / 60000, 3)} minutes`;
   }
+  if (ms < 1) {
+    return `<0.001 seconds`;
+  }
   return `${roundToPlaces(ms / 1000, 3)} seconds`;
 };
 
