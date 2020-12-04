@@ -51,6 +51,10 @@ const nestedMap = (arr, fn) => arr.map((item, i, arr) => (
 ));
 
 const parseIfNumber = (str) => {
+  if (!str) {
+    return str;
+  }
+
   const num = Number(str);
   return Number.isNaN(num) ? str : num;
 };

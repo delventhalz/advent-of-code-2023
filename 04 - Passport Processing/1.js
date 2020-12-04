@@ -90,7 +90,7 @@ const parsePassports = (lines) => {
   let currentPassport = '';
 
   for (const line of lines) {
-    if (!line) {
+    if (line === '') {
       passports.push(parsePassport(currentPassport))
       currentPassport = ''
     } else {
