@@ -62,6 +62,7 @@
 // Count the number of valid passports - those that have all required fields.
 // Treat cid as optional. In your batch file, how many passports are valid?
 
+const { has } = require('lodash');
 const { count } = require('../lib/arrays.js');
 
 
@@ -84,15 +85,9 @@ const parsePassport = (passportString) => (
   )
 );
 
-const isPassportValid = (passport) => {
-  for (const key of REQUIRED_KEYS) {
-    if (!passport[key]) {
-      return false;
-    }
-  }
-
-  return true;
-};
+const isPassportValid = (passport) => (
+  REQUIRED_KEYS.every(key => has(passport, key))
+);
 
 module.exports = (_, rawInput) => {
   const passports = rawInput
