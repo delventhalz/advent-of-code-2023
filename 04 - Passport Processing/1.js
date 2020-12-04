@@ -78,32 +78,11 @@ const REQUIRED_KEYS = [
 const parsePassport = (passportString) => (
   Object.fromEntries(
     passportString
-      .split(' ')
-      .filter(Boolean)
+      .split(/[\n ]/)
       .sort()
       .map(pair => pair.split(':'))
   )
 );
-
-const parsePassports = (lines) => {
-  const passports = [];
-  let currentPassport = '';
-
-  for (const line of lines) {
-    if (line === '') {
-      passports.push(parsePassport(currentPassport))
-      currentPassport = ''
-    } else {
-      currentPassport += ' ' + line;
-    }
-  }
-
-  if (currentPassport) {
-    passports.push(parsePassport(currentPassport))
-  }
-
-  return passports;
-};
 
 const isPassportValid = (passport) => {
   for (const key of REQUIRED_KEYS) {
@@ -115,8 +94,10 @@ const isPassportValid = (passport) => {
   return true;
 };
 
-module.exports = (inputs) => {
-  const passports = parsePassports(inputs);
+module.exports = (_, rawInput) => {
+  const passports = rawInput
+    .split('\n\n')
+    .map(parsePassport);
 
   return count(passports, isPassportValid);
 };

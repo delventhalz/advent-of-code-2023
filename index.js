@@ -74,8 +74,7 @@ const parseIfNumber = (str) => {
 //   "qux\nquux\nquz" -> ['qux', 'quux', 'quz']
 //   "corge\n"        -> 'corge'
 //   "12345"          -> '12345'
-const parseInputs = (inputBuffer) => {
-  const inputString = inputBuffer.toString();
+const parseInputs = (inputString) => {
   const trimmed = inputString[inputString.length - 1] === '\n'
     ? inputString.slice(0, -1)
     : inputString;
@@ -97,13 +96,14 @@ const main = async () => {
   const inputsPath = resolve(dirname(solutionPath), INPUT_FILENAME);
 
   const solution = require(solutionPath);
-  const inputs = parseInputs(await readFile(inputsPath));
+  const inputString = (await readFile(inputsPath)).toString();
+  const inputs = parseInputs(inputString);
 
   const relPath = process.argv[2]
   console.log(relPath, '\n'.padEnd(relPath.length + 1, '-'), '\n');
 
   const start = Date.now();
-  const outputs = await solution(inputs);
+  const outputs = await solution(inputs, inputString);
   const stop = Date.now();
 
   const duration = `in ${toTimeString(stop - start)}`;

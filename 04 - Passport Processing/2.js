@@ -90,32 +90,11 @@ const VALID_EYE_COLORS = new Set([
 const parsePassport = (passportString) => (
   Object.fromEntries(
     passportString
-      .split(' ')
-      .filter(Boolean)
+      .split(/[\n ]/)
       .sort()
       .map(pair => pair.split(':'))
   )
 );
-
-const parsePassports = (lines) => {
-  const passports = [];
-  let currentPassport = '';
-
-  for (const line of lines) {
-    if (line === '') {
-      passports.push(parsePassport(currentPassport))
-      currentPassport = ''
-    } else {
-      currentPassport += ' ' + line;
-    }
-  }
-
-  if (currentPassport) {
-    passports.push(parsePassport(currentPassport))
-  }
-
-  return passports;
-};
 
 const isBetween = (number, min, max) => number >= min && number <= max;
 
@@ -158,8 +137,10 @@ const isPassportValid = (passport) => (
     && isValidPid(passport.pid)
 );
 
-module.exports = (inputs) => {
-  const passports = parsePassports(inputs);
+module.exports = (_, rawInput) => {
+  const passports = rawInput
+    .split('\n\n')
+    .map(parsePassport);
 
   return count(passports, isPassportValid);
 };
