@@ -58,45 +58,41 @@
 // As a sanity check, look through your list of boarding passes. What is the
 // highest seat ID on a boarding pass?
 
+const { greatest } = require('../lib/math.js');
 
-const getRow = (rowString, min = 0, max = 128) => {
-  if (rowString.length === 0) {
-    return min;
+
+const toBinaryValue = (bits, isOne = Boolean) => {
+  let min = 0;
+  let max = 2 ** bits.length;
+
+  for (const bit of bits) {
+    const mid = (max - min) / 2 + min;
+
+    if (isOne(bit)) {
+      min = mid;
+    } else {
+      max = mid;
+    }
   }
 
-  const range = max - min;
-  const mid = range / 2 + min;
-
-  if (rowString[0] === 'F') {
-    return getRow(rowString.slice(1), min, mid);
-  } else {
-    return getRow(rowString.slice(1), mid, max);
-  }
+  return min;
 };
 
-const getCol = (colString, min = 0, max = 8) => {
-  if (colString.length === 0) {
-    return min;
-  }
-
-  const range = max - min;
-  const mid = range / 2 + min;
-
-  if (colString[0] === 'L') {
-    return getCol(colString.slice(1), min, mid);
-  } else {
-    return getCol(colString.slice(1), mid, max);
-  }
-};
+const getRow = (rowString) => (
+  toBinaryValue(rowString, letter => letter === 'B')
+);
+const getCol = (colString) => (
+  toBinaryValue(colString, letter => letter === 'R')
+);
 
 module.exports = (inputs) => {
-  return inputs
-    .map(seat => {
-      const row = getRow(seat.slice(0, 7));
-      const col = getCol(seat.slice(7));
-      return row * 8 + col;
-    })
-    .sort((a, b) => b - a)[0];
+  const seatIds = inputs.map(seat => {
+    const row = getRow(seat.slice(0, 7));
+    const col = getCol(seat.slice(7));
+    return row * 8 + col;
+  });
+
+  return greatest(seatIds);
 };
 
 // Your puzzle answer was 987.

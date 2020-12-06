@@ -13,38 +13,32 @@
 // What is the ID of your seat?
 
 
-const getRow = (rowString, min = 0, max = 128) => {
-  if (rowString.length === 0) {
-    return min;
+const toBinaryValue = (bits, isOne = Boolean) => {
+  let min = 0;
+  let max = 2 ** bits.length;
+
+  for (const bit of bits) {
+    const mid = (max - min) / 2 + min;
+
+    if (isOne(bit)) {
+      min = mid;
+    } else {
+      max = mid;
+    }
   }
 
-  const range = max - min;
-  const mid = range / 2 + min;
-
-  if (rowString[0] === 'F') {
-    return getRow(rowString.slice(1), min, mid);
-  } else {
-    return getRow(rowString.slice(1), mid, max);
-  }
+  return min;
 };
 
-const getCol = (colString, min = 0, max = 8) => {
-  if (colString.length === 0) {
-    return min;
-  }
-
-  const range = max - min;
-  const mid = range / 2 + min;
-
-  if (colString[0] === 'L') {
-    return getCol(colString.slice(1), min, mid);
-  } else {
-    return getCol(colString.slice(1), mid, max);
-  }
-};
+const getRow = (rowString) => (
+  toBinaryValue(rowString, letter => letter === 'B')
+);
+const getCol = (colString) => (
+  toBinaryValue(colString, letter => letter === 'R')
+);
 
 module.exports = (inputs) => {
-  const seats = inputs
+  const seatIds = inputs
     .map(seat => {
       const row = getRow(seat.slice(0, 7));
       const col = getCol(seat.slice(7));
@@ -52,13 +46,13 @@ module.exports = (inputs) => {
     })
     .sort((a, b) => a - b);
 
-    let last = seats[0];
+    let expected = seatIds[0];
 
-    for (const seat of seats.slice(1, -1)) {
-      if (seat !== last + 1) {
-        return seat - 1;
-      } else {
-        last = seat;
+    for (const seatId of seatIds.slice(1, -1)) {
+      expected += 1;
+
+      if (seatId !== expected) {
+        return seatId - 1;
       }
     }
 
