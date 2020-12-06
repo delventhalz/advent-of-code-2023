@@ -45,23 +45,14 @@ const { intersection } = require('lodash');
 const { sum } = require('../lib/math.js');
 
 
-const parseGroup = group => (
-  group
-    .split('\n')
-    .map(answers => answers.split(''))
-);
-const toGroups = answerString => (
-  answerString
-    .trim()
-    .split('\n\n')
-    .map(parseGroup)
-);
-
-const countIntersectAnswers = group => intersection(...group).length;
+const countIntersectAnswers = group => {
+  const answerArrays = group.map(answerString => answerString.split(''));
+  return intersection(...answerArrays).length;
+};
 
 
-module.exports = (_, rawInputs) => {
-  return sum(toGroups(rawInputs).map(countIntersectAnswers));
+module.exports = (inputs) => {
+  return sum(inputs.map(countIntersectAnswers));
 };
 
 // Your puzzle answer was 3402.

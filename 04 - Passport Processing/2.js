@@ -87,10 +87,11 @@ const VALID_EYE_COLORS = new Set([
   'oth',
 ]);
 
-const parsePassport = (passportString) => (
+const parsePassport = (lines) => (
   Object.fromEntries(
-    passportString
-      .split(/[\n ]/)
+    lines
+      .join(' ')
+      .split(' ')
       .sort()
       .map(pair => pair.split(':'))
   )
@@ -137,12 +138,9 @@ const isPassportValid = (passport) => (
     && isValidPid(passport.pid)
 );
 
-module.exports = (_, rawInput) => {
-  const passports = rawInput
-    .split('\n\n')
-    .map(parsePassport);
 
-  return count(passports, isPassportValid);
+module.exports = (inputs) => {
+  return count(inputs.map(parsePassport), isPassportValid);
 };
 
 // Your puzzle answer was 133.

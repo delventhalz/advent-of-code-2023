@@ -4,6 +4,7 @@ const { dirname, resolve } = require('path');
 
 
 const INPUT_FILENAME = 'input.txt';
+const DELIMITERS = ['\n\n', '\n', ','];
 
 const roundToPlaces = (num, maxPlaces) => {
   const factor = 10 ** maxPlaces;
@@ -23,16 +24,16 @@ const toTimeString = (ms) => {
   return `${roundToPlaces(ms / 1000, 3)} seconds`;
 };
 
-const flattenSingleElementArrays = (input) => {
-  if (!Array.isArray(input)) {
-    return input;
+const splitNested = (inputString, delimiters) => {
+  if (delimiters.length === 0) {
+    return inputString;
   }
 
-  if (input.length === 1) {
-    return flattenSingleElementArrays(input[0]);
-  }
+  const nextDelimiters = delimiters.slice(1);
 
-  return input.map(flattenSingleElementArrays);
+  return inputString
+    .split(delimiters[0])
+    .map(item => splitNested(item, nextDelimiters));
 };
 
 const getSolutionPath = () => {
@@ -44,7 +45,7 @@ const getSolutionPath = () => {
   }
 
   return resolve(process.cwd(), relativePath);
-}
+};
 
 const nestedMap = (arr, fn) => arr.map((item, i, arr) => (
   Array.isArray(item) ? nestedMap(item, fn) : fn(item, i, arr)
@@ -63,31 +64,31 @@ const parseIfNumber = (str) => {
 //
 // Steps:
 //   - Remove any trailing newline
-//   - Split on newlines
-//   - Split on commas
-//   - Remove any wrapping arrays with only a single element
-//   - If any arrays remain, parse any number elements
+//   - Split on blank lines (if any)
+//   - Split on newlines (if any)
+//   - Split on commas (if any)
+//   - If any delimiters were found, parse numbers
 //
 // Examples:
-//   "1,2,3\n4,5,6\n" -> [[1, 2, 3], [4, 5, 6]]
-//   "foo,bar,baz\n"  -> ['foo', 'bar', 'baz']
-//   "qux\nquux\nquz" -> ['qux', 'quux', 'quz']
-//   "corge\n"        -> 'corge'
-//   "12345"          -> '12345'
+//   "1,2,3\n4,5,6\n"   -> [[1, 2, 3], [4, 5, 6]]
+//   "ab\nbc\n\ncd\nde" -> [['ab', 'bc'], ['cd', 'de']]
+//   "foo,bar,baz\n"    -> ['foo', 'bar', 'baz']
+//   "qux\nquux\nquz"   -> ['qux', 'quux', 'quz']
+//   "corge\n"          -> 'corge'
+//   "12345"            -> '12345'
 const parseInputs = (inputString) => {
+  // Be careful about blanket trims, just trim trailing newlines
   const trimmed = inputString[inputString.length - 1] === '\n'
     ? inputString.slice(0, -1)
     : inputString;
 
-  const split = trimmed
-    .split('\n')
-    .map(line => line.split(','));
+  const validDelimiters = DELIMITERS.filter(delim => trimmed.includes(delim));
+  const split = splitNested(trimmed, validDelimiters);
 
-  const flattened = flattenSingleElementArrays(split);
-
-  return Array.isArray(flattened)
-    ? nestedMap(flattened, parseIfNumber)
-    : flattened;
+  // Parse numbers if they aren't top level
+  return Array.isArray(split)
+    ? nestedMap(split, parseIfNumber)
+    : split;
 };
 
 

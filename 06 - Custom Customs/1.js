@@ -57,23 +57,10 @@
 const { sum } = require('../lib/math.js');
 
 
-const parseGroup = group => (
-  group
-    .split('\n')
-    .map(answers => answers.split(''))
-);
-const toGroups = answerString => (
-  answerString
-    .trim()
-    .split('\n\n')
-    .map(parseGroup)
-);
+const countUnionAnswers = group => new Set(group.join('')).size;
 
-const countUnionAnswers = group => new Set(group.flat()).size;
-
-
-module.exports = (_, rawInputs) => {
-  return sum(toGroups(rawInputs).map(countUnionAnswers));
+module.exports = (inputs) => {
+  return sum(inputs.map(countUnionAnswers));
 };
 
 // Your puzzle answer was 6534.

@@ -76,10 +76,11 @@ const REQUIRED_KEYS = [
   'pid'
 ];
 
-const parsePassport = (passportString) => (
+const parsePassport = (lines) => (
   Object.fromEntries(
-    passportString
-      .split(/[\n ]/)
+    lines
+      .join(' ')
+      .split(' ')
       .sort()
       .map(pair => pair.split(':'))
   )
@@ -89,12 +90,9 @@ const isPassportValid = (passport) => (
   REQUIRED_KEYS.every(key => has(passport, key))
 );
 
-module.exports = (_, rawInput) => {
-  const passports = rawInput
-    .split('\n\n')
-    .map(parsePassport);
 
-  return count(passports, isPassportValid);
+module.exports = (inputs) => {
+  return count(inputs.map(parsePassport), isPassportValid);
 };
 
 // Your puzzle answer was 245.
