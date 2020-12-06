@@ -60,10 +60,18 @@ const parseIfNumber = (str) => {
   return Number.isNaN(num) ? str : num;
 };
 
+const toInputString = (inputBytes) => {
+  const inputString = inputBytes.toString();
+
+  // Remove that trailing newline that the text editor adds
+  return inputString[inputString.length - 1] === '\n'
+    ? inputString.slice(0, -1)
+    : inputString;
+};
+
 // Sensibly parses most AoC inputs, leaving edge cases as a string.
 //
 // Steps:
-//   - Remove any trailing newline
 //   - Split on blank lines (if any)
 //   - Split on newlines (if any)
 //   - Split on commas (if any)
@@ -77,18 +85,16 @@ const parseIfNumber = (str) => {
 //   "corge\n"          -> 'corge'
 //   "12345"            -> '12345'
 const parseInputs = (inputString) => {
-  // Be careful about blanket trims, just trim trailing newlines
-  const trimmed = inputString[inputString.length - 1] === '\n'
-    ? inputString.slice(0, -1)
-    : inputString;
+  const validDelimiters = DELIMITERS
+    .filter(delim => inputString.includes(delim));
 
-  const validDelimiters = DELIMITERS.filter(delim => trimmed.includes(delim));
-  const split = splitNested(trimmed, validDelimiters);
+  // If there are no clearly delimited groups, just return raw string
+  if (validDelimiters.length === 0) {
+    return inputString;
+  }
 
-  // Parse numbers if they aren't top level
-  return Array.isArray(split)
-    ? nestedMap(split, parseIfNumber)
-    : split;
+  const split = splitNested(inputString, validDelimiters);
+  return nestedMap(split, parseIfNumber);
 };
 
 
@@ -97,7 +103,7 @@ const main = async () => {
   const inputsPath = resolve(dirname(solutionPath), INPUT_FILENAME);
 
   const solution = require(solutionPath);
-  const inputString = (await readFile(inputsPath)).toString();
+  const inputString = toInputString(await readFile(inputsPath));
   const inputs = parseInputs(inputString);
 
   const relPath = process.argv[2]
