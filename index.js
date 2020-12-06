@@ -1,6 +1,9 @@
 'use strict';
+
 const { readFile } = require('fs').promises;
 const { dirname, resolve } = require('path');
+
+const { splitNested } = require('./lib/strings.js');
 
 
 const INPUT_FILENAME = 'input.txt';
@@ -22,18 +25,6 @@ const toTimeString = (ms) => {
     return `<0.001 seconds`;
   }
   return `${roundToPlaces(ms / 1000, 3)} seconds`;
-};
-
-const splitNested = (inputString, delimiters) => {
-  if (delimiters.length === 0) {
-    return inputString;
-  }
-
-  const nextDelimiters = delimiters.slice(1);
-
-  return inputString
-    .split(delimiters[0])
-    .map(item => splitNested(item, nextDelimiters));
 };
 
 const getSolutionPath = () => {
