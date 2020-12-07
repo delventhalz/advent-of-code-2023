@@ -6,6 +6,8 @@ const PART_1_NAME = '1.js';
 const PART_1_TEMPLATE = (day) => (
 `// --- Day ${day.replace(/^0+/, '')} ---
 
+const {  } = require('../lib');
+
 
 module.exports = (inputs) => {
 
