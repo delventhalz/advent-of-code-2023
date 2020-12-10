@@ -6,8 +6,8 @@ const PART_1_NAME = '1.js';
 const PART_1_TEMPLATE = (day) => (
 `// --- Day ${day.replace(/^0+/, '')} ---
 
-const {  } = require('lodash');
-const {  } = require('../lib');
+// const {  } = require('lodash');
+// const {  } = require('../lib');
 
 
 module.exports = (inputs) => {
@@ -21,8 +21,8 @@ const PART_2_NAME = '2.js';
 const PART_2_TEMPLATE = () => (
 `// --- Part Two ---
 
-const {  } = require('lodash');
-const {  } = require('../lib');
+// const {  } = require('lodash');
+// const {  } = require('../lib');
 
 
 module.exports = (inputs) => {
