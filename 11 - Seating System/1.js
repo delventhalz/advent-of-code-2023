@@ -109,7 +109,13 @@
 // Simulate your seating area by applying the seating rules repeatedly until no
 // seats change state. How many seats end up occupied?
 
-const { mapMatrix, filterMatrix } = require('../lib');
+const {
+  mapMatrix,
+  filterMatrix,
+  matrixToString,
+  loop,
+  print,
+} = require('../lib');
 
 
 const isEmpty = spot => spot === 'L';
@@ -149,16 +155,25 @@ module.exports = (inputs) => {
   let map = inputs.map(line => line.split(''));
   let count = 0;
 
-  while (true) {
-    map = mapMatrix(map, xformSpot);
-    const nextCount = filterMatrix(map, isOccupied).length;
+  // Clear out initial synchronous log from runner
+  setTimeout(() => {
+    print(matrixToString(map), `OCCUPIED SEATS: ${count}`);
+  }, 0);
 
-    if (count === nextCount) {
-      return count;
-    }
+  setTimeout(() => {
+    loop(() => {
+      map = mapMatrix(map, xformSpot);
+      const nextCount = filterMatrix(map, isOccupied).length;
 
-    count = nextCount
-  }
+      if (count === nextCount) {
+        return false;
+      }
+      count = nextCount;
+
+      print(matrixToString(map), `OCCUPIED SEATS: ${count}`);
+      return true;
+    }, 250);
+  }, 1500);
 };
 
 // Your puzzle answer was 2194.
