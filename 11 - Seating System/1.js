@@ -118,8 +118,8 @@ const {
 } = require('../lib');
 
 
-const isEmpty = spot => spot === 'L';
-const isOccupied = spot => spot === '#';
+const isEmpty = spot => spot === '□';
+const isOccupied = spot => spot === '■';
 
 const countAdjacent = ([x, y], map) => {
   let count = 0;
@@ -140,20 +140,25 @@ const xformSpot = (spot, coords, map) => {
   const adjacent = countAdjacent(coords, map);
 
   if (isEmpty(spot) && adjacent === 0) {
-    return '#';
+    return '■';
   }
 
   if (isOccupied(spot) && adjacent >= 4) {
-    return 'L';
+    return '□';
   }
 
   return spot;
 };
 
 
-module.exports = (inputs) => {
-  let map = inputs.map(line => line.split(''));
+module.exports = (_, rawInputs) => {
   let count = 0;
+  let shouldDraw = true;
+  let map = rawInputs
+    .replace(/\./g, ' ')
+    .replace(/L/g, '□')
+    .split('\n')
+    .map(line => line.split(''));
 
   // Clear out initial synchronous log from runner
   setTimeout(() => {
@@ -170,10 +175,14 @@ module.exports = (inputs) => {
       }
       count = nextCount;
 
-      print(matrixToString(map), `OCCUPIED SEATS: ${count}`);
+      if (shouldDraw) {
+        print(matrixToString(map), `OCCUPIED SEATS: ${count}`);
+      }
+      shouldDraw = !shouldDraw;
+
       return true;
-    }, 250);
-  }, 1500);
+    }, 64);
+  }, 1000);
 };
 
 // Your puzzle answer was 2194.
