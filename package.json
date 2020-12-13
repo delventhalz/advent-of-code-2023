@@ -13,6 +13,7 @@
   "author": "Zac Delventhal <delventhalz@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "compute-lcm": "^1.1.2",
     "lodash": "^4.17.20"
   },
   "devDependencies": {
