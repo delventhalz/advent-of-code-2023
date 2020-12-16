@@ -1,4 +1,6 @@
-// Time when stopping at 30,000,000 on a 2018 MacBook Air: 1.004 sec
+// When stopping at 30,000,000 on a 2018 MacBook Air:
+//  - Time:   0.93 sec
+//  - Memory: 116 MB
 const memoryGame = (startingNumbers, stopAt) => {
   const memory = new Uint32Array(new ArrayBuffer(stopAt * 4));
   const startingLength = startingNumbers.length;
@@ -27,9 +29,11 @@ const memoryGame = (startingNumbers, stopAt) => {
   return last;
 };
 
-// Time when stopping at 30,000,000 on a 2018 MacBook Air: 1.272 sec
+// When stopping at 30,000,000 on a 2018 MacBook Air:
+//  - Time:   1.22 sec
+//  - Memory: 238 MB
 //
-// Note that this solution is just as slow as a vanilla JS object if
+// Note that this solution is slower than a vanilla JS object if
 // `memory` is instantiated without a length.
 const memoryGameWithSizedArray = (startingNumbers, stopAt) => {
   const memory = new Array(stopAt);
@@ -53,7 +57,9 @@ const memoryGameWithSizedArray = (startingNumbers, stopAt) => {
   return last;
 };
 
-// Time when stopping at 30,000,000 on a 2018 MacBook Air: 6.98 sec
+// When stopping at 30,000,000 on a 2018 MacBook Air:
+//  - Time:   6.86 sec
+//  - Memory: 234 MB
 const memoryGameWithMap = (startingNumbers, stopAt) => {
   const memory = new Map();
   let last;
@@ -75,7 +81,9 @@ const memoryGameWithMap = (startingNumbers, stopAt) => {
   return last;
 };
 
-// Time when stopping at 30,000,000 on a 2018 MacBook Air: 366.9 sec
+// When stopping at 30,000,000 on a 2018 MacBook Air:
+//  - Time:   343 sec
+//  - Memory: 4 GB
 const memoryGameWithObject = (startingNumbers, stopAt) => {
   const memory = {};
   let last;
