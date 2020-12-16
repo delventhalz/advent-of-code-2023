@@ -22,6 +22,18 @@
 //   Hitting that size limit would cause memory usage to drop to ~300MB
 //   before it started to climb again.
 
+// I also tested unsized arrays against sized arrays at different counts
+// of members. The benefits of pre-sizing arrays started to kick in around
+// tens of thousands of members, and grew exponentially from there.
+
+//    Count   |         []        | new Array(length) | Difference
+// -----------+-------------------+-------------------+-----------
+//      1,000 |        <0.001 sec |        <0.001 sec |          -
+//     10,000 |         0.004 sec |         0.002 sec |         2x
+//    100,000 |         0.025 sec |         0.006 sec |         4x
+//  1,000,000 |         0.86  sec |         0.024 sec |        35x
+// 10,000,000 |       112.0   sec |         0.35  sec |       320x
+
 const _initArray = () => {
   const array = [];
 
