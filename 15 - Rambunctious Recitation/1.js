@@ -59,34 +59,10 @@
 
 // Given your starting numbers, what will be the 2020th number spoken?
 
+const { memoryGame } = require('./memory-game.js');
+
 module.exports = (inputs) => {
-  const numbers = inputs.slice();
-  const memory = {};
-
-  for (let i = 0; i < numbers.length; i += 1) {
-    memory[numbers[i]]= [i];
-  }
-
-  for (let i = numbers.length; i < 2020; i += 1) {
-    const last = numbers[i - 1];
-    const record = memory[last];
-
-    if (record.length === 1) {
-      numbers.push(0);
-      memory[0].push(i);
-    } else {
-      const say = record[record.length - 1] - record[record.length - 2];
-      numbers.push(say);
-
-      if (memory[say]) {
-        memory[say].push(i);
-      } else {
-        memory[say]= [i];
-      }
-    }
-  }
-
-  return numbers[2019];
+  return memoryGame(inputs, 2020);
 };
 
 // Your puzzle answer was 289.
