@@ -9,13 +9,13 @@
 // All tests were run on a 2018 MacBook Air with Node 12.13.0,
 // searching for the 30,000,000th number in Part 2.
 
-// Data Type            | Run Time | Memory Use | Relative Time
-// ---------------------+----------+------------+--------------
-// []                   |  355 sec |  23000 MB* |          380x
-// {}                   |  343 sec |  23000 MB* |          370x
-// new Map()            | 6.86 sec |     234 MB |          7.4x
-// new Array(length)    | 1.22 sec |     238 MB |          1.3x
-// new Uint32Array(...) | 0.93 sec |     116 MB |            1x
+//        Data Type        | Run Time | Memory Use | Relative Time
+// ------------------------+----------+------------+--------------
+// []                      |  355 sec |  23000 MB* |          380x
+// {}                      |  343 sec |  23000 MB* |          370x
+// new Map()               | 6.86 sec |     234 MB |          7.4x
+// new Array(length)       | 1.22 sec |     238 MB |          1.3x
+// new Uint32Array(length) | 0.93 sec |     116 MB |            1x
 
 // * Memory usage for vanilla JS arrays and objects grew unbounded until
 //   execution stopped or the process hit the max-old-space-size for Node.
@@ -77,7 +77,7 @@ const _initSizedArray = (length) => {
 };
 
 const _initTypedArray = (length) => {
-  const typedArray = new Uint32Array(new ArrayBuffer(length * 4));
+  const typedArray = new Uint32Array(length);
 
   const get = index => typedArray[index];
   const set = (index, value) => {
