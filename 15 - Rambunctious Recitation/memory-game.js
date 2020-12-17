@@ -90,16 +90,16 @@ const memoryGame = (startingNumbers, stopAt) => {
   const startingLength = startingNumbers.length;
   let last;
 
-  // TypedArrays are populated with zeros, so we must use one-based indexing
-  for (let i = 1; i <= startingLength; i += 1) {
-    setMemory(startingNumbers[i - 1], i);
+  for (let i = 0; i < startingLength; i += 1) {
+    // TypedArrays are populated with zeros, so we must use one-based indexing
+    setMemory(startingNumbers[i], i + 1);
   }
 
-  for (let i = startingLength + 1; i <= stopAt; i += 1) {
+  for (let i = startingLength; i < stopAt; i += 1) {
     const remembered = getMemory(last);
-    const next = remembered ? i - 1 - remembered : 0;
+    const next = remembered ? i - remembered : 0;
 
-    setMemory(last, i - 1);
+    setMemory(last, i);
     last = next;
   }
 
