@@ -46,7 +46,7 @@ const _initArray = () => {
 };
 
 const _initObject = () => {
-  const object = [];
+  const object = {};
 
   const get = key => object[key];
   const set = (key, value) => {
