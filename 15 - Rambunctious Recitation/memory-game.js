@@ -34,26 +34,25 @@
 //  1,000,000 |         0.86  sec |         0.024 sec |        35x
 // 10,000,000 |       112.0   sec |         0.35  sec |       320x
 
+const bracketGetter = (source) => (key) => source[key];
+const bracketSetter = (source) => (key, value) => {
+  source[key] = value;
+};
+
 const _initArray = () => {
   const array = [];
-
-  const get = index => array[index];
-  const set = (index, value) => {
-    array[index] = value;
-  };
-
-  return [get, set];
+  return [
+    bracketGetter(array),
+    bracketSetter(array)
+  ];
 };
 
 const _initObject = () => {
   const object = {};
-
-  const get = key => object[key];
-  const set = (key, value) => {
-    object[key] = value;
-  };
-
-  return [get, set];
+  return [
+    bracketGetter(object),
+    bracketSetter(object)
+  ];
 };
 
 const _initMap = () => {
@@ -67,24 +66,18 @@ const _initMap = () => {
 
 const _initSizedArray = (length) => {
   const sizedArray = new Array(length);
-
-  const get = index => sizedArray[index];
-  const set = (index, value) => {
-    sizedArray[index] = value;
-  };
-
-  return [get, set];
+  return [
+    bracketGetter(sizedArray),
+    bracketSetter(sizedArray)
+  ];
 };
 
 const _initTypedArray = (length) => {
   const typedArray = new Uint32Array(length);
-
-  const get = index => typedArray[index];
-  const set = (index, value) => {
-    typedArray[index] = value;
-  };
-
-  return [get, set];
+  return [
+    bracketGetter(typedArray),
+    bracketSetter(typedArray)
+  ];
 };
 
 
