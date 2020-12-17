@@ -97,10 +97,9 @@ const memoryGame = (startingNumbers, stopAt) => {
 
   for (let i = startingLength; i < stopAt; i += 1) {
     const remembered = getMemory(last);
-    const next = remembered ? i - remembered : 0;
 
     setMemory(last, i);
-    last = next;
+    last = remembered ? i - remembered : 0;
   }
 
   return last;
