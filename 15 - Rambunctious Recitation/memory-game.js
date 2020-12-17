@@ -87,17 +87,16 @@ const initMemory = _initTypedArray;
 
 const memoryGame = (startingNumbers, stopAt) => {
   const [getMemory, setMemory] = initMemory(stopAt);
-  const startingLength = startingNumbers.length;
-  let last;
 
-  for (let i = 0; i < startingLength; i += 1) {
+  for (let i = 0; i < startingNumbers.length - 1; i += 1) {
     // TypedArrays are populated with zeros, so we must use one-based indexing
     setMemory(startingNumbers[i], i + 1);
   }
 
-  for (let i = startingLength; i < stopAt; i += 1) {
-    const remembered = getMemory(last);
+  let last = startingNumbers[startingNumbers.length - 1];
 
+  for (let i = startingNumbers.length; i < stopAt; i += 1) {
+    const remembered = getMemory(last);
     setMemory(last, i);
     last = remembered ? i - remembered : 0;
   }
