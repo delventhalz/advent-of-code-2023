@@ -3,7 +3,7 @@
 const { readFile } = require('fs').promises;
 const { dirname, resolve } = require('path');
 
-const { splitNested } = require('./lib/strings.js');
+const { splitNested, parseIfNumber } = require('./lib');
 
 
 const INPUT_FILENAME = 'input.txt';
@@ -41,15 +41,6 @@ const getSolutionPath = () => {
 const nestedMap = (arr, fn) => arr.map((item, i, arr) => (
   Array.isArray(item) ? nestedMap(item, fn) : fn(item, i, arr)
 ));
-
-const parseIfNumber = (str) => {
-  if (!str) {
-    return str;
-  }
-
-  const num = Number(str);
-  return Number.isNaN(num) ? str : num;
-};
 
 const toInputString = (inputBytes) => {
   const inputString = inputBytes.toString();
