@@ -53,7 +53,8 @@
 const { sum, parseIfNumber } = require('../lib');
 
 
-const SYMBOLS = new Set(['+', '*', '(', ')'])
+const SYMBOLS = new Set(['+', '*', '(', ')']);
+
 
 const toSymbols = (line) => {
   const symbols = [];
@@ -82,6 +83,7 @@ const toSymbols = (line) => {
   return symbols.map(parseIfNumber);
 };
 
+
 const deepPush = (arr, value, depth) => {
   if (depth === 0) {
     arr.push(value);
@@ -106,7 +108,8 @@ const toExpressions = (symbols) => {
   }
 
   return expressions;
-}
+};
+
 
 const evaluate = (expression) => {
   let product = null;

@@ -28,7 +28,10 @@
 // - 50 would also not be valid; although 25 appears in the previous 25
 //   numbers, the two numbers in the pair must be different.
 
-// Suppose the 26th number is 45, and the first number (no longer an option, as it is more than 25 numbers ago) was 20. Now, for the next number to be valid, there needs to be some pair of numbers among 1-19, 21-25, or 45 that add up to it:
+// Suppose the 26th number is 45, and the first number (no longer an option, as
+// it is more than 25 numbers ago) was 20. Now, for the next number to be
+// valid, there needs to be some pair of numbers among 1-19, 21-25, or 45 that
+// add up to it:
 
 // - 26 would still be a valid next number, as 1 and 25 are still within the
 //   previous 25 numbers.

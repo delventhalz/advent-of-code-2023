@@ -105,7 +105,7 @@ module.exports = (inputs) => {
   // http://mathforum.org/library/drmath/view/75030.html
   for (const [bus, diff] of buses.slice(1)) {
     offset = lcmWithDiff(cycle, offset, bus, diff);
-    cycle = lcm(cycle, bus)
+    cycle = lcm(cycle, bus);
   }
 
   return offset;

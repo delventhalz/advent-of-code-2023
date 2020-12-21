@@ -79,8 +79,8 @@ module.exports = (inputs) => {
     const wait = bus - now % bus;
 
     if (wait < nextWait) {
-      nextBus = bus
-      nextWait = wait
+      nextBus = bus;
+      nextWait = wait;
     }
   }
 

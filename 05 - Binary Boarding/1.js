@@ -58,7 +58,7 @@
 // As a sanity check, look through your list of boarding passes. What is the
 // highest seat ID on a boarding pass?
 
-const { greatest } = require('../lib/math.js');
+const { greatest } = require('../lib');
 
 
 const toBinaryValue = (bits, isOne = Boolean) => {
@@ -78,15 +78,18 @@ const toBinaryValue = (bits, isOne = Boolean) => {
   return min;
 };
 
+
 const getRow = (rowString) => (
   toBinaryValue(rowString, letter => letter === 'B')
 );
+
 const getCol = (colString) => (
   toBinaryValue(colString, letter => letter === 'R')
 );
 
+
 module.exports = (inputs) => {
-  const seatIds = inputs.map(seat => {
+  const seatIds = inputs.map((seat) => {
     const row = getRow(seat.slice(0, 7));
     const col = getCol(seat.slice(7));
     return row * 8 + col;

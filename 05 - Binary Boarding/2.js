@@ -12,7 +12,6 @@
 
 // What is the ID of your seat?
 
-
 const toBinaryValue = (bits, isOne = Boolean) => {
   let min = 0;
   let max = 2 ** bits.length;
@@ -30,16 +29,19 @@ const toBinaryValue = (bits, isOne = Boolean) => {
   return min;
 };
 
+
 const getRow = (rowString) => (
   toBinaryValue(rowString, letter => letter === 'B')
 );
+
 const getCol = (colString) => (
   toBinaryValue(colString, letter => letter === 'R')
 );
 
+
 module.exports = (inputs) => {
   const seatIds = inputs
-    .map(seat => {
+    .map((seat) => {
       const row = getRow(seat.slice(0, 7));
       const col = getCol(seat.slice(7));
       return row * 8 + col;

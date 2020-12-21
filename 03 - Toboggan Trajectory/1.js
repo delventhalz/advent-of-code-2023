@@ -69,7 +69,6 @@
 // Starting at the top-left corner of your map and following a slope of right 3
 // and down 1, how many trees would you encounter?
 
-
 module.exports = (inputs) => {
   let pos = 0;
   let trees = 0;
@@ -84,6 +83,5 @@ module.exports = (inputs) => {
 
   return trees;
 };
-
 
 // Your puzzle answer was 164.

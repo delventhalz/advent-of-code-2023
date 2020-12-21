@@ -87,6 +87,7 @@ const VALID_EYE_COLORS = new Set([
   'oth',
 ]);
 
+
 const parsePassport = (lines) => (
   Object.fromEntries(
     lines
@@ -104,7 +105,7 @@ const isValidYear = (year, min, max) => (
     && between(Number(year), min, max + 1)
 );
 
-const isValidHeight = height => {
+const isValidHeight = (height) => {
   if (!height) {
     return false;
   }

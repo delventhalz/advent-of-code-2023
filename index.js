@@ -88,7 +88,7 @@ const main = async () => {
   const inputString = toInputString(await readFile(inputsPath));
   const inputs = parseInputs(inputString);
 
-  const relPath = process.argv[2]
+  const relPath = process.argv[2];
   console.log(relPath, '\n'.padEnd(relPath.length + 1, '-'), '\n');
 
   const start = Date.now();

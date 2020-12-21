@@ -1,10 +1,14 @@
 // --- Part Two ---
 
-// You manage to answer the child's questions and they finish part 1 of their homework, but get stuck when they reach the next section: advanced math.
+// You manage to answer the child's questions and they finish part 1 of their
+// homework, but get stuck when they reach the next section: advanced math.
 
-// Now, addition and multiplication have different precedence levels, but they're not the ones you're familiar with. Instead, addition is evaluated before multiplication.
+// Now, addition and multiplication have different precedence levels, but
+// they're not the ones you're familiar with. Instead, addition is evaluated
+// before multiplication.
 
-// For example, the steps to evaluate the expression 1 + 2 * 3 + 4 * 5 + 6 are now as follows:
+// For example, the steps to evaluate the expression 1 + 2 * 3 + 4 * 5 + 6 are
+// now as follows:
 
 //     1 + 2 * 3 + 4 * 5 + 6
 //       3   * 3 + 4 * 5 + 6
@@ -21,12 +25,14 @@
 //     5 * 9 * (7 * 3 * 3 + 9 * 3 + (8 + 6 * 4)) becomes 669060.
 //     ((2 + 4 * 9) * (6 + 9 * 8 + 6) + 6) + 2 + 4 * 2 becomes 23340.
 
-// What do you get if you add up the results of evaluating the homework problems using these new rules?
+// What do you get if you add up the results of evaluating the homework
+// problems using these new rules?
 
 const { sum, parseIfNumber } = require('../lib');
 
 
-const SYMBOLS = new Set(['+', '*', '(', ')'])
+const SYMBOLS = new Set(['+', '*', '(', ')']);
+
 
 const toSymbols = (line) => {
   const symbols = [];
@@ -55,6 +61,7 @@ const toSymbols = (line) => {
   return symbols.map(parseIfNumber);
 };
 
+
 const deepPush = (arr, value, depth) => {
   if (depth === 0) {
     arr.push(value);
@@ -79,10 +86,11 @@ const toExpressions = (symbols) => {
   }
 
   return expressions;
-}
+};
+
 
 const evaluate = (expression) => {
-  const flat = expression.map(member => (
+  const flat = expression.map((member) => (
     Array.isArray(member)
       ? evaluate(member)
       : member
@@ -103,6 +111,7 @@ const evaluate = (expression) => {
     .filter(num => num !== '*')
     .reduce((prod, num) => prod * num);
 };
+
 
 module.exports = (inputs) => {
   const outputs = inputs

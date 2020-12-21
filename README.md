@@ -114,10 +114,10 @@ with the tools above. Reference or run them as you will.
 For the most part I just copied and pasted the code I reused. But if a
 particular function was repeatedly useful across multiple nights, I pulled it
 out into a module, and put that module in the [lib/ directory](./lib/). These
-can be imported like any other CommonJS module:
+can be imported by using `require` on the lib directory:
 
 ```javascript
-const { sum } = require('../lib/math.js');
+const { sum } = require('../lib');
 
 const nums = [1, 2, 3];
 console.log(sum(nums));  // 6

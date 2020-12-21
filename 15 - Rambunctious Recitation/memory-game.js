@@ -39,6 +39,7 @@ const bracketSetter = (source) => (key, value) => {
   source[key] = value;
 };
 
+
 const _initArray = () => {
   const array = [];
   return [
@@ -81,7 +82,7 @@ const _initTypedArray = (length) => {
 };
 
 
-/*** CHANGE THIS VALUE TO CHANGE DATA TYPE ***/
+/** CHANGE THIS VALUE TO CHANGE DATA TYPE **/
 const initMemory = _initTypedArray;
 
 

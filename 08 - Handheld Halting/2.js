@@ -114,4 +114,3 @@ module.exports = (inputs) => {
 };
 
 // Your puzzle answer was 1877.
-

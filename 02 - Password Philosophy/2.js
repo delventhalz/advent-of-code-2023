@@ -23,7 +23,7 @@
 // How many passwords are valid according to the new interpretation of the
 // policies?
 
-const { count, xor } = require('../lib/arrays.js');
+const { count, xor } = require('../lib');
 
 
 const parsePolicy = (policyString) => {
@@ -39,6 +39,7 @@ const parsePolicy = (policyString) => {
 const isValidPassword = ({ letter, i, j }, password) => {
   return xor(password[i] === letter, password[j] === letter);
 };
+
 
 module.exports = (inputs) => {
   const passes = inputs

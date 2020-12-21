@@ -42,7 +42,8 @@ const or = predicates => val => predicates.some(pred => pred(val));
 const parseRule = ([line]) => {
   const [key, ruleString] = line.split(': ');
   return [key, or(ruleString.split(' or ').map(toPredicate))];
-}
+};
+
 
 module.exports = (inputs) => {
   const rules = inputs[0].map(parseRule);

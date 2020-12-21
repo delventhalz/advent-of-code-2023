@@ -64,7 +64,6 @@
 // What is the total number of distinct ways you can arrange the adapters to
 // connect the charging outlet to your device?
 
-
 const SEEN_COMBOS = [];
 
 const countCombos = (adapters, current) => {
@@ -87,6 +86,7 @@ const countCombos = (adapters, current) => {
   SEEN_COMBOS[current] = combos;
   return combos;
 };
+
 
 module.exports = (inputs) => {
   // We'll include the 0-joltage outlet in the array, but since the last path

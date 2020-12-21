@@ -33,7 +33,8 @@
 
 // How many passwords are valid according to their policies?
 
-const { count } = require('../lib/arrays.js');
+const { count } = require('../lib');
+
 
 const parsePolicy = (policyString) => {
   const [_, min, max, letter] = policyString.match(/(\d+?)-(\d+?) (.)/);
@@ -50,6 +51,7 @@ const isValidPassword = ({ letter, min, max }, password) => {
 
   return letterCount >= min && letterCount <= max;
 };
+
 
 module.exports = (inputs) => {
   const passes = inputs

@@ -42,10 +42,10 @@
 // "yes". What is the sum of those counts?
 
 const { intersection } = require('lodash');
-const { sum } = require('../lib/math.js');
+const { sum } = require('../lib');
 
 
-const countIntersectAnswers = group => {
+const countIntersectAnswers = (group) => {
   const answerArrays = group.map(answerString => answerString.split(''));
   return intersection(...answerArrays).length;
 };

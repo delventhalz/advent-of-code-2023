@@ -36,6 +36,7 @@
 
 const TARGET_COLOR = 'shiny gold';
 
+
 const parseContents = (contentString) => {
   const contents = {};
 
@@ -61,6 +62,7 @@ const parseBags = (rules) => {
   return bags;
 };
 
+
 const countChildrenAt = (root, nodeName) => {
   const node = root[nodeName];
 
@@ -71,7 +73,8 @@ const countChildrenAt = (root, nodeName) => {
   return Object.entries(node).reduce((total, [name, count]) => (
     total + count + countChildrenAt(root, name) * count
   ), 0);
-}
+};
+
 
 module.exports = (_, rawInput) => {
   const bags = parseBags(rawInput.split('\n'));
@@ -80,4 +83,3 @@ module.exports = (_, rawInput) => {
 };
 
 // Your puzzle answer was 57281.
-

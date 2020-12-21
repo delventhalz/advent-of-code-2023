@@ -198,7 +198,7 @@ const parseBorders = (tileLines) => {
     tile.map(last).join(''),
     last(tile),
     tile.map(head).join('')
-  ]
+  ];
 
   return borders.concat(borders.map(reverseString));
 };

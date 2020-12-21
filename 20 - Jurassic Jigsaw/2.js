@@ -130,7 +130,7 @@ const parseBorders = (tileLines) => {
     tile.map(last).join(''),
     last(tile),
     tile.map(head).join('')
-  ]
+  ];
 
   return borders.concat(borders.map(reverseString));
 };
@@ -288,7 +288,7 @@ module.exports = (inputs) => {
 
   /** BUILD PICTURE **/
   const arrangedTiles = mapMatrix(arranged, ({ orientation }) => orientation);
-  const arrangedPieces = mapMatrix(arrangedTiles, tile => (
+  const arrangedPieces = mapMatrix(arrangedTiles, (tile) => (
     tile
       .slice(1, -1)
       .map(line => line.slice(1, -1))

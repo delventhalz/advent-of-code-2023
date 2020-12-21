@@ -37,7 +37,6 @@
 // Of course, your expense report is much larger. Find the two entries that sum
 // to 2020; what do you get if you multiply them together?
 
-
 module.exports = (inputs) => {
   for (let i = 0; i < inputs.length; i += 1) {
     for (let j = 0; j < inputs.length; j += 1) {
@@ -49,6 +48,5 @@ module.exports = (inputs) => {
 
   return null;
 };
-
 
 // Your puzzle answer was 1014171.

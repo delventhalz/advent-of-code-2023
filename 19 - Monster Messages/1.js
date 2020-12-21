@@ -99,12 +99,12 @@ const trimQuotes = (str) => {
 };
 
 const parseRules = (lines) => Object.fromEntries(
-  lines.map(line => {
+  lines.map((line) => {
     const [index, ruleString] = line.split(': ');
 
     const options = ruleString
       .split(' | ')
-      .map(option => (
+      .map((option) => (
         option
           .split(' ')
           .map(parseIfNumber)
@@ -115,10 +115,11 @@ const parseRules = (lines) => Object.fromEntries(
   })
 );
 
+
 const validate = (rules, index, message) => {
   const options = rules[index];
 
-  return options.flatMap(group => {
+  return options.flatMap((group) => {
     let remainders = [message];
 
     for (const rule of group) {

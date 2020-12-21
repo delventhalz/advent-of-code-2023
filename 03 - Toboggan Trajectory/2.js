@@ -19,7 +19,6 @@
 // What do you get if you multiply together the number of trees encountered on
 // each of the listed slopes?
 
-
 const treeCounter = (rows) => (xDelta, yDelta) => {
   let trees = 0;
   let x = 0;
@@ -34,8 +33,9 @@ const treeCounter = (rows) => (xDelta, yDelta) => {
     x = (x + xDelta) % row.length;
   }
 
-  return trees
+  return trees;
 };
+
 
 module.exports = (inputs) => {
   const countTrees = treeCounter(inputs);
@@ -46,6 +46,5 @@ module.exports = (inputs) => {
     * countTrees(7, 1)
     * countTrees(1, 2);
 };
-
 
 // Your puzzle answer was 5007658656.

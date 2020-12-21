@@ -11,7 +11,6 @@
 // In your expense report, what is the product of the three entries that sum to
 // 2020?
 
-
 module.exports = (inputs) => {
   for (let i = 0; i < inputs.length; i += 1) {
     for (let j = 0; j < inputs.length; j += 1) {
@@ -30,6 +29,5 @@ module.exports = (inputs) => {
 
   return null;
 };
-
 
 // Your puzzle answer was 46584630.

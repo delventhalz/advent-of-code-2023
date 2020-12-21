@@ -77,6 +77,7 @@ const parseBags = (rules) => {
   return bags;
 };
 
+
 const hasChildAt = (root, targetName, nodeName) => {
   const node = root[nodeName];
 
@@ -90,7 +91,8 @@ const hasChildAt = (root, targetName, nodeName) => {
 
   return Object.keys(node)
     .some(childName => hasChildAt(root, targetName, childName));
-}
+};
+
 
 module.exports = (_, rawInput) => {
   const bags = parseBags(rawInput.split('\n'));
@@ -100,4 +102,3 @@ module.exports = (_, rawInput) => {
 };
 
 // Your puzzle answer was 248.
-

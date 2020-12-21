@@ -63,7 +63,7 @@
 // Treat cid as optional. In your batch file, how many passports are valid?
 
 const { has } = require('lodash');
-const { count } = require('../lib/arrays.js');
+const { count } = require('../lib');
 
 
 const REQUIRED_KEYS = [
@@ -75,6 +75,7 @@ const REQUIRED_KEYS = [
   'ecl',
   'pid'
 ];
+
 
 const parsePassport = (lines) => (
   Object.fromEntries(
