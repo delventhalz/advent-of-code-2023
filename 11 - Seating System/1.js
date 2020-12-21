@@ -111,8 +111,8 @@
 
 const {
   mapMatrix,
-  filterMatrix,
   matrixToString,
+  count,
   loop,
   print,
 } = require('../lib');
@@ -152,7 +152,7 @@ const xformSpot = (spot, coords, map) => {
 
 
 module.exports = (_, rawInputs) => {
-  let count = 0;
+  let seatCount = 0;
   let shouldDraw = true;
   let map = rawInputs
     .replace(/\./g, ' ')
@@ -168,15 +168,15 @@ module.exports = (_, rawInputs) => {
   setTimeout(() => {
     loop(() => {
       map = mapMatrix(map, xformSpot);
-      const nextCount = filterMatrix(map, isOccupied).length;
+      const nextCount = count(map.flat(), isOccupied);
 
-      if (count === nextCount) {
+      if (seatCount === nextCount) {
         return false;
       }
-      count = nextCount;
+      seatCount = nextCount;
 
       if (shouldDraw) {
-        print(matrixToString(map), `OCCUPIED SEATS: ${count}`);
+        print(matrixToString(map), `OCCUPIED SEATS: ${seatCount}`);
       }
       shouldDraw = !shouldDraw;
 
