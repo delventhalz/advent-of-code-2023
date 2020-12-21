@@ -106,36 +106,18 @@
 // How many # are not part of a sea monster?
 
 const { head, last, intersection } = require('lodash');
-const { eachMatrix, mapMatrix, matrixToString } = require('../lib');
+const {
+  reverseString,
+  eachMatrix,
+  mapMatrix,
+  matrixToString,
+  flipMatrix,
+  rotateMatrix,
+} = require('../lib');
 
 
 // Manually worked out that 2011 can be the top left with no rotation
 const TOP_LEFT = '2011';
-
-
-const reverseString = str => str.split('').reverse().join('');
-
-const rotateMatrix = (matrix) => {
-  const width = matrix[0].length;
-  const rotated = matrix[0].map(() => []);
-
-  eachMatrix(matrix, (item, [x, y]) => {
-    rotated[x][width - y - 1] = item;
-  });
-
-  return rotated;
-};
-
-const flipMatrix = (matrix) => {
-  const width = matrix[0].length;
-  const flipped = matrix[0].map(() => []);
-
-  eachMatrix(matrix, (item, [x, y]) => {
-    flipped[y][width - x - 1] = item;
-  });
-
-  return flipped;
-};
 
 
 const parseId = (tileLines) => tileLines[0].match(/Tile (\d+):/)[1];

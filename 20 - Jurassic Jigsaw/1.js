@@ -185,9 +185,8 @@
 // the IDs of the four corner tiles?
 
 const { head, last, intersection } = require('lodash');
+const { reverseString } = require('../lib');
 
-
-const reverseString = str => str.split('').reverse().join('');
 
 const parseId = (tileLines) => tileLines[0].match(/Tile (\d+):/)[1];
 
@@ -209,6 +208,7 @@ const findMatches = ({ id, borders }, tiles) => (
     .filter(target => target.id !== id)
     .filter(target => intersection(borders, target.borders).length > 0)
 );
+
 
 module.exports = (inputs) => {
   const tiles = inputs.map((tileLines) => ({
