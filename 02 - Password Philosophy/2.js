@@ -23,9 +23,8 @@
 // How many passwords are valid according to the new interpretation of the
 // policies?
 
-const { count } = require('../lib/arrays.js');
+const { count, xor } = require('../lib/arrays.js');
 
-const xor = (a, b) => (a || b) && !(a && b);
 
 const parsePolicy = (policyString) => {
   const [_, i, j, letter] = policyString.match(/(\d+?)-(\d+?) (.)/);

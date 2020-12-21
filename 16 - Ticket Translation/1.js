@@ -70,12 +70,12 @@
 // Consider the validity of the nearby tickets you scanned. What is your ticket
 // scanning error rate?
 
-const { sum } = require('../lib');
+const { sum, between } = require('../lib');
 
 
 const toPredicate = (rangeString) => {
   const [min, max] = rangeString.split('-').map(Number);
-  return num => num >= min && num <= max;
+  return num => between(num, min, max + 1);
 };
 
 const or = predicates => val => predicates.some(pred => pred(val));

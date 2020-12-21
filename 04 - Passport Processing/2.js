@@ -74,7 +74,7 @@
 // and valid values. Continue to treat cid as optional. In your batch file, how
 // many passports are valid?
 
-const { count } = require('../lib/arrays.js');
+const { count, between } = require('../lib');
 
 
 const VALID_EYE_COLORS = new Set([
@@ -97,12 +97,11 @@ const parsePassport = (lines) => (
   )
 );
 
-const isBetween = (number, min, max) => number >= min && number <= max;
 
 const isValidYear = (year, min, max) => (
   year
     && year.length === 4
-    && isBetween(Number(year), min, max)
+    && between(Number(year), min, max + 1)
 );
 
 const isValidHeight = height => {
@@ -114,11 +113,11 @@ const isValidHeight = height => {
   const value = Number(height.slice(0, -2));
 
   if (unit === 'cm') {
-    return isBetween(value, 150, 193);
+    return between(value, 150, 193 + 1);
   }
 
   if (unit === 'in') {
-    return isBetween(value, 59, 76);
+    return between(value, 59, 76 + 1);
   }
 
   return false;
