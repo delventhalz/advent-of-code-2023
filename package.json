@@ -1,7 +1,7 @@
 {
-  "name": "adventofcode2020",
+  "name": "advent-of-code-2021",
   "version": "0.1.0",
-  "description": "Runner for Advent of Code 2020 puzzles",
+  "description": "Runner and Solutions for Advent of Code 2021 puzzles",
   "main": "index.js",
   "scripts": {
     "start": "npm run lint:nofail && node index.js",
@@ -14,9 +14,9 @@
   "license": "MIT",
   "dependencies": {
     "compute-lcm": "^1.1.2",
-    "lodash": "^4.17.20"
+    "lodash": "^4.17.21"
   },
   "devDependencies": {
-    "eslint": "^6.8.0"
+    "eslint": "^8.3.0"
   }
 }

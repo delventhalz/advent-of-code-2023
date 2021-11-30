@@ -1,13 +1,10 @@
-# Advent of Code 2020 Solutions and Runner
+# Advent of Code 2021 Solutions and Runner
 
-Advent of Code time! Had an absolute blast last year, and I am at again for
-[AoC 2020](https://adventofcode.com/2020)!
+Merry [Advent of Code](https://adventofcode.com/2021) to those who celebrate!
 
-Currently, this is basically just a fork of my
-[2019 AoC Runner](https://github.com/delventhalz/AdventOfCode2019), without the
-solutions or code that seems particular to 2019, like my
-[Intcode Runner](https://github.com/delventhalz/AdventOfCode2019/blob/master/lib/intcode.js).
-I expect it to evolve and change over the month.
+This is a fork of my
+[2020 AoC Runner](https://github.com/delventhalz/advent-of-code-2020), without
+last year's solutions. I expect it to evolve and change over the month.
 
 ## Contents
 
@@ -29,8 +26,8 @@ Ensure you have a recent version of [Node.js](https://nodejs.org/en/)
 installed, then run in your terminal:
 
 ```bash
-git clone https://github.com/delventhalz/advent-of-code-2020.git
-cd advent-of-code-2020/
+git clone https://github.com/delventhalz/advent-of-code-2021.git
+cd advent-of-code-2021/
 npm install
 ```
 
@@ -125,9 +122,9 @@ console.log(sum(nums));  // 6
 
 ## Leaderboard
 
-Last year I competed on [caderek's](https://github.com/caderek) leaderboard.
-Assuming it is still active, I will stay on it this year as well, and you can
-join yourself with this code:
+In past years I have competed on [caderek's](https://github.com/caderek)
+leaderboard. Assuming it is still active, I will stay on it this year as well,
+and you can join yourself with this code:
 
 ```
 107172-b51ab08f
@@ -143,7 +140,7 @@ this code:
 ## License
 
 [Advent of Code](https://adventofcode.com/2020/about) and all Advent of Code
-2020 puzzle text and content were created by and belong to
+2021 puzzle text and content were created by and belong to
 [Eric Wastl](http://was.tl/), and are reproduced here for reference purposes
 only.
 
