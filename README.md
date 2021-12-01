@@ -11,7 +11,7 @@ last year's solutions. I expect it to evolve and change over the month.
 - [Setup](#setup)
 - [Usage](#usage)
     * [Generate Stub Files](#1-generate-stub-files)
-    * [Complete Your Solution](#2-complete-your-solution)
+    * [Write Your Solution](#2-write-your-solution)
     * [Run Your Solution](#3-run-your-solution)
     * [Test Your Solution](#4-optional-test-your-solution)
     * [Linting](#linting)
@@ -47,17 +47,38 @@ This will create a new directory with three files:
 - `2.js`
 - `input.txt`
 
-### 2. Complete Your Solution
+### 2. Write Your Solution
 
-Each solution file should export a single function which takes parsed puzzle
-inputs and returns a solution to log to the console.
+Copy your puzzle inputs and paste them into `input.txt`. The runner will
+read these inputs, parse them, and pass them to your solution file.
 
-Puzzle inputs should be copied and pasted into `input.txt`. The runner will
-read these inputs, parse them, and pass them to the exported solution
-functions.
+The solution file should export a single function.
 
-Lodash and a few custom utilities are available as CommonJS modules. Import
-with `require`:
+```javascript
+module.exports = (inputs, rawInput) => {
+
+    // Calculate solution...
+
+    return solution
+};
+```
+
+- **Parameters**
+    * **`inputs`** - The parsed `input.txt` file. Typically an array, possibly a
+      nested array. The runner progressively splits the input string on any
+      sensible delimiters (blank lines, new lines, commas), and then parses any
+      numbers. If the input contains no sensible delimiters, will just be the
+      raw string.
+    * **`rawInput`** _(optional)_ - Always the raw unparsed string version of
+      `input.txt`. Useful if the input is formatted in such a way that the
+      default parser creates something erroneous or unhelpful. Usually if I
+      have to use this parameter, I end up refactoring the parser the next day
+      ;).
+- **Returns**
+    * The solution you calculated. Will be logged to the console by the runner.
+
+Lodash and a few custom utilities are available as CommonJS modules as well.
+Import with `require`:
 
 ```javascript
 const { chunk } = require('lodash');
