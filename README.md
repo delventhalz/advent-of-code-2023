@@ -162,6 +162,8 @@ Currently the script supports:
 - **C** - requires `gcc`
 - **Rust** - requires `rustc`
   ([install here](https://www.rust-lang.org/tools/install))
+- **Clojure** - requires `clj`
+  ([install here](https://clojure.org/guides/getting_started))
 
 For non-JS languages, the support is very basic. There is no parsing of
 `input.txt` and no logging of the solution. The source file is simply compiled

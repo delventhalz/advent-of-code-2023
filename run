@@ -58,6 +58,10 @@ function run_rs {
     "./$BUILD_PATH"
 }
 
+function run_clj {
+    clj -M "$SOLUTION_PATH"
+}
+
 ## Run Solution ##
 if [ $SOLUTION_EXTENSION == 'js' ]; then
     run_js
@@ -67,6 +71,8 @@ elif [ $SOLUTION_EXTENSION == 'c' ]; then
     run_c
 elif [ $SOLUTION_EXTENSION == 'rs' ]; then
     run_rs
+elif [ $SOLUTION_EXTENSION == 'clj' ]; then
+    run_clj
 else
     echo "File type not supported: .$SOLUTION_EXTENSION"
     exit 1
