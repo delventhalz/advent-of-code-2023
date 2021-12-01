@@ -46,11 +46,21 @@ function run_c {
     "./$BUILD_PATH"
 }
 
+function run_rs {
+    local BUILD_PATH="$BUILD_DIR/rs/$SOLUTION_NAME"
+    make_build_dir rs
+
+    rustc "$SOLUTION_PATH" -o "$BUILD_PATH"
+    "./$BUILD_PATH"
+}
+
 ## Run Solution ##
 if [ $SOLUTION_EXTENSION == 'js' ]; then
     run_js
 elif [ $SOLUTION_EXTENSION == 'c' ]; then
     run_c
+elif [ $SOLUTION_EXTENSION == 'rs' ]; then
+    run_rs
 else
     echo "File type not supported: .$SOLUTION_EXTENSION"
     exit 1

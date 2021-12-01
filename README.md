@@ -159,6 +159,8 @@ Currently the script supports:
 
 - **JavaScript** - requires `node`
 - **C** - requires `gcc` (included on OS X and Unix)
+- **Rust** - requires `rustc`
+  ([install here](https://www.rust-lang.org/tools/install))
 
 For non-JS languages, the support is very basic. There is no parsing of
 `input.txt` and no logging of the solution. The source file is simply compiled
