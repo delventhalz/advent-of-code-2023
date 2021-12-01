@@ -4,7 +4,10 @@ Merry [Advent of Code](https://adventofcode.com/2021) to those who celebrate!
 
 This is a fork of my
 [2020 AoC Runner](https://github.com/delventhalz/advent-of-code-2020), without
-last year's solutions. I expect it to evolve and change over the month.
+last year's solutions. It is mostly aimed at streamlining developing JavaScript
+solutions, but I am starting to experiment with
+[supporting other languages](#using-other-languages). I expect the project to
+evolve and change over the month depending on my needs.
 
 ## Contents
 
@@ -17,6 +20,7 @@ last year's solutions. I expect it to evolve and change over the month.
     * [Linting](#linting)
 - [Solutions](#solutions)
 - [Helper Utils](#helper-utils)
+- [Using Other Languages](#using-other-languages)
 - [Leaderboard](#leaderboard)
 - [License](#license)
 
@@ -140,6 +144,25 @@ const { sum } = require('../lib');
 const nums = [1, 2, 3];
 console.log(sum(nums));  // 6
 ```
+
+## Using Other Languages
+
+For this year I am playing around more with languages other than JavaScript. To
+that end I have created a simple [run script](./run) which can compile and run
+solution files:
+
+```bash
+./run <path to solution file>
+```
+
+Currently the script supports:
+
+- **JavaScript** - requires `node`
+- **C** - requires `gcc` (included on OS X and Unix)
+
+For non-JS languages, the support is very basic. There is no parsing of
+`input.txt` and no logging of the solution. The source file is simply compiled
+and then run.
 
 ## Leaderboard
 

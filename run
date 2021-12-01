@@ -1,0 +1,57 @@
+#! /bin/bash
+
+# Runs a target solution file, compiling if necessary.
+#
+# Supports:
+#   - JavaScript
+#   - C
+
+SOLUTION_PATH="$1"
+
+if [ -z SOLUTION_PATH ]; then
+    echo "Must provide a path to a solution file!"
+    exit 1
+fi
+
+SOLUTION_NAME="$(basename "$1")"
+SOLUTION_NAME="${SOLUTION_NAME%.*}"
+SOLUTION_EXTENSION="${1##*.}"
+
+SOLUTION_DIR="$(dirname "$1")"
+BUILD_DIR="$SOLUTION_DIR/build"
+
+## Utilities ##
+function make_build_dir {
+    if [ ! -d "$BUILD_DIR" ]; then
+        mkdir "$BUILD_DIR"
+    fi
+
+    if [ -n $1 ]; then
+        if [ ! -d "$BUILD_DIR/$1" ]; then
+            mkdir "$BUILD_DIR/$1"
+        fi
+    fi
+}
+
+## Runners ##
+function run_js {
+    npm start "$SOLUTION_PATH"
+}
+
+function run_c {
+    local BUILD_PATH="$BUILD_DIR/c/$SOLUTION_NAME"
+    make_build_dir c
+
+    gcc "$SOLUTION_PATH" -o "$BUILD_PATH"
+    "./$BUILD_PATH"
+}
+
+## Run Solution ##
+if [ $SOLUTION_EXTENSION == 'js' ]; then
+    run_js
+elif [ $SOLUTION_EXTENSION == 'c' ]; then
+    run_c
+else
+    echo "File type not supported: .$SOLUTION_EXTENSION"
+    exit 1
+fi
