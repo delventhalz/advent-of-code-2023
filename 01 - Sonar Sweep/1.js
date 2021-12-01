@@ -66,19 +66,11 @@
 
 // How many measurements are larger than the previous measurement?
 
+const { count } = require('../lib');
+
 
 module.exports = (inputs) => {
-  let count = 0
-  let lastDepth = Infinity
-
-  for (const depth of inputs) {
-    if (depth > lastDepth) {
-      count += 1
-    }
-    lastDepth = depth
-  }
-
-  return count;
+  return count(inputs, (depth, i) => depth > inputs[i - 1]);
 };
 
 // Your puzzle answer was 1288.

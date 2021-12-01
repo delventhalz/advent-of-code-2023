@@ -47,24 +47,20 @@
 // Consider sums of a three-measurement sliding window. How many sums are
 // larger than the previous sum?
 
-const { sum } = require('../lib');
+const { count, sum } = require('../lib');
 
 
 module.exports = (inputs) => {
-  let count = 0
-  let lastWindow = inputs.slice(0, 3)
-
-  for (let i = 3; i < inputs.length; i += 1) {
-    const thisWindow = inputs.slice(i - 2, i + 1)
-
-    if (sum(thisWindow) > sum(lastWindow)) {
-      count += 1
+  // Thanks to Mikey D for this idea
+  let windows = inputs.map((depth, i) => {
+    if (i < 2) {
+      return Infinity;
     }
 
-    lastWindow = thisWindow
-  }
+    return sum(inputs.slice(i - 2, i + 1));
+  });
 
-  return count;
+  return count(windows, (sum, i) => sum > windows[i - 1]);
 };
 
 // Your puzzle answer was 1311.
