@@ -158,7 +158,8 @@ solution files:
 Currently the script supports:
 
 - **JavaScript** - requires `node`
-- **C** - requires `gcc` (included on OS X and Unix)
+- **Python** - requires `python`
+- **C** - requires `gcc`
 - **Rust** - requires `rustc`
   ([install here](https://www.rust-lang.org/tools/install))
 

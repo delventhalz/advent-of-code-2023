@@ -38,6 +38,10 @@ function run_js {
     npm start "$SOLUTION_PATH"
 }
 
+function run_py {
+    python "$SOLUTION_PATH"
+}
+
 function run_c {
     local BUILD_PATH="$BUILD_DIR/c/$SOLUTION_NAME"
     make_build_dir c
@@ -57,6 +61,8 @@ function run_rs {
 ## Run Solution ##
 if [ $SOLUTION_EXTENSION == 'js' ]; then
     run_js
+elif [ $SOLUTION_EXTENSION == 'py' ]; then
+    run_py
 elif [ $SOLUTION_EXTENSION == 'c' ]; then
     run_c
 elif [ $SOLUTION_EXTENSION == 'rs' ]; then
