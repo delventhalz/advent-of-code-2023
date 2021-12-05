@@ -59,22 +59,11 @@
 // two lines overlap?
 
 const { range } = require('lodash');
-const { eachMatrix } = require('../lib');
+const { count } = require('../lib');
+
 
 const parseLine = (line) => {
   return line.split(' -> ').flatMap(coord => coord.split(',').map(Number));
-};
-
-const toArray = (matrix, predicate) => {
-  const keep = [];
-
-  eachMatrix(matrix, (item) => {
-    if (predicate(item)) {
-      keep.push(item);
-    }
-  })
-
-  return keep;
 };
 
 module.exports = (_, rawInput) => {
@@ -101,7 +90,7 @@ module.exports = (_, rawInput) => {
     }
   }
 
-  return toArray(map, n => n >= 2).length;
+  return count(map.flat(), n => n >= 2);
 };
 
 // Your puzzle answer was 6397.

@@ -78,7 +78,7 @@
 // To guarantee victory against the giant squid, figure out which board will
 // win first. What will your final score be if you choose that board?
 
-const { sum, eachMatrix, rotateMatrix } = require('../lib');
+const { sum, rotateMatrix } = require('../lib');
 
 
 const parseBoard = (boardString) => {
@@ -103,18 +103,6 @@ const isWinner = (board, called) => {
   return false;
 };
 
-const toArray = (matrix, predicate) => {
-  const keep = [];
-
-  eachMatrix(matrix, (item) => {
-    if (predicate(item)) {
-      keep.push(item);
-    }
-  })
-
-  return keep;
-};
-
 const findWinner = (boards, calls) => {
   const called = new Set();
   for (const call of calls) {
@@ -125,7 +113,7 @@ const findWinner = (boards, calls) => {
         return {
           winner: board,
           lastCall: call,
-          uncalled: toArray(board, spot => !called.has(spot))
+          uncalled: board.flat().filter(spot => !called.has(spot))
         };
       }
     }

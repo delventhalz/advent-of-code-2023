@@ -19,7 +19,7 @@
 // score be?
 
 const { last } = require('lodash');
-const { rotateMatrix, eachMatrix, sum } = require('../lib');
+const { rotateMatrix, sum } = require('../lib');
 
 
 const parseBoard = (boardString) => {
@@ -44,18 +44,6 @@ const isWinner = (board, called) => {
   return false;
 };
 
-const toArray = (matrix, predicate) => {
-  const keep = [];
-
-  eachMatrix(matrix, (item) => {
-    if (predicate(item)) {
-      keep.push(item);
-    }
-  })
-
-  return keep;
-};
-
 const findWinners = (boards, calls) => {
   const called = new Set();
   const winners = [];
@@ -71,7 +59,7 @@ const findWinners = (boards, calls) => {
         winners.push({
           winner: board,
           lastCall: call,
-          uncalled: toArray(board, spot => !called.has(spot))
+          uncalled: board.flat().filter(spot => !called.has(spot))
         });
 
         nextBoards = nextBoards.filter(b => b !== board);
