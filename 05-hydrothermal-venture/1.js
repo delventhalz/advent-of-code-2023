@@ -59,7 +59,7 @@
 // two lines overlap?
 
 const { range } = require('lodash');
-const { count } = require('../lib');
+const { count, lineToPoints } = require('../lib');
 
 
 const parseLine = (line) => {
@@ -68,25 +68,12 @@ const parseLine = (line) => {
 
 module.exports = (_, rawInput) => {
   const lines = rawInput.split('\n').map(parseLine);
-  const map = range(1000).map(() => range(1000).map(() => 0))
+  const straights = lines.filter(([x1, y1, x2, y2]) => x1 === x2 || y1 === y2);
+  const map = range(1000).map(() => range(1000).map(() => 0));
 
-  for (const [x1, y1, x2, y2] of lines) {
-    if (x1 === x2) {
-      let start = y1 < y2 ? y1 : y2;
-      let end = y1 < y2 ? y2 : y1;
-
-      for (let y = start; y <= end; y += 1) {
-        map[y][x1] += 1;
-      }
-    }
-
-    if (y1 === y2) {
-      let start = x1 < x2 ? x1 : x2;
-      let end = x1 < x2 ? x2 : x1;
-
-      for (let x = start; x <= end; x += 1) {
-        map[y1][x] += 1;
-      }
+  for (const line of straights) {
+    for (const [x, y] of lineToPoints(...line)) {
+      map[y][x] += 1;
     }
   }
 

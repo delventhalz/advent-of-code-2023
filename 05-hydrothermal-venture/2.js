@@ -34,7 +34,7 @@
 
 
 const { range } = require('lodash');
-const { count } = require('../lib');
+const { count, lineToPoints } = require('../lib');
 
 
 const parseLine = (line) => {
@@ -43,46 +43,11 @@ const parseLine = (line) => {
 
 module.exports = (_, rawInput) => {
   const lines = rawInput.split('\n').map(parseLine);
-  const map = range(1000).map(() => range(1000).map(() => 0))
+  const map = range(1000).map(() => range(1000).map(() => 0));
 
-  for (const [x1, y1, x2, y2] of lines) {
-    if (Math.abs(x2 - x1) === Math.abs(y2 - y1)) {
-      let x = x1;
-      let y = y1;
-
-      while (true) {
-        map[y][x] += 1;
-
-        if (x === x2 && y === y2) {
-          break;
-        }
-
-        if (x1 < x2) {
-          x += 1;
-        } else  {
-          x -= 1;
-        }
-
-        if (y1 < y2) {
-          y += 1;
-        } else {
-          y -= 1;
-        }
-      }
-    } else if (x1 === x2) {
-      let start = y1 < y2 ? y1 : y2;
-      let end = y1 < y2 ? y2 : y1;
-
-      for (let y = start; y <= end; y += 1) {
-        map[y][x1] += 1;
-      }
-    } else if (y1 === y2) {
-      let start = x1 < x2 ? x1 : x2;
-      let end = x1 < x2 ? x2 : x1;
-
-      for (let x = start; x <= end; x += 1) {
-        map[y1][x] += 1;
-      }
+  for (const line of lines) {
+    for (const [x, y] of lineToPoints(...line)) {
+      map[y][x] += 1;
     }
   }
 
