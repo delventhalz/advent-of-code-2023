@@ -41,18 +41,19 @@
 // levels of all low points on your heightmap?
 
 
-const { sum, eachMatrix } = require('../lib');
+const { sum, eachMatrix, eachAdjacent } = require('../lib');
 
 const getLowPoints = (map) => {
   const lowPoints = [];
 
   eachMatrix(map, (height, [x, y]) => {
-    const isLowPoint = (
-      (map[y - 1] === undefined || map[y - 1][x] === undefined || map[y - 1][x] > height)
-        && (map[y + 1] === undefined || map[y + 1][x] === undefined || map[y + 1][x] > height)
-        && (map[y][x - 1] === undefined || map[y][x - 1] > height)
-        && (map[y][x + 1] === undefined || map[y][x + 1] > height)
-    );
+    let isLowPoint = true;
+
+    eachAdjacent(map, [x, y], (adjacent) => {
+      if (adjacent <= height) {
+        isLowPoint = false;
+      }
+    });
 
     if (isLowPoint) {
       lowPoints.push(height);
@@ -60,7 +61,7 @@ const getLowPoints = (map) => {
   });
 
   return lowPoints;
-}
+};
 
 
 module.exports = (_, rawInput) => {

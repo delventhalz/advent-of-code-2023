@@ -52,19 +52,20 @@
 // basins?
 
 const { uniq } = require('lodash');
-const { eachMatrix } = require('../lib');
+const { eachMatrix, eachAdjacent } = require('../lib');
 
 
 const getLowPoints = (map) => {
   const lowPoints = [];
 
   eachMatrix(map, (height, [x, y]) => {
-    const isLowPoint = (
-      (map[y - 1] === undefined || map[y - 1][x] === undefined || map[y - 1][x] > height)
-        && (map[y + 1] === undefined || map[y + 1][x] === undefined || map[y + 1][x] > height)
-        && (map[y][x - 1] === undefined || map[y][x - 1] > height)
-        && (map[y][x + 1] === undefined || map[y][x + 1] > height)
-    );
+    let isLowPoint = true;
+
+    eachAdjacent(map, [x, y], (adjacent) => {
+      if (adjacent <= height) {
+        isLowPoint = false;
+      }
+    });
 
     if (isLowPoint) {
       lowPoints.push([x, y]);
@@ -78,21 +79,11 @@ const getBasin = (map, [x, y]) => {
   const height = map[y][x];
   const basin = [[x, y]];
 
-  if (map[y - 1] !== undefined && map[y - 1][x] !== undefined && map[y - 1][x] !== 9 && map[y - 1][x] > height) {
-    basin.push(...getBasin(map, [x, y - 1]))
-  }
-
-  if (map[y + 1] !== undefined && map[y + 1][x] !== undefined && map[y + 1][x] !== 9 && map[y + 1][x] > height) {
-    basin.push(...getBasin(map, [x, y + 1]))
-  }
-
-  if (map[y][x - 1] !== undefined && map[y][x - 1] !== 9 && map[y][x - 1] > height) {
-    basin.push(...getBasin(map, [x - 1, y]))
-  }
-
-  if (map[y][x + 1] !== undefined && map[y][x + 1] !== 9 && map[y][x + 1] > height) {
-    basin.push(...getBasin(map, [x + 1, y]))
-  }
+  eachAdjacent(map, [x, y], (adjacent, [aX, aY]) => {
+    if (adjacent !== 9 && adjacent > height) {
+      basin.push(...getBasin(map, [aX, aY]))
+    }
+  });
 
   // Dedup basin
   return uniq(basin.map(String)).map(str => str.split(','));
