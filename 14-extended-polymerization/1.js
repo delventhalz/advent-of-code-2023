@@ -78,6 +78,7 @@
 // common element?
 
 const { last } = require('lodash');
+const { countGroups } = require('../lib');
 
 
 const RULES = {};
@@ -94,7 +95,8 @@ const insert = (seq) => {
   }
 
   return inserted;
-}
+};
+
 
 module.exports = (_, rawInput) => {
   const [template, rules] = rawInput.split('\n\n');
@@ -107,16 +109,9 @@ module.exports = (_, rawInput) => {
     current = insert(current);
   }
 
-  const counts = {}
-  for (const lett of current) {
-    if (!counts[lett]) {
-      counts[lett] = 1;
-    } else {
-      counts[lett] += 1;
-    }
-  }
-
+  const counts = countGroups(current);
   const sortedCounts = Object.values(counts).sort((a, b) => a - b);
+
   return last(sortedCounts) - sortedCounts[0];
 };
 
