@@ -16,21 +16,12 @@
 // common element?
 
 const { last } = require('lodash');
+const { chunkOverlap } = require('../lib');
 
 
 const RULES = {};
 const RESULTS = {};
 
-
-const toOverlappingPairs = (list) => {
-  const pairs = [];
-
-  for (let i = 1; i < list.length; i += 1) {
-    pairs.push(list.slice(i - 1, i + 1));
-  }
-
-  return pairs;
-};
 
 const mergeWithSum = (sumObjs) => {
   const merged = { ...sumObjs[0] };
@@ -71,7 +62,7 @@ const countOutputs = (pair, toDepth) => {
 
 module.exports = (_, rawInput) => {
   const [template, rules] = rawInput.split('\n\n');
-  const pairs = toOverlappingPairs(template);
+  const pairs = chunkOverlap(template, 2);
 
   for (const [input, output] of rules.split('\n').map(r => r.split (' -> '))) {
     RULES[input] = [
