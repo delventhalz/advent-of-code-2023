@@ -16,28 +16,12 @@
 // common element?
 
 const { last } = require('lodash');
-const { chunkOverlap } = require('../lib');
+const { chunkOverlap, mergeReduced } = require('../lib');
 
 
 const RULES = {};
 const RESULTS = {};
 
-
-const mergeWithSum = (sumObjs) => {
-  const merged = { ...sumObjs[0] };
-
-  for (const sumObj of sumObjs.slice(1)) {
-    for (const [key, sum] of Object.entries(sumObj)) {
-      if (merged[key]) {
-        merged[key] += sum;
-      } else {
-        merged[key] = sum;
-      }
-    }
-  }
-
-  return merged;
-};
 
 const countOutputs = (pair, toDepth) => {
   if (!RESULTS[pair]) {
@@ -53,7 +37,7 @@ const countOutputs = (pair, toDepth) => {
   }
 
   const childCounts = RULES[pair].map(out => countOutputs(out, toDepth - 1));
-  const counts = mergeWithSum(childCounts);
+  const counts = mergeReduced(childCounts, (sum, count) => sum + count);
 
   RESULTS[pair][toDepth] = counts;
   return counts;
@@ -73,7 +57,7 @@ module.exports = (_, rawInput) => {
 
   const counts = pairs.map(pair => countOutputs(pair, 40))
 
-  const totals = mergeWithSum(counts);
+  const totals = mergeReduced(counts, (total, count) => total + count);
   totals[template[0]] += 1
 
   const sortedTotals = Object.values(totals).sort((a, b) => a - b)
