@@ -108,12 +108,30 @@ npm start <path to solution file>
 
 Advent of Code often provides shortened example inputs which can be useful to
 debug failing solutions. These can be substituted for the inputs at `input.txt`
-directly from the command line using the `npm test` command. In addition to the
-path to the solution file, provide one or more example input strings as further
-arguments:
+directly from the command line using the `npm run as-test` command. In addition
+to the path to the solution file, provide one or more example input strings as
+further arguments:
 
 ```bash
-npm test <path to solution file> "<example input 1>" "<example input 2>"
+npm run as-test <path to solution file> "<example input 1>" "<example input 2>"
+```
+
+For particularly troublesome problems,
+[Mocha](https://mochajs.org/)/[Chai](https://www.chaijs.com/api/bdd/) is
+available. Simply create a unit test file in your solution folder and name it
+with the `.test.js` suffix.
+
+To run all `.test.js` files:
+
+```bash
+npm test
+```
+
+To test only a single file, use the `--` option to pass the path to the test
+file as a command line argument to the npm script:
+
+```bash
+npm test -- <path to test file>
 ```
 
 ### Linting

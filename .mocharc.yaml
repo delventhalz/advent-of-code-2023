@@ -1,0 +1,2 @@
+spec: '**/*.test.js'
+exclude: node_modules/

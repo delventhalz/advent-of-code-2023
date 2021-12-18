@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "npm run lint:nofail && node index.js",
-    "test": "npm run lint:nofail && node test.js",
+    "as-test": "npm run lint:nofail && node with-test-input.js",
+    "test": "mocha",
     "generate": "node generate.js",
     "lint": "eslint .",
     "lint:nofail": "eslint . || true"
@@ -17,6 +18,8 @@
     "lodash": "^4.17.21"
   },
   "devDependencies": {
-    "eslint": "^8.3.0"
+    "chai": "^4.3.4",
+    "eslint": "^8.3.0",
+    "mocha": "^9.1.3"
   }
 }
