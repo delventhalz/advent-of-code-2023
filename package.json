@@ -1,7 +1,7 @@
 {
-  "name": "advent-of-code-2021",
-  "version": "0.1.0",
-  "description": "Runner and Solutions for Advent of Code 2021 puzzles",
+  "name": "advent-of-code-2022",
+  "version": "0.0.0",
+  "description": "Runner and solutions for Advent of Code 2022 puzzles",
   "main": "index.js",
   "scripts": {
     "start": "npm run lint:nofail && node index.js",

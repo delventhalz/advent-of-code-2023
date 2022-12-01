@@ -4,7 +4,13 @@
 #
 # Supports:
 #   - JavaScript
+#   - Python
 #   - C
+#   - Rust
+#   - Clojure
+#
+# Example:
+#   ./run 01-some-puzzle/1.c
 
 SOLUTION_PATH="$1"
 
