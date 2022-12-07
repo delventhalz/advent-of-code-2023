@@ -2,13 +2,41 @@
 
 // --- Part Two ---
 
+// Your device's communication system is correctly detecting packets, but still
+// isn't working. It looks like it also needs to look for messages.
 
-module.exports = (inputs) => {
-  for (let i = 13; i < inputs.length; i += 1) {
-    if (new Set(inputs.slice(i - 13, i + 1)).size === 14) {
-      return i + 1;
+// A start-of-message marker is just like a start-of-packet marker, except it
+// consists of 14 distinct characters rather than 4.
+
+// Here are the first positions of start-of-message markers for all of the above
+// examples:
+
+// - mjqjpqmgbljsphdztnvjfqwrcgsmlb: first marker after character 19
+// - bvwbjplbgvbhsrlpgdmjqwftvncz: first marker after character 23
+// - nppdvjthqldpwncqszvftbrmjlhg: first marker after character 23
+// - nznrnfrfntjfmvfwmzdfjlvtqnbhcprsg: first marker after character 29
+// - zcfzfwzzqfrljwzlrfnpqdbhtmscgvjw: first marker after character 26
+
+// How many characters need to be processed before the first start-of-message
+// marker is detected?
+
+const isHeterogram = str => new Set(str).size === str.length;
+
+const indexOfHeterogram = (str, size) => {
+  const limit = str.length - size + 1;
+
+  for (let i = 0; i < limit; i += 1) {
+    if (isHeterogram(str.slice(i, i + size))) {
+      return i;
     }
   }
 
-  return null;
+  return -1;
 };
+
+
+module.exports = (_, rawInput) => {
+  return indexOfHeterogram(rawInput, 14) + 14;
+};
+
+// Your puzzle answer was 3120.
