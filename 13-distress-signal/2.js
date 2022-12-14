@@ -2,8 +2,6 @@
 
 // --- Part Two ---
 
-const { chunk } = require('lodash');
-const { sum } = require('../lib');
 const inputs = require('./input.json');
 
 const isInOrder = (left, right) => {
