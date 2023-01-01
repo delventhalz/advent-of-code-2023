@@ -2,6 +2,15 @@
 
 // --- Part Two ---
 
+// The elephants are not impressed by your simulation. They demand to know how
+// tall the tower will be after 1000000000000 rocks have stopped! Only then
+// will they feel confident enough to proceed through the cave.
+
+// In the example above, the tower would be 1514285714288 units tall!
+
+// How tall will the tower be after 1000000000000 rocks have stopped?
+
+
 // Calculated manually with ad hoc console code
 const REPEATER = 1745;
 const REMAINDER = 1010;
@@ -189,3 +198,5 @@ module.exports = (_, rawInput) => {
 
   return heightAt1 + heightForRemainder + heightFor1 * (Math.floor(1000000000000 / REPEATER) - 1)
 };
+
+// Your puzzle answer was 1577077363915.
