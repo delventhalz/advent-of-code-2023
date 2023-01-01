@@ -2,6 +2,10 @@
 
 // --- Part Two ---
 
+// Calculated manually with ad hoc console code
+const REPEATER = 1745;
+const REMAINDER = 1010;
+
 // Y coordinates are flipped, bottom-left is 0,0
 const SHAPES = [
   // ####
@@ -143,21 +147,17 @@ const findBottom = (board) => {
   return 0;
 };
 
+
 module.exports = (_, rawInput) => {
   const jets = rawInput.split('');
 
   const nextShape = getIterator(SHAPES);
   const nextJet = getIterator(jets);
-  // const repeater = SHAPES.length * jets.length;
-  const repeater = 1745;
-  const remainder = 1010
 
   let board = [];
   let offset = 0;
 
-  // for (let repeater = 1; repeater < 1000000000; repeater += 1) {
-
-  for (let i = 0; i < repeater; i += 1) {
+  for (let i = 0; i < REPEATER; i += 1) {
     simulateShape(board, nextShape, nextJet);
 
     const nextBottom = findBottom(board);
@@ -167,7 +167,7 @@ module.exports = (_, rawInput) => {
 
   const heightAt1 = board.length + offset;
 
-  for (let i = 0; i < repeater; i += 1) {
+  for (let i = 0; i < REPEATER; i += 1) {
     simulateShape(board, nextShape, nextJet);
 
     const nextBottom = findBottom(board);
@@ -177,7 +177,7 @@ module.exports = (_, rawInput) => {
 
   const heightFor1 = board.length + offset - heightAt1;
 
-  for (let i = 0; i < remainder; i += 1) {
+  for (let i = 0; i < REMAINDER; i += 1) {
     simulateShape(board, nextShape, nextJet);
 
     const nextBottom = findBottom(board);
@@ -187,44 +187,5 @@ module.exports = (_, rawInput) => {
 
   const heightForRemainder = board.length + offset - heightFor1 - heightAt1;
 
-  return heightAt1 + heightForRemainder + heightFor1 * (Math.floor(1000000000000 / repeater) - 1)
-
-  // for (let i = 0; i < repeater; i += 1) {
-  //   simulateShape(board, nextShape, nextJet);
-
-  //   const nextBottom = findBottom(board);
-  //   board = board.slice(nextBottom);
-  //   offset += nextBottom;
-  // }
-
-  // const heightAt4 = board.length + offset;
-
-  // for (let i = 0; i < repeater; i += 1) {
-  //   simulateShape(board, nextShape, nextJet);
-
-  //   const nextBottom = findBottom(board);
-  //   board = board.slice(nextBottom);
-  //   offset += nextBottom;
-  // }
-
-  // const heightAt5 = board.length + offset;
-
-
-  // const intervals = [
-  //   heightAt1,
-  //   heightAt2 - heightAt1,
-  //   heightAt3 - heightAt2,
-  //   heightAt4 - heightAt3,
-  //   heightAt5 - heightAt4,
-  // ];
-
-  // console.log(repeater, '->', intervals)
-  // if (intervals.slice(2).every(int => int === intervals[1])) {
-  //   return repeater;
-  // }
-
-  // }
+  return heightAt1 + heightForRemainder + heightFor1 * (Math.floor(1000000000000 / REPEATER) - 1)
 };
-
-
-// 1577077363935
