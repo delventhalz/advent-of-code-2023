@@ -15,6 +15,7 @@
   "license": "MIT",
   "dependencies": {
     "compute-lcm": "^1.1.2",
+    "english2number": "^1.0.8",
     "lodash": "^4.17.21"
   },
   "devDependencies": {
