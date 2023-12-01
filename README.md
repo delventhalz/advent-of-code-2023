@@ -1,9 +1,9 @@
-# Advent of Code 2022 Solutions and Runner
+# Advent of Code 2023 Solutions and Runner
 
-Merry [Advent of Code](https://adventofcode.com/2022) to those who celebrate!
+Merry [Advent of Code](https://adventofcode.com/2023) to those who celebrate!
 
 This is a copy of my
-[2021 AoC Runner](https://github.com/delventhalz/advent-of-code-2021), without
+[2022 AoC Runner](https://github.com/delventhalz/advent-of-code-2022), without
 last year's solutions. It is mostly aimed at streamlining developing JavaScript
 solutions, but I am starting to experiment with
 [supporting other languages](#using-other-languages). I expect the project to
@@ -30,8 +30,8 @@ Ensure you have a recent version of [Node.js](https://nodejs.org/en/)
 installed, then run in your terminal:
 
 ```bash
-git clone https://github.com/delventhalz/advent-of-code-2022.git
-cd advent-of-code-2022/
+git clone https://github.com/delventhalz/advent-of-code-2023.git
+cd advent-of-code-2023/
 npm install
 ```
 
@@ -206,8 +206,8 @@ this code:
 
 ## License
 
-[Advent of Code](https://adventofcode.com/2020/about) and all Advent of Code
-2022 puzzle text and content were created by and belong to
+[Advent of Code](https://adventofcode.com/2023/about) and all Advent of Code
+2023 puzzle text and content were created by and belong to
 [Eric Wastl](http://was.tl/), and are reproduced here for reference purposes
 only.
 
