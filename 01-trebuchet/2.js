@@ -23,59 +23,33 @@
 // What is the sum of all of the calibration values?
 
 const { last } = require('lodash');
-const { parseIfNumber, sum } = require('../lib');
+const { parseTokens, sum } = require('../lib');
 
-
-const lineToNumbers = (line) => {
-  const numbers = [];
-
-  for (let i = 0; i < line.length; i += 1) {
-    const parsed = parseIfNumber(line[i]);
-
-    const nextThree = line.slice(i, i + 3);
-    const nextFour = line.slice(i, i + 4);
-    const nextFive = line.slice(i, i + 5);
-
-    if (typeof parsed === 'number') {
-      numbers.push(parsed);
-    } else if (nextThree === 'one') {
-      numbers.push(1);
-      i += 2;
-    } else if (nextThree === 'two') {
-      numbers.push(2);
-      i += 2;
-    } else if (nextThree === 'six') {
-      numbers.push(6);
-      i += 2;
-    } else if (nextFour === 'four') {
-      numbers.push(4);
-      i += 3;
-    } else if (nextFour === 'five') {
-      numbers.push(5);
-      i += 3;
-    } else if (nextFour === 'nine') {
-      numbers.push(9);
-      i += 3;
-    } else if (nextFive === 'three') {
-      numbers.push(3);
-      i += 4;
-    } else if (nextFive === 'seven') {
-      numbers.push(7);
-      i += 4;
-    } else if (nextFive === 'eight') {
-      numbers.push(8);
-      i += 4;
-    }
-  }
-
-  return numbers;
+const numberTokens = {
+  1: 1,
+  2: 2,
+  3: 3,
+  4: 4,
+  5: 5,
+  6: 6,
+  7: 7,
+  8: 8,
+  9: 9,
+  one: 1,
+  two: 2,
+  three: 3,
+  four: 4,
+  five: 5,
+  six: 6,
+  seven: 7,
+  eight: 8,
+  nine: 9
 };
-
 
 module.exports = (_, rawInputs) => {
   const numbers = rawInputs
     .split('\n')
-    .map(lineToNumbers)
+    .map(line => parseTokens(line, numberTokens))
     .map(nums => [nums[0], last(nums)].join(''))
     .map(Number);
 
