@@ -37,49 +37,45 @@
 // For each game, find the minimum set of cubes that must have been present.
 // What is the sum of the power of these sets?
 
-// const {  } = require('lodash');
 const { sum } = require('../lib');
 
-const MAX_CUBES = {
-  red: 12,
-  green: 13,
-  blue: 14
-};
 
-const parseCubes = cubeString => {
+const parseCube = (cubeString) => {
   const [count, color] = cubeString.split(' ');
   return [color, Number(count)];
 };
 
-const parseGame = (gameString) => {
-  return Object.fromEntries(gameString.split(', ').map(parseCubes));
+const parsePull = (pullString) => {
+  return Object.fromEntries(pullString.split(', ').map(parseCube));
 };
 
-const toMinCubes = (games) => {
-  const maxes = { red: 0, green: 0, blue: 0 };
+const toMinCubes = (pulls) => {
+  const currentMins = { red: 0, green: 0, blue: 0 };
 
-  for (const game of games) {
-    for (const [color, count] of Object.entries(game)) {
-      if (count > maxes[color]) {
-        maxes[color] = count;
+  for (const pull of pulls) {
+    for (const [color, count] of Object.entries(pull)) {
+      if (count > currentMins[color]) {
+        currentMins[color] = count;
       }
     }
   }
 
-  return maxes.red * maxes.green * maxes.blue;
-}
+  return currentMins;
+};
+
 
 module.exports = (_, rawInputs) => {
-  const games = rawInputs
+  const products = rawInputs
     .split('\n')
-    .map(line => line.split(': '))
-    .map(([label, games]) => ({
+    .map(game => game.split(': '))
+    .map(([label, pulls]) => ({
       id: Number(label.slice(5)),
-      games: games.split('; ').map(parseGame)
+      pulls: pulls.split('; ').map(parsePull)
     }))
-    .map(({ games }) => toMinCubes(games));
+    .map(({ pulls }) => toMinCubes(pulls))
+    .map(mins => mins.red * mins.green * mins.blue)
 
-  return sum(games);
+  return sum(products);
 };
 
 // Your puzzle answer was 69629.

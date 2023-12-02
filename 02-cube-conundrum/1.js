@@ -53,8 +53,8 @@
 // with only 12 red cubes, 13 green cubes, and 14 blue cubes. What is the sum
 // of the IDs of those games?
 
-// const {  } = require('lodash');
 const { sum } = require('../lib');
+
 
 const MAX_CUBES = {
   red: 12,
@@ -62,31 +62,32 @@ const MAX_CUBES = {
   blue: 14
 };
 
-const parseCubes = cubeString => {
+const parseCube = (cubeString) => {
   const [count, color] = cubeString.split(' ');
   return [color, Number(count)];
 };
 
-const parseGame = (gameString) => {
-  return Object.fromEntries(gameString.split(', ').map(parseCubes));
+const parsePull = (pullString) => {
+  return Object.fromEntries(pullString.split(', ').map(parseCube));
 };
 
-const isValidGame = (game) => {
-  return Object.entries(game).every(([color, count]) => MAX_CUBES[color] && MAX_CUBES[color] >= count);
+const isValidPull = (pull) => {
+  return Object.entries(pull).every(([color, count]) => MAX_CUBES[color] >= count);
 };
+
 
 module.exports = (_, rawInputs) => {
-  const games = rawInputs
+  const gameIds = rawInputs
     .split('\n')
-    .map(line => line.split(': '))
-    .map(([label, games]) => ({
+    .map(game => game.split(': '))
+    .map(([label, pulls]) => ({
       id: Number(label.slice(5)),
-      games: games.split('; ').map(parseGame)
+      pulls: pulls.split('; ').map(parsePull)
     }))
-    .filter(({ games }) => games.every(isValidGame))
+    .filter(({ pulls }) => pulls.every(isValidPull))
     .map(line => line.id);
 
-  return sum(games);
+  return sum(gameIds);
 };
 
 // Your puzzle answer was 2632.
