@@ -46,50 +46,48 @@
 // Of course, the actual engine schematic is much larger. What is the sum of all
 // of the part numbers in the engine schematic?
 
-// const {  } = require('lodash');
-const { eachMatrix, eachSurrounding, sum, matrixToString } = require('../lib');
+const { eachMatrix, eachSurrounding, sum } = require('../lib');
+
 
 const isDigit = char => /[0-9]/.test(char);
 const isSymbol = char => char !== '.' && !isDigit(char);
 
-const extractNumber = (matrix, [x, y]) => {
-  let start = x;
+const extractPartNumber = (schematics, [x, y]) => {
+  let number = '';
+  let pos = x;
 
-  while (isDigit(matrix[y][start])) {
-    start -= 1;
+  while (isDigit(schematics[y][pos])) {
+    pos -= 1;
   }
 
-  // start will end up one too small
-  let current = start + 1
-  let number = '';
+  // pos will end up one too small
+  pos += 1;
 
-  while (isDigit(matrix[y][current])) {
-    number += matrix[y][current];
-    matrix[y][current] = 'X';
-    current += 1;
+  while (isDigit(schematics[y][pos])) {
+    number += schematics[y][pos];
+    schematics[y][pos] = 'X'; // Prevent counting numbers twice
+    pos += 1;
   }
 
   return Number(number);
 };
 
-module.exports = (inputs) => {
-  const matrix = inputs.map(line => line.split(''));
-  const numbers = [];
 
-  eachMatrix(matrix, (char, coords) => {
+module.exports = (inputs) => {
+  const schematic = inputs.map(line => line.split(''));
+  const parts = [];
+
+  eachMatrix(schematic, (char, coords) => {
     if (isSymbol(char)) {
-      eachSurrounding(matrix, coords, (adj, adjCoords) => {
+      eachSurrounding(schematic, coords, (adj, adjCoords) => {
         if (isDigit(adj)) {
-          numbers.push(extractNumber(matrix, adjCoords));
+          parts.push(extractPartNumber(schematic, adjCoords));
         }
       });
     }
   });
 
-  console.log(matrixToString(matrix));
-  console.log(numbers);
-
-  return sum(numbers);
+  return sum(parts);
 };
 
 // Your puzzle answer was 526404.
