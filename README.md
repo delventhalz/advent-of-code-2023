@@ -42,7 +42,7 @@ npm install
 Begin your solution by first generating stub files:
 
 ```bash
-npm run generate <directory name>
+npm run generate
 ```
 
 This will create a new directory with three files:
@@ -50,6 +50,17 @@ This will create a new directory with three files:
 - `1.js`
 - `2.js`
 - `input.txt`
+
+By default, the directory will be named "stub" and be gitignored. The default
+can be overridden with a command line arg.
+
+```bash
+npm run generate <directory name>
+```
+
+The headers in the JavaScript files will be populated with references to the day
+and year of the upcoming Advent of Code problem (i.e. tomorrow). You may want to
+manually adjust if that isn't valid for the problem you are working on.
 
 ### 2. Write Your Solution
 
