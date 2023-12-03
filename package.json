@@ -3,9 +3,9 @@
   "version": "0.0.0",
   "description": "Runner and solutions for Advent of Code 2023 puzzles",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "start": "npm run lint:nofail && node index.js",
-    "as-test": "npm run lint:nofail && node with-test-input.js",
     "test": "mocha",
     "generate": "node generate.js",
     "lint": "eslint .",
@@ -16,7 +16,7 @@
   "dependencies": {
     "compute-lcm": "^1.1.2",
     "english2number": "^1.0.8",
-    "lodash": "^4.17.21"
+    "lodash-es": "^4.17.21"
   },
   "devDependencies": {
     "chai": "^4.3.4",

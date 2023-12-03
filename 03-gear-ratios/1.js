@@ -1,5 +1,3 @@
-'use strict';
-
 /**
  * --- Advent of Code 2023 ---
  *
@@ -9,7 +7,7 @@
  * https://adventofcode.com/2023/day/3
  */
 
-const { eachMatrix, eachSurrounding, sum } = require('../lib');
+import { eachMatrix, eachSurrounding, sum } from '../lib/index.js';
 
 
 const isDigit = char => /[0-9]/.test(char);
@@ -36,7 +34,7 @@ const extractPartNumber = (schematics, [x, y]) => {
 };
 
 
-module.exports = (inputs) => {
+export default function main(inputs) {
   const schematic = inputs.map(line => line.split(''));
   const parts = [];
 
@@ -51,6 +49,6 @@ module.exports = (inputs) => {
   });
 
   return sum(parts);
-};
+}
 
 // Your puzzle answer was 526404.

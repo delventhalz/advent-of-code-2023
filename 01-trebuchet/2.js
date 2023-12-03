@@ -1,5 +1,3 @@
-'use strict';
-
 /**
  * --- Advent of Code 2023 ---
  *
@@ -9,8 +7,8 @@
  * https://adventofcode.com/2023/day/1#part2
  */
 
-const { last } = require('lodash');
-const { parseTokens, sum } = require('../lib');
+import { last } from 'lodash-es';
+import { parseTokens, sum } from '../lib/index.js';
 
 const numberTokens = {
   1: 1,
@@ -33,7 +31,7 @@ const numberTokens = {
   nine: 9
 };
 
-module.exports = (_, rawInputs) => {
+export default function main(_, rawInputs) {
   const numbers = rawInputs
     .split('\n')
     .map(line => parseTokens(line, numberTokens))
@@ -41,6 +39,6 @@ module.exports = (_, rawInputs) => {
     .map(Number);
 
   return sum(numbers);
-};
+}
 
 // Your puzzle answer was 52834.

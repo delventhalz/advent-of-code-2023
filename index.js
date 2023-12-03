@@ -1,9 +1,7 @@
-'use strict';
+import { readFile } from 'fs/promises';
+import { dirname, resolve } from 'path';
 
-const { readFile } = require('fs').promises;
-const { dirname, resolve } = require('path');
-
-const { splitNested, parseIfNumber } = require('./lib');
+import { splitNested, parseIfNumber } from './lib/index.js';
 
 
 const INPUT_FILENAME = 'input.txt';
@@ -80,35 +78,21 @@ const parseInputs = (inputString) => {
 };
 
 
-const main = async () => {
-  const solutionPath = getSolutionPath();
-  const inputsPath = resolve(dirname(solutionPath), INPUT_FILENAME);
+const solutionPath = getSolutionPath();
+const inputsPath = resolve(dirname(solutionPath), INPUT_FILENAME);
 
-  const solution = require(solutionPath);
-  const inputString = toInputString(await readFile(inputsPath));
-  const inputs = parseInputs(inputString);
+const solution = (await import(solutionPath)).default;
+const inputString = toInputString(await readFile(inputsPath));
+const inputs = parseInputs(inputString);
 
-  const relPath = process.argv[2];
-  console.log(relPath, '\n'.padEnd(relPath.length + 1, '-'), '\n');
+const relPath = process.argv[2];
+console.log(relPath, '\n'.padEnd(relPath.length + 1, '-'), '\n');
 
-  const start = Date.now();
-  const outputs = await solution(inputs, inputString);
-  const stop = Date.now();
+const start = Date.now();
+const outputs = await solution(inputs, inputString);
+const stop = Date.now();
 
-  const duration = `in ${toTimeString(stop - start)}`;
-  console.log(outputs, '\n');
-  console.log(''.padEnd(duration.length + 1, '-'));
-  console.log(duration, '\n');
-};
-
-
-if (require.main === module) {
-  main();
-}
-
-
-module.exports = {
-  getSolutionPath,
-  parseIfNumber,
-  parseInputs
-};
+const duration = `in ${toTimeString(stop - start)}`;
+console.log(outputs, '\n');
+console.log(''.padEnd(duration.length + 1, '-'));
+console.log(duration, '\n');

@@ -1,5 +1,3 @@
-'use strict';
-
 /**
  * --- Advent of Code 2023 ---
  *
@@ -9,7 +7,7 @@
  * https://adventofcode.com/2023/day/2#part2
  */
 
-const { sum } = require('../lib');
+import { sum } from '../lib/index.js';
 
 
 const parseCube = (cubeString) => {
@@ -36,7 +34,7 @@ const toMinCubes = (pulls) => {
 };
 
 
-module.exports = (_, rawInputs) => {
+export default function main(_, rawInputs) {
   const products = rawInputs
     .split('\n')
     .map(game => game.split(': '))
@@ -48,6 +46,6 @@ module.exports = (_, rawInputs) => {
     .map(mins => mins.red * mins.green * mins.blue)
 
   return sum(products);
-};
+}
 
 // Your puzzle answer was 69629.

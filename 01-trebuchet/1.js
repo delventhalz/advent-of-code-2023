@@ -1,5 +1,3 @@
-'use strict';
-
 /**
  * --- Advent of Code 2023 ---
  *
@@ -9,10 +7,10 @@
  * https://adventofcode.com/2023/day/1
  */
 
-const { parseIfNumber, sum } = require('../lib');
+import { parseIfNumber, sum } from '../lib/index.js';
 
 
-module.exports = (_, rawInputs) => {
+export default function main(_, rawInputs) {
   const numbers = rawInputs
     .split('\n')
     .map(input => [
@@ -22,6 +20,6 @@ module.exports = (_, rawInputs) => {
     .map(Number);
 
   return sum(numbers);
-};
+}
 
 // Your puzzle answer was 53334.

@@ -1,5 +1,3 @@
-'use strict';
-
 /**
  * --- Advent of Code 2023 ---
  *
@@ -9,7 +7,7 @@
  * https://adventofcode.com/2023/day/2
  */
 
-const { sum } = require('../lib');
+import { sum } from '../lib/index.js';
 
 
 const MAX_CUBES = {
@@ -32,7 +30,7 @@ const isValidPull = (pull) => {
 };
 
 
-module.exports = (_, rawInputs) => {
+export default function main(_, rawInputs) {
   const gameIds = rawInputs
     .split('\n')
     .map(game => game.split(': '))
@@ -44,6 +42,6 @@ module.exports = (_, rawInputs) => {
     .map(line => line.id);
 
   return sum(gameIds);
-};
+}
 
 // Your puzzle answer was 2632.

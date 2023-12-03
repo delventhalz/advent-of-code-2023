@@ -56,15 +56,15 @@ This will create a new directory with three files:
 Copy your puzzle inputs and paste them into `input.txt`. The runner will
 read these inputs, parse them, and pass them to your solution file.
 
-The solution file should export a single function.
+The solution file should export a function as a default export.
 
 ```javascript
-module.exports = (inputs, rawInput) => {
+export default function main(inputs, rawInput) {
 
     // Calculate solution...
 
-    return solution
-};
+    return solution;
+}
 ```
 
 - **Parameters**
@@ -81,11 +81,10 @@ module.exports = (inputs, rawInput) => {
 - **Returns**
     * The solution you calculated. Will be logged to the console by the runner.
 
-Lodash and a few custom utilities are available as CommonJS modules as well.
-Import with `require`:
+Lodash and a few custom utilities are available as ES modules as well.
 
 ```javascript
-const { chunk } = require('lodash');
+import { chunk } from 'lodash-es';
 ```
 
 Of course new modules can be installed with NPM:
@@ -105,16 +104,6 @@ npm start <path to solution file>
 ```
 
 ### 4. (Optional) Test Your Solution
-
-Advent of Code often provides shortened example inputs which can be useful to
-debug failing solutions. These can be substituted for the inputs at `input.txt`
-directly from the command line using the `npm run as-test` command. In addition
-to the path to the solution file, provide one or more example input strings as
-further arguments:
-
-```bash
-npm run as-test <path to solution file> "<example input 1>" "<example input 2>"
-```
 
 For particularly troublesome problems,
 [Mocha](https://mochajs.org/)/[Chai](https://www.chaijs.com/api/bdd/) is
@@ -154,10 +143,10 @@ with the tools above. Reference or run them as you will.
 For the most part I just copied and pasted the code I reused. But if a
 particular function was repeatedly useful across multiple nights, I pulled it
 out into a module, and put that module in the [lib/ directory](./lib/). These
-can be imported by using `require` on the lib directory:
+can all be imported from [lib/index.js](./lib/index.js):
 
 ```javascript
-const { sum } = require('../lib');
+import { sum } from '../lib/index.js';
 
 const nums = [1, 2, 3];
 console.log(sum(nums));  // 6
