@@ -206,10 +206,10 @@ this code:
 
 ## License
 
-[Advent of Code](https://adventofcode.com/2023/about) and all Advent of Code
-2023 puzzle text and content were created by and belong to
-[Eric Wastl](http://was.tl/), and are reproduced here for reference purposes
-only.
+"Advent of Code" and all Advent of Code related content are property of Advent
+of Code and protected by copyright:
+
+https://adventofcode.com/2023/about#legal
 
 All solution code and associated tools were written by me, Zac Delventhal,
 and are made available under the [MIT](./LICENSE) open source license.
