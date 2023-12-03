@@ -34,15 +34,14 @@ const extractPartNumber = (schematics, [x, y]) => {
 };
 
 
-export default function main(inputs) {
-  const schematic = inputs.map(line => line.split(''));
+export default function main({ matrix }) {
   const parts = [];
 
-  eachMatrix(schematic, (char, coords) => {
+  eachMatrix(matrix, (char, coords) => {
     if (isSymbol(char)) {
-      eachSurrounding(schematic, coords, (adj, adjCoords) => {
+      eachSurrounding(matrix, coords, (adj, adjCoords) => {
         if (isDigit(adj)) {
-          parts.push(extractPartNumber(schematic, adjCoords));
+          parts.push(extractPartNumber(matrix, adjCoords));
         }
       });
     }

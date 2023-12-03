@@ -17,9 +17,9 @@ const PART_1_TEMPLATE = ({ day, year }) => (
 // import {  } from '../lib/index.js';
 
 
-export default function main(inputs) {
+export default function main({ input }) {
 
-  return inputs;
+  return input;
 }
 `
 );
@@ -39,9 +39,9 @@ const PART_2_TEMPLATE = ({ day, year }) => (
 // import {  } from '../lib/index.js';
 
 
-export default function main(inputs) {
+export default function main({ input }) {
 
-  return inputs;
+  return input;
 }
 `
 );

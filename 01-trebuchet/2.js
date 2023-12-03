@@ -31,8 +31,8 @@ const numberTokens = {
   nine: 9
 };
 
-export default function main(_, rawInputs) {
-  const numbers = rawInputs
+export default function main({ input }) {
+  const numbers = input
     .split('\n')
     .map(line => parseTokens(line, numberTokens))
     .map(nums => [nums[0], last(nums)].join(''))

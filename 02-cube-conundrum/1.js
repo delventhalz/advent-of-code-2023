@@ -30,8 +30,8 @@ const isValidPull = (pull) => {
 };
 
 
-export default function main(_, rawInputs) {
-  const gameIds = rawInputs
+export default function main({ input }) {
+  const gameIds = input
     .split('\n')
     .map(game => game.split(': '))
     .map(([label, pulls]) => ({

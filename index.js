@@ -82,14 +82,17 @@ const solutionPath = getSolutionPath();
 const inputsPath = resolve(dirname(solutionPath), INPUT_FILENAME);
 
 const solution = (await import(solutionPath)).default;
-const inputString = toInputString(await readFile(inputsPath));
-const inputs = parseInputs(inputString);
+const input = toInputString(await readFile(inputsPath));
+
+const lines = input.split('\n');
+const matrix = lines.map(line => line.split(''));
+const parsed = parseInputs(input);
 
 const relPath = process.argv[2];
 console.log(relPath, '\n'.padEnd(relPath.length + 1, '-'), '\n');
 
 const start = Date.now();
-const outputs = await solution(inputs, inputString);
+const outputs = await solution({ input, lines, matrix, parsed });
 const stop = Date.now();
 
 const duration = `in ${toTimeString(stop - start)}`;

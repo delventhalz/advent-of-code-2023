@@ -10,8 +10,8 @@
 import { parseIfNumber, sum } from '../lib/index.js';
 
 
-export default function main(_, rawInputs) {
-  const numbers = rawInputs
+export default function main({ input }) {
+  const numbers = input
     .split('\n')
     .map(input => [
       input.split('').find(n => typeof parseIfNumber(n) === 'number'),

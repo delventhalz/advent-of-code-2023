@@ -70,7 +70,7 @@ read these inputs, parse them, and pass them to your solution file.
 The solution file should export a function as a default export.
 
 ```javascript
-export default function main(inputs, rawInput) {
+export default function main({ input }) {
 
     // Calculate solution...
 
@@ -79,16 +79,18 @@ export default function main(inputs, rawInput) {
 ```
 
 - **Parameters**
-    * **`inputs`** - The parsed `input.txt` file. Typically an array, possibly a
-      nested array. The runner progressively splits the input string on any
-      sensible delimiters (blank lines, new lines, commas), and then parses any
-      numbers. If the input contains no sensible delimiters, will just be the
-      raw string.
-    * **`rawInput`** _(optional)_ - Always the raw unparsed string version of
-      `input.txt`. Useful if the input is formatted in such a way that the
-      default parser creates something erroneous or unhelpful. Usually if I
-      have to use this parameter, I end up refactoring the parser the next day
-      ;).
+    * **`inputMap`** - An object with different parses of the input string under
+        different properties. Destructure the property you need.
+        + **`input`** - Raw unparsed string version of `input.txt`.
+        + **`lines`** - An array of each line from `input.txt`.
+        + **`matrix`** - The `input.txt` characters broken up into a 2D array
+            with each character as its own cell.
+        + **`parsed`** - An attempt to cleverly parse the `input.txt` file.
+            Typically an array, possibly a deeply nested array. The parser
+            progressively splits the input string on any sensible delimiters
+            (blank lines, new lines, commas), and then parses any numbers. If
+            the input contains no sensible delimiters, this is just the raw
+            string.
 - **Returns**
     * The solution you calculated. Will be logged to the console by the runner.
 

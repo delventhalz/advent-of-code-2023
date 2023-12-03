@@ -32,17 +32,16 @@ const extractPartNumber = (schematics, [x, y]) => {
   return Number(number);
 };
 
-export default function main(inputs) {
-  const schematics = inputs.map(line => line.split(''));
+export default function main({ matrix }) {
   const ratios = [];
 
-  eachMatrix(schematics, (char, coords) => {
+  eachMatrix(matrix, (char, coords) => {
     if (isGear(char)) {
       const parts = [];
 
-      eachSurrounding(schematics, coords, (adj, adjCoords) => {
+      eachSurrounding(matrix, coords, (adj, adjCoords) => {
         if (isDigit(adj)) {
-          parts.push(extractPartNumber(schematics, adjCoords));
+          parts.push(extractPartNumber(matrix, adjCoords));
         }
       });
 

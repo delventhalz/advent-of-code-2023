@@ -34,8 +34,8 @@ const toMinCubes = (pulls) => {
 };
 
 
-export default function main(_, rawInputs) {
-  const products = rawInputs
+export default function main({ input }) {
+  const products = input
     .split('\n')
     .map(game => game.split(': '))
     .map(([label, pulls]) => ({
