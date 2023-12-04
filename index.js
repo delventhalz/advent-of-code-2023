@@ -1,11 +1,17 @@
-import { readFile } from 'fs/promises';
+import { readFile, writeFile } from 'fs/promises';
 import { dirname, resolve } from 'path';
-
 import { splitNested, parseIfNumber } from './lib/index.js';
 
 
 const INPUT_FILENAME = 'input.txt';
 const DELIMITERS = ['\n\n', '\n', ','];
+
+const RELATIVE_PATH = process.argv[2];
+
+if (!RELATIVE_PATH) {
+  console.error('Must provide a path to a solution file!');
+  process.exit(1);
+}
 
 const roundToPlaces = (num, maxPlaces) => {
   const factor = 10 ** maxPlaces;
@@ -23,17 +29,6 @@ const toTimeString = (ms) => {
     return `<0.001 seconds`;
   }
   return `${roundToPlaces(ms / 1000, 3)} seconds`;
-};
-
-const getSolutionPath = () => {
-  const relativePath = process.argv[2];
-
-  if (!relativePath) {
-    console.error('Must provide a path to a solution file!');
-    process.exit(1);
-  }
-
-  return resolve(process.cwd(), relativePath);
 };
 
 const nestedMap = (arr, fn) => arr.map((item, i, arr) => (
@@ -78,8 +73,12 @@ const parseInputs = (inputString) => {
 };
 
 
-const solutionPath = getSolutionPath();
-const inputsPath = resolve(dirname(solutionPath), INPUT_FILENAME);
+const solutionPath = resolve(process.cwd(), RELATIVE_PATH);
+const solutionDir = dirname(solutionPath);
+const [_, solutionName] = RELATIVE_PATH.match(/([^/]+)\.[a-z]+$/);
+
+const inputsPath = resolve(solutionDir, INPUT_FILENAME);
+const answerPath = resolve(solutionDir, `answer-${solutionName}.txt`);
 
 const solution = (await import(solutionPath)).default;
 const input = toInputString(await readFile(inputsPath));
@@ -88,14 +87,32 @@ const lines = input.split('\n');
 const matrix = lines.map(line => line.split(''));
 const parsed = parseInputs(input);
 
-const relPath = process.argv[2];
-console.log(relPath, '\n'.padEnd(relPath.length + 1, '-'), '\n');
-
 const start = Date.now();
 const outputs = await solution({ input, lines, matrix, parsed });
 const stop = Date.now();
 
-const duration = `in ${toTimeString(stop - start)}`;
-console.log(outputs, '\n');
-console.log(''.padEnd(duration.length + 1, '-'));
-console.log(duration, '\n');
+const prevAnswer = toInputString(await readFile(answerPath).catch(() => ''));
+const prevLabel = prevAnswer.replaceAll('\n', ' ').trim();
+const durationLabel = `in ${toTimeString(stop - start)}`;
+
+const prevLineLength = Math.max(3, Math.ceil((prevAnswer.length - 10) / 2));
+const lineLength = Math.max(
+  RELATIVE_PATH.length,
+  durationLabel.length,
+  2 * prevLineLength + 10
+);
+
+await writeFile(answerPath, `${outputs}\n(${durationLabel})\n`, { flag: 'w' });
+
+console.log(RELATIVE_PATH);
+console.log(''.padEnd(lineLength, '-'));
+console.log();
+console.log(outputs);
+console.log();
+console.log(''.padEnd(lineLength, '-'));
+console.log(durationLabel);
+console.log();
+console.log();
+console.log(''.padEnd(prevLineLength, '~'), 'Previous', ''.padEnd(prevLineLength, '~'));
+console.log(prevLabel);
+console.log();

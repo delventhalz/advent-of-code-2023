@@ -47,5 +47,3 @@ export default function main({ input }) {
 
   return sum(products);
 }
-
-// Your puzzle answer was 69629.

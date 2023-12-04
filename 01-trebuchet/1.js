@@ -21,5 +21,3 @@ export default function main({ input }) {
 
   return sum(numbers);
 }
-
-// Your puzzle answer was 53334.

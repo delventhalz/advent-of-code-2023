@@ -23,5 +23,3 @@ export default function main({ lines }) {
 
   return sum(points);
 }
-
-// Your puzzle answer was 21158.

@@ -43,5 +43,3 @@ export default function main({ input }) {
 
   return sum(gameIds);
 }
-
-// Your puzzle answer was 2632.

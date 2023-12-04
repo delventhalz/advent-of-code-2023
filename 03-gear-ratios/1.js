@@ -49,5 +49,3 @@ export default function main({ matrix }) {
 
   return sum(parts);
 }
-
-// Your puzzle answer was 526404.

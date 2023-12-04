@@ -53,5 +53,3 @@ export default function main({ matrix }) {
 
   return sum(ratios);
 }
-
-// Your puzzle answer was 84399773.

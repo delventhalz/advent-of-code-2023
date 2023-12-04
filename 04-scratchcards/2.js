@@ -29,5 +29,3 @@ export default function main({ lines }) {
 
   return sum(cardCounts);
 }
-
-// Your puzzle answer was 6050769.
