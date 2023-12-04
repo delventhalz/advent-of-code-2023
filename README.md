@@ -52,7 +52,7 @@ This will create a new directory with three files:
 - `2.js`
 - `input.txt`
 
-By default, the directory will be named "stub" and be gitignored. The default
+By default, the directory will be named "wip" and be gitignored. The default
 can be overridden with a command line arg.
 
 ```bash
@@ -84,7 +84,7 @@ After completing that one time setup, run:
 npm run fetch
 ```
 
-This will fetch your most recent puzzle input and save it to `stub/input.txt`,
+This will fetch your most recent puzzle input and save it to `wip/input.txt`,
 overwriting any existing text there.
 
 If you would like to specify a different file path, you can do so with a command

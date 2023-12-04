@@ -51,7 +51,7 @@ const part2Header = hydrateTemplate(header, {
   suffix: '#part2'
 });
 
-const dirName = process.argv[2] || 'stub';
+const dirName = process.argv[2] || 'wip';
 
 const dir = resolve(process.cwd(), dirName);
 await mkdir(dir);

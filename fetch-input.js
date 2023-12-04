@@ -7,7 +7,7 @@ if (!AOC_COOKIE || !AOC_REPO || !AOC_CONTACT) {
   throw new Error('Must set env variables: AOC_COOKIE, AOC_REPO, AOC_CONTACT');
 }
 
-const relPath = process.argv[2] || 'stub/input.txt';
+const relPath = process.argv[2] || 'wip/input.txt';
 const absPath = resolve(process.cwd(), relPath);
 
 const getInputUrl  = () => {
