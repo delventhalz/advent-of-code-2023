@@ -7,6 +7,9 @@ env:
   es2020: true
   mocha: true
 
+globals:
+  fetch: true
+
 parserOptions:
   ecmaVersion: 2022
   sourceType: module

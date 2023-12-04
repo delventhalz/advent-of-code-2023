@@ -8,6 +8,7 @@
     "start": "npm run lint:nofail && node index.js",
     "test": "mocha",
     "generate": "node generate.js",
+    "fetch": "node fetch-input.js",
     "lint": "eslint .",
     "lint:nofail": "eslint . || true"
   },

@@ -14,9 +14,10 @@ evolve and change over the month depending on my needs.
 - [Setup](#setup)
 - [Usage](#usage)
     * [Generate Stub Files](#1-generate-stub-files)
-    * [Write Your Solution](#2-write-your-solution)
-    * [Run Your Solution](#3-run-your-solution)
-    * [Test Your Solution](#4-optional-test-your-solution)
+    * [Fetch Puzzle Input](#2-fetch-puzzle-input)
+    * [Write Your Solution](#3-write-your-solution)
+    * [Run Your Solution](#4-run-your-solution)
+    * [Test Your Solution](#5-optional-test-your-solution)
     * [Linting](#linting)
 - [Solutions](#solutions)
 - [Helper Utils](#helper-utils)
@@ -62,12 +63,44 @@ The headers in the JavaScript files will be populated with references to the day
 and year of the upcoming Advent of Code problem (i.e. tomorrow). You may want to
 manually adjust if that isn't valid for the problem you are working on.
 
-### 2. Write Your Solution
+### 2. Fetch Puzzle Input
 
-Copy your puzzle inputs and paste them into `input.txt`. The runner will
-read these inputs, parse them, and pass them to your solution file.
+Although it is easy enough to copy and paste puzzle input from the web into the
+`input.txt` file, if you want to do it in the command line, you can do that as
+well (with a bit of setup).
 
-The solution file should export a function as a default export.
+First, go to your `.bash_profile` or `.zshrc` and export the following three
+environment variables:
+
+```bash
+export AOC_COOKIE="<copy 'Cookie' request header from adventofcode.com in dev tools>"
+export AOC_REPO="<URL of repo where fetch-input.js is hosted>"
+export AOC_CONTACT="<your email address>"
+```
+
+After completing that one time setup, run:
+
+```bash
+npm run fetch
+```
+
+This will fetch your most recent puzzle input and save it to `stub/input.txt`,
+overwriting any existing text there.
+
+If you would like to specify a different file path, you can do so with a command
+line argument, just beware that any existing files at that path will be
+overwritten:
+
+```bash
+npm run fetch <relative file path>
+```
+
+### 3. Write Your Solution
+
+Once your puzzle inputs are in `input.txt`. The runner will read these inputs,
+parse them, and pass them to your solution files.
+
+Each solution file should export a function as a default export.
 
 ```javascript
 export default function main({ input }) {
@@ -106,7 +139,7 @@ Of course new modules can be installed with NPM:
 npm install <module name>
 ```
 
-### 3. Run Your Solution
+### 4. Run Your Solution
 
 Once the solution file is complete, and the input string is in `input.txt`,
 running your solution can be done with the `npm start` command, with the path
@@ -116,7 +149,7 @@ to the solution file provided as the single argument:
 npm start <path to solution file>
 ```
 
-### 4. (Optional) Test Your Solution
+### 5. (Optional) Test Your Solution
 
 For particularly troublesome problems,
 [Mocha](https://mochajs.org/)/[Chai](https://www.chaijs.com/api/bdd/) is
