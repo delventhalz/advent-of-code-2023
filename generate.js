@@ -1,5 +1,6 @@
 import { mkdir, writeFile } from 'fs/promises';
 import { resolve } from 'path';
+import { dateToTz } from './lib/dates.js';
 
 
 const PART_1_NAME = '1.js';
@@ -49,9 +50,12 @@ export default function main({ input }) {
 const INPUT_NAME = 'input.txt';
 const INPUT_TEMPLATE = () => '';
 
-const etDayString = new Date().toLocaleString([], { timeZone: 'America/New_York', day: 'numeric' });
-const day = Number(etDayString) % 30 + 1;
-const year = new Date().getFullYear();
+const now = dateToTz('America/New_York');
+const isStart = now.month === 11 && now.day > 23;
+const isDecember = now.month === 12;
+
+const day = isStart ? 1 : isDecember ? Math.min(25, now.day + 1) : 25;
+const year = isStart || isDecember ? now.year : now.year - 1;
 
 const dirName = process.argv[2] || 'stub';
 
