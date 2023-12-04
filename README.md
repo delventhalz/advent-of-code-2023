@@ -12,7 +12,9 @@ evolve and change over the month depending on my needs.
 ## Contents
 
 - [Setup](#setup)
+    * [Fetch Variables](#fetch-variables)
 - [Usage](#usage)
+    * [Automated Runner](#automated-runner)
     * [Generate Stub Files](#1-generate-stub-files)
     * [Fetch Puzzle Input](#2-fetch-puzzle-input)
     * [Write Your Solution](#3-write-your-solution)
@@ -36,7 +38,37 @@ cd advent-of-code-2023/
 npm install
 ```
 
+### Fetch Variables
+
+In order to use any of the automatic fetching tools, go to your `.bash_profile`
+or `.zshrc` and export the following three environment variables:
+
+```bash
+export AOC_COOKIE="<copy 'Cookie' request header from adventofcode.com in dev tools>"
+export AOC_REPO="<URL of repo where fetch-input.js is hosted>"
+export AOC_CONTACT="<your email address>"
+```
+
 ## Usage
+
+### Automated Runner
+
+There is an [automated runner](./go), written in bash which will string together
+the following commands and run your whole solve. To use it for today's problem,
+just run it:
+
+```bash
+./go
+```
+
+Note, if used after 11pm EST, the runner will wait for tonight's problem to
+start rather than running today's.
+
+To use the runner with a different year and day, specify them as command line args:
+
+```bash
+./go 2023 5
+```
 
 ### 1. Generate Stub Files
 
@@ -67,18 +99,7 @@ manually adjust if that isn't valid for the problem you are working on.
 
 Although it is easy enough to copy and paste puzzle input from the web into the
 `input.txt` file, if you want to do it in the command line, you can do that as
-well (with a bit of setup).
-
-First, go to your `.bash_profile` or `.zshrc` and export the following three
-environment variables:
-
-```bash
-export AOC_COOKIE="<copy 'Cookie' request header from adventofcode.com in dev tools>"
-export AOC_REPO="<URL of repo where fetch-input.js is hosted>"
-export AOC_CONTACT="<your email address>"
-```
-
-After completing that one time setup, run:
+well.
 
 ```bash
 npm run fetch
