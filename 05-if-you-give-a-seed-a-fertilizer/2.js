@@ -16,66 +16,60 @@ const followMaps = (maps, seedRange) => {
   for (const map of maps) {
     const nextRanges = [];
 
-    for (const currentRange of currentRanges) {
-      const remainingRanges = [currentRange];
+    for (let [current, currentSize] of currentRanges) {
+      let isConsumed = false; // this is so hacky
 
-      while (remainingRanges.length > 0) {
-        const [remaining, remainingSize] = remainingRanges.shift();
-        let isConsumed = false; // this is so hacky
+      for (const [source, dest, size] of map) {
+        const isStartBetween = between(current, source, source + size);
+        const isEndBetween = between(current + currentSize, source, source + size);
 
-        for (const [source, dest, size] of map) {
-          const isStartBetween = between(remaining, source, source + size);
-          const isEndBetween = between(remaining + remainingSize, source, source + size);
-
-          // Outside this range and past a possible match, push unmodified
-          if (!isStartBetween && !isEndBetween && remaining < source) {
-            nextRanges.push([remaining, remainingSize]);
-            isConsumed = true;
-            break;
-          }
-
-          // End is within this range, split between unmodified and map
-          if (!isStartBetween && isEndBetween) {
-            const unmodifiedSize = source - remaining;
-            nextRanges.push([remaining, unmodifiedSize]);
-            nextRanges.push([dest, remainingSize - unmodifiedSize]);
-            isConsumed = true;
-            break;
-          }
-
-          // Entirely inside this range, map whole thing
-          if (isStartBetween && isEndBetween) {
-            const diff = remaining - source;
-            nextRanges.push([dest + diff, remainingSize]);
-            isConsumed = true;
-            break;
-          }
-
-          // Start is within this range, split between map and next
-          if (isStartBetween && !isEndBetween) {
-            const diff = remaining - source;
-            const end = source + size;
-            const mappedSize = end - remaining;
-            nextRanges.push([dest + diff, mappedSize]);
-            remainingRanges.push([end, remainingSize - mappedSize]);
-            isConsumed = true;
-            break;
-          }
-
-          // Outside this range but maybe not the next one, check next
-          if (!isStartBetween && !isEndBetween && remaining > source) {
-            continue;
-          }
+        // Outside this range and past a possible match, push unmodified
+        if (!isStartBetween && !isEndBetween && current < source) {
+          nextRanges.push([current, currentSize]);
+          isConsumed = true;
+          break;
         }
 
-        if (!isConsumed) {
-          nextRanges.push([remaining, remainingSize]);
+        // End is within this range, split between unmodified and destination
+        if (!isStartBetween && isEndBetween) {
+          const unmodifiedSize = source - current;
+          nextRanges.push([current, unmodifiedSize]);
+          nextRanges.push([dest, currentSize - unmodifiedSize]);
+          isConsumed = true;
+          break;
         }
+
+        // Entirely inside this range, map whole thing
+        if (isStartBetween && isEndBetween) {
+          const diff = current - source;
+          nextRanges.push([dest + diff, currentSize]);
+          isConsumed = true;
+          break;
+        }
+
+        // Start is within this range, split between destination and next check
+        if (isStartBetween && !isEndBetween) {
+          const diff = current - source;
+          const end = source + size;
+          const mappedSize = end - current;
+          nextRanges.push([dest + diff, mappedSize]);
+          current = end;
+          currentSize -= mappedSize;
+          continue;
+        }
+
+        // Outside this range but maybe not the next one, check next
+        if (!isStartBetween && !isEndBetween && current > source) {
+          continue;
+        }
+      }
+
+      if (!isConsumed) {
+        nextRanges.push([current, currentSize]);
       }
     }
 
-    // Not sure if sorting it actually matters here but yolo
-    currentRanges = nextRanges.sort((a, b) => a[0] - b[0]);
+    currentRanges = nextRanges;
   }
 
   return currentRanges;
