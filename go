@@ -30,12 +30,19 @@ if [[ -z $AOC_COOKIE || -z $AOC_REPO || -z $AOC_CONTACT ]]; then
 fi
 
 dir_name="wip"
+
 part1_path="$dir_name/1.js"
 part2_path="$dir_name/2.js"
 input_path="$dir_name/input.txt"
+answer1_path="$dir_name/answer-1.txt"
+answer2_path="$dir_name/answer-2.txt"
+
 header_path="templates/header.js"
 stub_path="templates/stub.js"
 
+success_pattern="That's the right answer!"
+failure_pattern="That's not the right answer.*using the full input data"
+rate_limit_pattern="You gave an answer too recently.*left to wait. "
 
 ### SETUP ###
 year=$1
@@ -86,13 +93,13 @@ fi
 
 
 ### GO ###
-url="https://adventofcode.com/$year/day/$day"
 start=$(date +%s)
+url="https://adventofcode.com/$year/day/$day"
 
 open $url
 sleep 1
 
-puzzle_html=$(curl -s -b "$AOC_COOKIE" -A "$AOC_REPO by $AOC_CONTACT" $url)
+puzzle_html=$(curl -s -b "$AOC_COOKIE" -A "$AOC_REPO by $AOC_CONTACT" "$url")
 sleep 1
 
 puzzle_input=$(curl -s -b "$AOC_COOKIE" -A "$AOC_REPO by $AOC_CONTACT" "$url/input")
@@ -142,16 +149,18 @@ part2_end="$start"
 run_solution() {
   if [[ $current_part -eq 1 ]]; then
     npm start "$part1_path"
-    part1_end=$(date +%s)
   else
     npm start "$part2_path"
-    part2_end=$(date +%s)
   fi
 }
 
-solve_part() {
+go_to_next_part() {
   if [[ $current_part -eq 1 ]]; then
+    part1_end=$(date +%s)
     current_part=2
+
+    open "$url#part2"
+    sleep 1
 
     # Copy Part 1 to Part 2 other than header
     part1=$(< "$part1_path")
@@ -160,10 +169,39 @@ solve_part() {
 
     open "$part2_path"
   else
+    part2_end=$(date +%s)
     part1_dur=$(date -r $(( $part1_end - $start )) -u +%H:%M:%S)
     part2_dur=$(date -r $(( $part2_end - $start )) -u +%H:%M:%S)
     echo "Finished in $part1_dur / $part2_dur"
     exit 0
+  fi
+}
+
+submit_answer() {
+  if [[ $current_part -eq 1 ]]; then
+    answer=$(cat "$answer1_pat"h | head -1 | xargs)
+  else
+    answer=$(cat "$answer2_path" | head -1 | xargs)
+  fi
+
+  response=$(curl -s -b "$AOC_COOKIE" -A "$AOC_REPO by $AOC_CONTACT" --data-urlencode "MIME Type=application/x-www-form-urlencoded" --data-urlencode "level=$current_part" --data-urlencode "answer=$answer" "$url/answer")
+
+  success_message=$(echo "$response" | grep -o "$success_pattern")
+  failure_message=$(echo "$response" | grep -o "$failure_pattern")
+  rate_limit_message=$(echo "$response" | grep -o "$rate_limit_pattern")
+
+  if [[ -n "$rate_limit_message" ]]; then
+    echo "$rate_limit_message"
+    echo ""
+  fi
+  if [[ -n "$failure_message" ]]; then
+    echo "$failure_message."
+    echo ""
+  fi
+  if [[ -n "$success_message" ]]; then
+    echo "$success_message"
+    echo ""
+    go_to_next_part
   fi
 }
 
@@ -179,14 +217,15 @@ quit_go() {
 
 print_help() {
   echo "r - run solution code (alt: press enter)"
-  echo "s - mark current part as solved"
+  echo "s - submit the most recently generated solution"
+  echo "x - skip solving this part"
   echo "q - quit"
   echo "? - print help"
   echo ""
 }
 
 while true; do
-  echo ">>> Part $current_part [r,s,q,?]:"
+  echo ">>> Part $current_part [r,s,x,q,?]:"
   read -n 1 command
   echo ""
   echo ""
@@ -194,7 +233,9 @@ while true; do
   if [[ $command == r || -z $command ]]; then
     run_solution
   elif [[ $command == s ]]; then
-    solve_part
+    submit_answer
+  elif [[ $command == x ]]; then
+    go_to_next_part
   elif [[ $command == q ]]; then
     quit_go
   elif [[ $command == \? ]]; then
