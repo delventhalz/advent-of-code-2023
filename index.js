@@ -100,7 +100,7 @@ const prevLabel = prevAnswer
   .slice(0, 40)
   + prevAnswer.length > 40 ? '...' : '';
 
-const prevLineLength = Math.max(3, Math.ceil((prevAnswer.length - 10) / 2));
+const prevLineLength = Math.max(3, Math.ceil((prevLabel.length - 10) / 2));
 const lineLength = Math.max(
   RELATIVE_PATH.length,
   durationLabel.length,
