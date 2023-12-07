@@ -20,17 +20,35 @@ const followMaps = (maps, seedRange) => {
       let isConsumed = false; // this is so hacky
 
       for (const [source, dest, size] of map) {
-        const isStartBetween = between(current, source, source + size);
-        const isEndBetween = between(current + currentSize, source, source + size);
+        const currentEnd = current + currentSize;
+        const sourceEnd = source + size;
+        const isStartBetween = between(current, source, sourceEnd);
+        const isEndBetween = between(currentEnd, source, sourceEnd);
 
-        // Outside this range and past a possible match, push unmodified
+        // Larger than this range, split into three ranges
+        if (!isStartBetween && !isEndBetween && current < source && currentEnd > sourceEnd) {
+          // The section is past any possible matches, push it unmodified
+          nextRanges.push([current, source]);
+
+          // This section should be mapped to the destination
+          const diff = current - source;
+          nextRanges.push([dest + diff, size]);
+
+          // This section may still match a future range, keep checking it
+          current = sourceEnd;
+          currentSize -= size;
+
+          continue;
+        }
+
+        // Entirely before this range, past a possible match, push unmodified
         if (!isStartBetween && !isEndBetween && current < source) {
           nextRanges.push([current, currentSize]);
           isConsumed = true;
           break;
         }
 
-        // End is within this range, split between unmodified and destination
+        // Only end is within this range, split between unmodified and destination
         if (!isStartBetween && isEndBetween) {
           const unmodifiedSize = source - current;
           nextRanges.push([current, unmodifiedSize]);
@@ -39,7 +57,7 @@ const followMaps = (maps, seedRange) => {
           break;
         }
 
-        // Entirely inside this range, map whole thing
+        // Entirely inside this range, map whole thing to destination
         if (isStartBetween && isEndBetween) {
           const diff = current - source;
           nextRanges.push([dest + diff, currentSize]);
@@ -47,18 +65,17 @@ const followMaps = (maps, seedRange) => {
           break;
         }
 
-        // Start is within this range, split between destination and next check
+        // Pnly start is within range, split between destination and next check
         if (isStartBetween && !isEndBetween) {
           const diff = current - source;
-          const end = source + size;
-          const mappedSize = end - current;
+          const mappedSize = sourceEnd - current;
           nextRanges.push([dest + diff, mappedSize]);
-          current = end;
+          current = sourceEnd;
           currentSize -= mappedSize;
           continue;
         }
 
-        // Outside this range but maybe not the next one, check next
+        // Entirely after this range, may match next one, keep checking
         if (!isStartBetween && !isEndBetween && current > source) {
           continue;
         }
