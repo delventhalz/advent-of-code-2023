@@ -91,9 +91,14 @@ const start = Date.now();
 const outputs = await solution({ input, lines, matrix, parsed });
 const stop = Date.now();
 
-const prevAnswer = toInputString(await readFile(answerPath).catch(() => ''));
-const prevLabel = prevAnswer.replaceAll('\n', ' ').trim();
 const durationLabel = `in ${toTimeString(stop - start)}`;
+
+const prevAnswer = toInputString(await readFile(answerPath).catch(() => ''));
+const prevLabel = prevAnswer
+  .replaceAll('\n', ' ')
+  .trim()
+  .slice(0, 40)
+  + prevAnswer.length > 40 ? '...' : '';
 
 const prevLineLength = Math.max(3, Math.ceil((prevAnswer.length - 10) / 2));
 const lineLength = Math.max(
