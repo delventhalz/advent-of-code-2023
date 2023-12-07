@@ -179,7 +179,7 @@ go_to_next_part() {
 
 submit_answer() {
   if [[ $current_part -eq 1 ]]; then
-    answer=$(cat "$answer1_pat"h | head -1 | xargs)
+    answer=$(cat "$answer1_path" | head -1 | xargs)
   else
     answer=$(cat "$answer2_path" | head -1 | xargs)
   fi
