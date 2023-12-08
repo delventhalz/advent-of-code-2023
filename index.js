@@ -98,7 +98,7 @@ const prevLabel = prevAnswer
   .replaceAll('\n', ' ')
   .trim()
   .slice(0, 40)
-  + prevAnswer.length > 40 ? '...' : '';
+  + (prevAnswer.length > 40 ? '...' : '');
 
 const prevLineLength = Math.max(3, Math.ceil((prevLabel.length - 10) / 2));
 const lineLength = Math.max(
