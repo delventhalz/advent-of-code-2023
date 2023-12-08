@@ -31,11 +31,11 @@ fi
 
 dir_name="wip"
 
-part1_path="$dir_name/1.js"
-part2_path="$dir_name/2.js"
-input_path="$dir_name/input.txt"
-answer1_path="$dir_name/answer-1.txt"
-answer2_path="$dir_name/answer-2.txt"
+part1_name="1.js"
+part2_name="2.js"
+input_name="input.txt"
+answer1_name="answer-1.txt"
+answer2_name="answer-2.txt"
 
 header_path="templates/header.js"
 stub_path="templates/stub.js"
@@ -43,6 +43,7 @@ stub_path="templates/stub.js"
 success_pattern="That's the right answer!"
 failure_pattern="That's not the right answer.*using the full input data"
 rate_limit_pattern="You gave an answer too recently.*left to wait. "
+
 
 ### SETUP ###
 year=$1
@@ -82,7 +83,7 @@ elif [[ -n $year && -z $day ]]; then
 fi
 
 # Try to make dir now so we bail early if it already exists
-mkdir "$dir_name"
+
 
 if [[ $(date +%H) -eq 23 ]]; then
   echo "Waiting to begin Day $day until midnight EST..."
@@ -130,9 +131,45 @@ parse_template_headers() {
   part2_header=${part2_header//\{\{SUFFIX\}\}/#part2}
 }
 
+parse_config() {
+echo "if $name"
+  if [[ -n $name ]]; then
+    dir_name="$(echo "$name" | tr A-Z a-z)"
+    echo "> $dir_name"
+    dir_name="${dir_name// /-}"
+    echo "> $dir_name"
+    dir_name="$day-$dir_name"
+    echo "> $dir_name"
+    if [[ $day -lt 10 ]]; then
+      dir_name="0$dir_name"
+      echo "> $dir_name"
+    fi
+  fi
+
+
+  part1_path="$dir_name/$part1_name"
+  echo "part1_path $part1_path"
+
+  part2_path="$dir_name/$part2_name"
+  echo "part2_path $part2_path"
+
+  input_path="$dir_name/$input_name"
+  echo "input_path $input_path"
+
+  answer1_path="$dir_name/$answer1_name"
+  echo "answer1_path $answer1_path"
+
+  answer2_path="$dir_name/$answer2_name"
+  echo "answer2_path $answer2_path"
+}
+
 parse_puzzle_name
 parse_template_stub
 parse_template_headers
+parse_config
+
+echo "mkdir $dir_name"
+mkdir "$dir_name"
 
 echo -e "$part1_header\n\n$stub" > "$part1_path"
 echo "$puzzle_input" > "$input_path"
