@@ -174,6 +174,10 @@ mkdir "$dir_name"
 echo -e "$part1_header\n\n$stub" > "$part1_path"
 echo "$puzzle_input" > "$input_path"
 
+open "$input_path"
+
+sleep 1
+
 open "$part1_path"
 
 
