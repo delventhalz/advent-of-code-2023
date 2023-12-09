@@ -9,6 +9,7 @@
 
 import { sum } from '../lib/index.js';
 
+
 const findDifferences = (history) => {
   const diffs = [];
 
@@ -17,20 +18,23 @@ const findDifferences = (history) => {
   }
 
   return diffs;
-}
+};
 
 const findPrevValue = (history) => {
+  // If every value is the same, we know the previous value in the sequence
   if (history.every(entry => entry === history[0])) {
     return history[0];
   }
 
+  // If not, we can get the next value by adding the next diff
   const diffs = findDifferences(history);
-  const prev = findPrevValue(diffs);
-  return history[0] - prev;
-}
+  const prevDiff = findPrevValue(diffs);
+  return history[0] - prevDiff;
+};
+
 
 export default function main({ lines }) {
   const histories = lines.map(line => line.split(' ').map(Number));
-  const prev = histories.map(findPrevValue);
-  return sum(prev);
+  const previousValues = histories.map(findPrevValue);
+  return sum(previousValues);
 }

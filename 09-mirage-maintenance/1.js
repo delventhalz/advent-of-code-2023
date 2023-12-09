@@ -10,6 +10,7 @@
 import { last } from 'lodash-es';
 import { sum } from '../lib/index.js';
 
+
 const findDifferences = (history) => {
   const diffs = [];
 
@@ -18,20 +19,23 @@ const findDifferences = (history) => {
   }
 
   return diffs;
-}
+};
 
 const findNextValue = (history) => {
+  // If every value is the same, we know the next value in the sequence
   if (history.every(entry => entry === history[0])) {
-    return [...history, history[0]];
+    return history[0];
   }
 
+  // If not, we can get the next value by adding the next diff
   const diffs = findDifferences(history);
-  const next = findNextValue(diffs);
-  return [...history, last(next) + last(history)];
-}
+  const nextDiff = findNextValue(diffs);
+  return last(history) + nextDiff;
+};
+
 
 export default function main({ lines }) {
   const histories = lines.map(line => line.split(' ').map(Number));
-  const next = histories.map(findNextValue).map(last);
-  return sum(next);
+  const nextValues = histories.map(findNextValue);
+  return sum(nextValues);
 }
