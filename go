@@ -132,35 +132,21 @@ parse_template_headers() {
 }
 
 parse_config() {
-echo "if $name"
   if [[ -n $name ]]; then
     dir_name="$(echo "$name" | tr A-Z a-z)"
-    echo "> $dir_name"
     dir_name="${dir_name// /-}"
-    echo "> $dir_name"
     dir_name="$day-$dir_name"
-    echo "> $dir_name"
     if [[ $day -lt 10 ]]; then
       dir_name="0$dir_name"
-      echo "> $dir_name"
     fi
   fi
 
 
   part1_path="$dir_name/$part1_name"
-  echo "part1_path $part1_path"
-
-  part2_path="$dir_name/$part2_name"
-  echo "part2_path $part2_path"
-
+  part2_path="$dir_name/$part2_name"\
   input_path="$dir_name/$input_name"
-  echo "input_path $input_path"
-
-  answer1_path="$dir_name/$answer1_name"
-  echo "answer1_path $answer1_path"
-
+  answer1_path="$dir_name/$answer1_name"\
   answer2_path="$dir_name/$answer2_name"
-  echo "answer2_path $answer2_path"
 }
 
 parse_puzzle_name
@@ -168,7 +154,6 @@ parse_template_stub
 parse_template_headers
 parse_config
 
-echo "mkdir $dir_name"
 mkdir "$dir_name"
 
 echo -e "$part1_header\n\n$stub" > "$part1_path"
