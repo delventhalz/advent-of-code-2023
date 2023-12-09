@@ -154,15 +154,26 @@ parse_template_stub
 parse_template_headers
 parse_config
 
-mkdir "$dir_name"
+if [[ -d "$dir_name" ]]; then
+  echo "Skipping create for existing directory: $dir_name"
+else
+  mkdir "$dir_name"
+fi
 
-echo -e "$part1_header\n\n$stub" > "$part1_path"
-echo "$puzzle_input" > "$input_path"
+if [[ -f "$part1_path" ]]; then
+  echo "Skipping create for existing file: $part1_path"
+else
+  echo -e "$part1_header\n\n$stub" > "$part1_path"
+fi
+
+if [[ -f "$input_path" ]]; then
+  echo "Skipping create for existing file: $input_path"
+else
+  echo "$puzzle_input" > "$input_path"
+fi
 
 open "$input_path"
-
 sleep 1
-
 open "$part1_path"
 
 
@@ -188,10 +199,14 @@ go_to_next_part() {
     open "$url#part2"
     sleep 1
 
-    # Copy Part 1 to Part 2 other than header
-    part1=$(< "$part1_path")
-    part2=${part1/"$part1_header"/"$part2_header"}
-    echo "$part2" > "$part2_path"
+    if [[ -f "$part2_path" ]]; then
+      echo "Skipping create for existing file: $part2_path"
+    else
+      # Copy Part 1 to Part 2 other than header
+      part1=$(< "$part1_path")
+      part2=${part1/"$part1_header"/"$part2_header"}
+      echo "$part2" > "$part2_path"
+    fi
 
     open "$part2_path"
   else
