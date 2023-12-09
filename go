@@ -53,12 +53,12 @@ function set_default_date() {
   year=$(date +%Y)
 
   current_month=$(date +%m)
-  current_day=$(date +%d)
+  current_day=$((10#$(date +%d)))
   current_hour=$(date +%H)
 
   if [[ $current_hour -lt 23 ]]; then
     if [[ $current_month -eq 12 || $current_day -lt 26 ]]; then
-      day=$(($current_day + 0))
+      day=$current_day
     else
       echo "No Advent of Code today, you must specify a year and day!"
       exit 1
