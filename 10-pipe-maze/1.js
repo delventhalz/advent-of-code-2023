@@ -7,10 +7,10 @@
  * https://adventofcode.com/2023/day/10
  */
 
-// import {  } from 'lodash-es';
-import { eachMatrix, eachAdjacent } from '../lib/index.js';
+import { coordsOf, eachAdjacent } from '../lib/index.js';
 
-const PIPES = {
+
+const PIPE_CONNECTIONS = {
   '|': [[0, 1], [0, -1]],
   '-': [[1, 0], [-1, 0]],
   'L': [[0, -1], [1, 0]],
@@ -19,71 +19,54 @@ const PIPES = {
   'F': [[0, 1], [1, 0]]
 };
 
-const findStart = (matrix) => {
-  let start = null;
-  eachMatrix(matrix, (tile, coords) => {
-    if (tile === 'S') {
-      start = coords;
-    }
-  })
-  return start;
-};
-
 const isSameLocation = ([x1, y1], [x2, y2]) => {
   return x1 === x2 && y1 === y2;
 };
 
-const getNext = (pipe, [x, y], [lastX, lastY]) => {
-  // console.log(pipe)
-  const paths = PIPES[pipe].map(([pathX, pathY]) => [x + pathX, y + pathY]);
+const getConnections = (map, [x, y]) => {
+  const tile = map[y][x];
+  const relativeConnections = PIPE_CONNECTIONS[tile];
 
-  if (paths[0][0] === lastX && paths[0][1] === lastY) {
-    return paths[1];
+  if (!relativeConnections) {
+    return [];
   }
 
-  return paths[0];
+  return relativeConnections.map(([diffX, diffY]) => [x + diffX, y + diffY]);
+};
+
+const getNext = (map, coords, lastCoords) => {
+  return getConnections(map, coords).find(conn => !isSameLocation(conn, lastCoords));
 };
 
 
 export default function main({ matrix }) {
-  const start = findStart(matrix);
+  const start = coordsOf(matrix, 'S');
+  const startConnections = [];
 
-  const locations = [];
+  // Find the two tiles which connect to the start
+  eachAdjacent(matrix, start, (tile, coords) => {
+    const [connA, connB] = getConnections(matrix, coords);
 
-  eachAdjacent(matrix, start, (tile, [x, y]) => {
-    if (!PIPES[tile]) {
-      return;
-    }
-    const [a, b] = PIPES[tile].map(([pathX, pathY]) => [x + pathX, y + pathY]);
-    if (a[0] === start[0] && a[1] === start[1]) {
-      locations.push([x, y]);
-    } else if (b[0] === start[0] && b[1] === start[1]) {
-      locations.push([x, y]);
+    const isConnectedToStart = (connA && isSameLocation(start, connA))
+      || (connB && isSameLocation(start, connB));
+
+    if (isConnectedToStart) {
+      startConnections.push(coords);
     }
   });
 
-  let stepsA = 1;
-  let stepsB = 1;
-  let [locA, locB] = locations;
-  let lastA = start;
-  let lastB = start;
+  // Begin at first connection and walk the loop
+  let [loc] = startConnections;
+  let steps = 1;
+  let last = start;
 
-  while (!isSameLocation(locA, locB)) {
-    // console.log(locA, locB)
-    const nextA = getNext(matrix[locA[1]][locA[0]], locA, lastA);
-    const nextB = getNext(matrix[locB[1]][locB[0]], locB, lastB);
-    lastA = locA;
-    lastB = locB;
-    locA = nextA;
-    locB = nextB;
-
-    stepsA += 1;
-    stepsB += 1;
+  while (matrix[loc[1]][loc[0]] !== 'S') {
+    const next = getNext(matrix, loc, last);
+    last = loc;
+    loc = next;
+    steps += 1;
   }
 
-
-  if (stepsA === stepsB) {
-    return stepsA;
-  }
-  return [stepsA, stepsB];
+  // Furthest point is half the length of the full loop
+  return Math.ceil(steps / 2);
 }
