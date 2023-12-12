@@ -8,7 +8,7 @@
  */
 
 // import {  } from 'lodash-es';
-import { sum, eachMatrix, matrixToString } from '../lib/index.js';
+import { sum, eachMatrix } from '../lib/index.js';
 
 const isEmptyColumn = (matrix, x) => {
   for (let y = 0; y < matrix.length; y += 1) {
