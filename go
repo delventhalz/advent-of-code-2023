@@ -172,9 +172,9 @@ else
   echo "$puzzle_input" > "$input_path"
 fi
 
-open "$input_path"
-sleep 1
 open "$part1_path"
+sleep 1
+open "$input_path"
 
 
 ### COMMAND LOOP ###
