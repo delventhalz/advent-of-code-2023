@@ -19,8 +19,9 @@ evolve and change over the month depending on my needs.
     * [Fetch Puzzle Input](#2-fetch-puzzle-input)
     * [Write Your Solution](#3-write-your-solution)
     * [Run Your Solution](#4-run-your-solution)
-    * [Test Your Solution](#5-optional-test-your-solution)
+    * [Submit Your Answer](#5-submit-your-answer)
     * [Linting](#linting)
+    * [Unit Tests](#unit-tests)
 - [Solutions](#solutions)
 - [Helper Utils](#helper-utils)
 - [Using Other Languages](#using-other-languages)
@@ -170,7 +171,33 @@ to the solution file provided as the single argument:
 npm start <path to solution file>
 ```
 
-### 5. (Optional) Test Your Solution
+### 5. Submit Your Answer
+
+Finally, you need to submit your answer to Advent of Code. This can be done by
+copying the answer from the logs and pasting it into the website, or through the command line using the `submit` script:
+
+```bash
+./submit 2023 5 1 484023871
+```
+
+When calling `submit` directly, you must specify the year, day, part (1 or 2)
+and the answer to submit. The answer may also be specified using stdin:
+
+```bash
+cat answer-1.txt | ./submit 2023 5 1
+```
+
+### Linting
+
+A basic linter is included to catch stupid errors. It will automatically check
+all files before running your solution, though errors will _not_ stop the run.
+To run the linter manually:
+
+```bash
+npm run lint
+```
+
+### Unit Tests
 
 For particularly troublesome problems,
 [Mocha](https://mochajs.org/)/[Chai](https://www.chaijs.com/api/bdd/) is
@@ -188,16 +215,6 @@ file as a command line argument to the npm script:
 
 ```bash
 npm test -- <path to test file>
-```
-
-### Linting
-
-A basic linter is included to catch stupid errors. It will automatically check
-all files before running your solution, though errors will _not_ stop the run.
-To run the linter manually:
-
-```bash
-npm run lint
 ```
 
 ## Solutions

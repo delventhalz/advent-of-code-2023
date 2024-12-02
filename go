@@ -225,24 +225,17 @@ submit_answer() {
     answer=$(cat "$answer2_path" | head -1 | xargs)
   fi
 
-  response=$(curl -s -b "$AOC_COOKIE" -A "$AOC_REPO by $AOC_CONTACT" --data-urlencode "MIME Type=application/x-www-form-urlencoded" --data-urlencode "level=$current_part" --data-urlencode "answer=$answer" "$url/answer")
+  ./submit $year $day $current_part $answer
+  submit_result=$?
 
-  success_message=$(echo "$response" | grep -o "$success_pattern")
-  failure_message=$(echo "$response" | grep -o "$failure_pattern")
-  rate_limit_message=$(echo "$response" | grep -o "$rate_limit_pattern")
-
-  if [[ -n "$rate_limit_message" ]]; then
-    echo "$rate_limit_message"
-    echo ""
-  fi
-  if [[ -n "$failure_message" ]]; then
-    echo "$failure_message."
-    echo ""
-  fi
-  if [[ -n "$success_message" ]]; then
-    echo "$success_message"
-    echo ""
+  # Move on if submit was a success
+  if [[ $submit_result -eq 0 ]]; then
     go_to_next_part
+  fi
+
+  # Exit if submit failed due to an error
+  if [[ $submit_result -eq 1 ]]; then
+    exit 1
   fi
 }
 

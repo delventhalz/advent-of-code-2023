@@ -1,0 +1,88 @@
+#! /bin/bash
+
+# Bash script to directly submit an Advent of Code answer and log the response.
+# Provide the year, day, and part (1 or 2) as command line arguments. The answer
+# itself can be provided as a fourth argument or through stdin.
+#
+# Must set the AOC_COOKIE, AOC_REPO, and AOC_CONTACT environment variables to be
+# used in curl requests.
+#
+# Exit statuses:
+#   - 0: The answer was correct
+#   - 1: There was an error with the submission
+#   - 2: Submission was blocked by rate limiting
+#   - 3: Submitted answer was incorrect
+#
+# Usage:
+#   ./submit 2023 5 1 484023871
+#   cat answer-1.txt | ./submit 2023 5 1
+
+if [[ -z $AOC_COOKIE || -z $AOC_REPO || -z $AOC_CONTACT ]]; then
+  echo "Must set AOC_COOKIE, AOC_REPO, and AOC_CONTACT environment variables"
+  exit 1
+fi
+
+year=$1
+day=$2
+part=$3
+answer=$4
+
+if [[ -z $year || -z $day || -z $part ]]; then
+  echo "Must call submit with the year, day, and part"
+  echo "    Ex: ./submit 2023 5 1"
+  exit 1
+fi
+
+if [[ -z $answer && ! -t 0 ]]; then
+  read answer
+fi
+
+if [[ -z $answer ]]; then
+  echo "Must provide an answer either as a fourth argument or through stdin"
+  exit 1
+fi
+
+url="https://adventofcode.com/$year/day/$day"
+
+response=$( \
+  curl -s \
+    -b "$AOC_COOKIE" \
+    -A "$AOC_REPO by $AOC_CONTACT" \
+    --data-urlencode "MIME Type=application/x-www-form-urlencoded" \
+    --data-urlencode "level=$part" \
+    --data-urlencode "answer=$answer" "$url/answer" \
+)
+
+success_pattern="That's the right answer!"
+failure_pattern="That's not the right answer.*using the full input data"
+rate_limit_pattern="You gave an answer too recently.*left to wait."
+already_answered_pattern="You don't seem to be solving.*already complete it?"
+
+success_message=$(echo "$response" | grep -o "$success_pattern")
+failure_message=$(echo "$response" | grep -o "$failure_pattern")
+rate_limit_message=$(echo "$response" | grep -o "$rate_limit_pattern")
+already_answered_message=$(echo "$response" | grep -o "$already_answered_pattern")
+
+if [[ -n "$already_answered_message" ]]; then
+  echo "$already_answered_message"
+  echo ""
+  exit 1
+fi
+
+if [[ -n "$rate_limit_message" ]]; then
+  echo "$rate_limit_message"
+  echo ""
+  exit 2
+fi
+
+if [[ -n "$failure_message" ]]; then
+  echo "$failure_message."
+  echo ""
+  exit 3
+fi
+
+if [[ -n "$success_message" ]]; then
+  echo "$success_message"
+  echo ""
+  exit 0
+fi
