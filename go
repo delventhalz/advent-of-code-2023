@@ -5,15 +5,13 @@
 #   - Creates and opens stub file
 #   - Downloads and saves puzzle input
 #   - Runs solutions in a loop
+#   - Directly submits answers
 #   - Copies a solved part 1 over to part 2 stub file and opens file
 #   - Reports solve durations
 #
 # Queues up today's AoC problem by default, except after 11pm EST, when it waits
 # for tomorrow's to begin. Can specify a different year and day with command
 # line args.
-#
-# Adds all files to a newly created "wip" directory. Will throw an error if one
-# already exists.
 #
 # Must set the AOC_COOKIE, AOC_REPO, and AOC_CONTACT environment variables to be
 # used in curl requests.
@@ -81,9 +79,6 @@ elif [[ -n $year && -z $day ]]; then
   echo "Must specify both a year and a day!"
   exit 1;
 fi
-
-# Try to make dir now so we bail early if it already exists
-
 
 if [[ $(date +%H) -eq 23 ]]; then
   echo "Waiting to begin Day $day until midnight EST..."

@@ -54,18 +54,19 @@ export AOC_CONTACT="<your email address>"
 
 ### Automated Runner
 
-There is an [automated runner](./go), written in bash which will string together
-the following commands and run your whole solve. To use it for today's problem,
-just run it:
+There is an automated runner called [go](./go),which will compose various
+scripts to automate the whole solving process for you. To use it for today's
+problem, run it without any arguments:
 
 ```bash
 ./go
 ```
 
-Note, if used after 11pm EST, the runner will wait for tonight's problem to
-start rather than running today's.
+Note, if used after 11pm EST, the default behavior is to wait for tonight's
+problem to start rather than running today's.
 
-To use the runner with a different year and day, specify them as command line args:
+To use the runner with a different year and day, specify them as command line
+arguments:
 
 ```bash
 ./go 2023 5
@@ -92,9 +93,12 @@ can be overridden with a command line arg.
 npm run generate <directory name>
 ```
 
-The headers in the JavaScript files will be populated with references to the day
-and year of the upcoming Advent of Code problem (i.e. tomorrow). You may want to
-manually adjust if that isn't valid for the problem you are working on.
+If run with `go`, the generated files will be named after the problem you are
+solving.
+
+The headers in the JavaScript files are always populated with references to the
+day and year of the upcoming Advent of Code problem (i.e. tomorrow). You may
+want to manually adjust if that isn't valid for the problem you are working on.
 
 ### 2. Fetch Puzzle Input
 
